@@ -1,0 +1,43 @@
+@model ContentPublishing.Web.ViewModels.ChapterEditViewModel
+@{
+    ViewBag.Title = "Edit Chapter";
+}
+
+<section class="mx-auto max-w-3xl rounded-lg bg-white p-6 shadow">
+    <h2 class="mb-4 text-2xl font-bold">Edit Chapter</h2>
+
+    @using (Html.BeginForm("Edit", "Chapter", FormMethod.Post, new { id = "chapterForm", @class = "space-y-4" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ChapterId)
+        @Html.HiddenFor(m => m.ContentId)
+        @Html.ValidationSummary(true, "", new { @class = "text-sm text-red-600" })
+
+        <div>
+            @Html.LabelFor(m => m.ChapterTitle, new { @class = "mb-1 block text-sm font-medium" })
+            @Html.TextBoxFor(m => m.ChapterTitle, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", maxlength = "250" })
+            @Html.ValidationMessageFor(m => m.ChapterTitle, "", new { @class = "text-xs text-red-600" })
+        </div>
+
+        <div>
+            @Html.LabelFor(m => m.ChapterBody, new { @class = "mb-1 block text-sm font-medium" })
+            @Html.TextAreaFor(m => m.ChapterBody, 12, 60, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2" })
+            @Html.ValidationMessageFor(m => m.ChapterBody, "", new { @class = "text-xs text-red-600" })
+        </div>
+
+        <button type="submit" class="rounded bg-slate-900 px-4 py-2 text-white">Save Changes</button>
+    }
+</section>
+
+@section scripts {
+<script>
+$(function () {
+    $("#chapterForm").validate({
+        rules: {
+            ChapterTitle: { required: true, maxlength: 250 },
+            ChapterBody: { required: true }
+        }
+    });
+});
+</script>
+}

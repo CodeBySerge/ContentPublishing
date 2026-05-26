@@ -1,0 +1,42 @@
+@model ContentPublishing.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<section class="mx-auto max-w-lg rounded-lg bg-white p-6 shadow">
+    <h2 class="mb-4 text-2xl font-bold">Create Account</h2>
+
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "space-y-4" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-sm text-red-600" })
+
+        <div>
+            @Html.LabelFor(m => m.FullName, new { @class = "mb-1 block text-sm font-medium" })
+            @Html.TextBoxFor(m => m.FullName, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2" })
+            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-xs text-red-600" })
+        </div>
+
+        <div>
+            @Html.LabelFor(m => m.Email, new { @class = "mb-1 block text-sm font-medium" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-xs text-red-600" })
+        </div>
+
+        <div>
+            @Html.LabelFor(m => m.Password, new { @class = "mb-1 block text-sm font-medium" })
+            @Html.PasswordFor(m => m.Password, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-xs text-red-600" })
+        </div>
+
+        <div>
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "mb-1 block text-sm font-medium" })
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-xs text-red-600" })
+        </div>
+
+        <button type="submit" class="w-full rounded-md bg-slate-900 px-4 py-2 text-white">Register</button>
+    }
+
+    <p class="mt-4 text-sm text-slate-600">Already registered? @Html.ActionLink("Sign in", "Login", "Account", null, new { @class = "font-semibold text-slate-900" })</p>
+</section>

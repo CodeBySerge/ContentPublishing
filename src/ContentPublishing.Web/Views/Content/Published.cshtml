@@ -1,0 +1,25 @@
+@model IList<ContentPublishing.Web.ViewModels.ContentListItemViewModel>
+@{
+    ViewBag.Title = "Published Content";
+}
+
+<section class="space-y-4">
+    <h2 class="text-2xl font-bold">Published Content</h2>
+    <div class="grid gap-4 md:grid-cols-2">
+        @if (!Model.Any())
+        {
+            <div class="rounded-lg bg-white p-6 text-slate-500 shadow">No published content yet.</div>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <article class="rounded-lg bg-white p-6 shadow">
+                    <h3 class="text-lg font-semibold">@item.Title</h3>
+                    <p class="mt-2 text-sm text-slate-500">Chapters: @item.ChapterCount</p>
+                    <p class="mt-1 text-sm text-slate-500">Published workflow state: @item.Status</p>
+                </article>
+            }
+        }
+    </div>
+</section>

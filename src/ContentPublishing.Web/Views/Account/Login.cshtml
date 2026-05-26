@@ -1,0 +1,36 @@
+@model ContentPublishing.Web.Models.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<section class="mx-auto max-w-lg rounded-lg bg-white p-6 shadow">
+    <h2 class="mb-4 text-2xl font-bold">Sign In</h2>
+
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "space-y-4" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("returnUrl", (string)ViewBag.ReturnUrl)
+        @Html.ValidationSummary(true, "", new { @class = "text-sm text-red-600" })
+
+        <div>
+            @Html.LabelFor(m => m.Email, new { @class = "mb-1 block text-sm font-medium" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-xs text-red-600" })
+        </div>
+
+        <div>
+            @Html.LabelFor(m => m.Password, new { @class = "mb-1 block text-sm font-medium" })
+            @Html.PasswordFor(m => m.Password, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-xs text-red-600" })
+        </div>
+
+        <div class="flex items-center gap-2">
+            @Html.CheckBoxFor(m => m.RememberMe)
+            @Html.LabelFor(m => m.RememberMe, new { @class = "text-sm" })
+        </div>
+
+        <button type="submit" class="w-full rounded-md bg-slate-900 px-4 py-2 text-white">Login</button>
+    }
+
+    <p class="mt-4 text-sm text-slate-600">New user? @Html.ActionLink("Create account", "Register", "Account", null, new { @class = "font-semibold text-slate-900" })</p>
+</section>

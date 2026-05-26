@@ -1,0 +1,41 @@
+@model IList<ContentPublishing.Web.ViewModels.ReviewHistoryItemViewModel>
+@{
+    ViewBag.Title = "Review History";
+}
+
+<section class="space-y-4">
+    <h2 class="text-2xl font-bold">Review History</h2>
+
+    <div class="overflow-hidden rounded-lg bg-white shadow">
+        <table class="min-w-full text-sm">
+            <thead class="bg-slate-100 text-left text-slate-600">
+                <tr>
+                    <th class="px-4 py-3">Title</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3">Submitted</th>
+                    <th class="px-4 py-3">Reviewed</th>
+                    <th class="px-4 py-3">Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="5" class="px-4 py-6 text-center text-slate-500">No review history.</td></tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr class="border-t border-slate-100">
+                            <td class="px-4 py-3">@item.Title</td>
+                            <td class="px-4 py-3">@item.Status</td>
+                            <td class="px-4 py-3">@item.SubmittedDate.ToString("u")</td>
+                            <td class="px-4 py-3">@(item.ReviewDate.HasValue ? item.ReviewDate.Value.ToString("u") : "-")</td>
+                            <td class="px-4 py-3">@item.Comments</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

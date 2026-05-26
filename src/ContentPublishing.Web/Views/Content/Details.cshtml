@@ -1,0 +1,143 @@
+@model ContentPublishing.Web.ViewModels.ContentDetailsViewModel
+@using System.Collections.Generic
+@using System.Web.Mvc
+@{
+    ViewBag.Title = "Content Details";
+    var reviewerOptions = ViewBag.ReviewerOptions as IList<SelectListItem> ?? new List<SelectListItem>();
+}
+
+<section class="space-y-4">
+    <div class="rounded-lg bg-white p-6 shadow">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h2 class="text-2xl font-bold">@Model.Title</h2>
+                <p class="text-sm text-slate-500">Status: <span class="font-semibold">@Model.Status</span></p>
+            </div>
+            <div class="flex gap-2">
+                <a href="@Url.Action("Edit", "Content", new { id = Model.ContentId })" class="rounded border border-slate-300 px-3 py-2">Edit</a>
+                <a href="@Url.Action("VersionHistory", "Content", new { id = Model.ContentId })" class="rounded border border-slate-300 px-3 py-2">Version History</a>
+                <a href="@Url.Action("Delete", "Content", new { id = Model.ContentId })" class="rounded border border-red-300 px-3 py-2 text-red-700">Archive</a>
+                <a href="@Url.Action("Create", "Chapter", new { contentId = Model.ContentId })" class="rounded bg-slate-900 px-3 py-2 text-white">Add Chapter</a>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.PrimaryImagePath))
+        {
+            <img src="@Url.Content(Model.PrimaryImagePath)" class="mt-4 max-h-80 rounded-lg border border-slate-200 object-contain" alt="Feature image" />
+        }
+
+        <p class="mt-4 whitespace-pre-line text-slate-700">@Model.Description</p>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="mt-4 rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700">@TempData["ErrorMessage"]</div>
+        }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="mt-4 rounded border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">@TempData["SuccessMessage"]</div>
+        }
+
+        @using (Html.BeginForm("Submit", "Content", FormMethod.Post, new { id = "submitForm", @class = "mt-4" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.ContentId" />
+            <input type="hidden" id="reviewerIds" name="reviewerIds" value="" />
+
+            <div class="mb-3">
+                <label class="mb-1 block text-sm font-medium">Assign Reviewers (optional)</label>
+                <select id="reviewerSelect" class="w-full rounded border border-slate-300 px-3 py-2" multiple size="5">
+                    @foreach (var option in reviewerOptions)
+                    {
+                        <option value="@option.Value">@option.Text</option>
+                    }
+                </select>
+                <p class="mt-1 text-xs text-slate-500">Choose one or more reviewers, or leave empty for admin assignment.</p>
+            </div>
+
+            <button type="submit" class="rounded bg-indigo-700 px-4 py-2 text-white">Submit For Review</button>
+        }
+    </div>
+
+    <div class="rounded-lg bg-white p-6 shadow">
+        <div class="mb-3 flex items-center justify-between">
+            <h3 class="text-xl font-semibold">Chapters</h3>
+            <button id="applyOrder" type="button" class="rounded border border-slate-300 px-3 py-2 text-sm">Apply Order</button>
+        </div>
+
+        <div id="chapterList" class="space-y-2">
+            @if (!Model.Chapters.Any())
+            {
+                <div class="rounded border border-dashed border-slate-300 p-4 text-sm text-slate-500">No chapters added yet.</div>
+            }
+            else
+            {
+                foreach (var chapter in Model.Chapters)
+                {
+                    <div class="chapter-row flex items-center justify-between rounded border border-slate-200 p-3" data-id="@chapter.ChapterId">
+                        <div>
+                            <p class="font-medium">@chapter.ChapterOrder. @chapter.ChapterTitle</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button type="button" class="move-up rounded border border-slate-300 px-2 py-1 text-xs">Up</button>
+                            <button type="button" class="move-down rounded border border-slate-300 px-2 py-1 text-xs">Down</button>
+                            <a href="@Url.Action("Edit", "Chapter", new { id = chapter.ChapterId })" class="rounded border border-slate-300 px-2 py-1 text-xs">Edit</a>
+                            @using (Html.BeginForm("Delete", "Chapter", FormMethod.Post, new { @class = "inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@chapter.ChapterId" />
+                                <button type="submit" class="rounded border border-red-300 px-2 py-1 text-xs text-red-700">Delete</button>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        @using (Html.BeginForm("Reorder", "Chapter", FormMethod.Post, new { id = "reorderForm", @class = "hidden" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="ContentId" value="@Model.ContentId" />
+            <input type="hidden" id="OrderedChapterIds" name="OrderedChapterIds" value="" />
+        }
+    </div>
+</section>
+
+@section scripts {
+<script>
+$(function () {
+    $("#submitForm").on("submit", function (e) {
+        if ($("#chapterList .chapter-row").length < 1) {
+            e.preventDefault();
+            alert("At least one chapter is required before submission.");
+            return;
+        }
+
+        var selectedReviewerIds = $("#reviewerSelect").val() || [];
+        $("#reviewerIds").val(selectedReviewerIds.join(","));
+    });
+
+    $(document).on("click", ".move-up", function () {
+        var row = $(this).closest(".chapter-row");
+        row.prev(".chapter-row").before(row);
+    });
+
+    $(document).on("click", ".move-down", function () {
+        var row = $(this).closest(".chapter-row");
+        row.next(".chapter-row").after(row);
+    });
+
+    $("#applyOrder").on("click", function () {
+        var ids = [];
+        $("#chapterList .chapter-row").each(function () {
+            ids.push($(this).data("id"));
+        });
+        if (ids.length < 1) {
+            alert("No chapters available to reorder.");
+            return;
+        }
+        $("#OrderedChapterIds").val(ids.join(","));
+        $("#reorderForm").submit();
+    });
+});
+</script>
+}

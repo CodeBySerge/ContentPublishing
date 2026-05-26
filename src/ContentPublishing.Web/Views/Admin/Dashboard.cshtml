@@ -1,0 +1,15 @@
+@model ContentPublishing.Web.ViewModels.AdminDashboardViewModel
+@{
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<section class="space-y-4">
+    <h2 class="text-2xl font-bold">Admin Dashboard</h2>
+    <div class="grid gap-4 md:grid-cols-5">
+        <div class="rounded bg-white p-4 shadow"><p class="text-sm text-slate-500">Users</p><p class="text-2xl font-bold">@Model.TotalUsers</p></div>
+        <div class="rounded bg-white p-4 shadow"><p class="text-sm text-slate-500">Content</p><p class="text-2xl font-bold">@Model.TotalContent</p></div>
+        <div class="rounded bg-white p-4 shadow"><p class="text-sm text-slate-500">Under Review</p><p class="text-2xl font-bold">@Model.UnderReviewCount</p></div>
+        <div class="rounded bg-white p-4 shadow"><p class="text-sm text-slate-500">Approved</p><p class="text-2xl font-bold">@Model.ApprovedCount</p></div>
+        <div class="rounded bg-white p-4 shadow"><p class="text-sm text-slate-500">Published</p><p class="text-2xl font-bold">@Model.PublishedCount</p></div>
+    </div>
+</section>

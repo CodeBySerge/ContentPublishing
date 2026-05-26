@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - Content Publishing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-900">
+    <header class="bg-slate-900 text-white">
+        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+            <h1 class="text-xl font-semibold">Content Publishing & Review Management</h1>
+            <nav class="flex items-center gap-4 text-sm">
+                <a class="hover:underline" href="@Url.Action("Index", "Home")">Home</a>
+                <a class="hover:underline" href="@Url.Action("Published", "Content")">Published</a>
+                @if (Request.IsAuthenticated)
+                {
+                    <a class="hover:underline" href="@Url.Action("Profile", "Account")">Profile</a>
+                    using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @class = "inline" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="rounded bg-white px-3 py-1 text-slate-900">Logout</button>
+                    }
+                }
+                else
+                {
+                    <a class="hover:underline" href="@Url.Action("Login", "Account")">Login</a>
+                    <a class="hover:underline" href="@Url.Action("Register", "Account")">Register</a>
+                }
+            </nav>
+        </div>
+    </header>
+    <main class="mx-auto max-w-6xl px-4 py-8">
+        @RenderBody()
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@4.0.0/dist/jquery.validate.unobtrusive.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
