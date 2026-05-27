@@ -42,6 +42,7 @@ namespace ContentPublishing.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public async Task<ActionResult> Create(ChapterEditViewModel model)
         {
             if (!ModelState.IsValid)
@@ -107,6 +108,7 @@ namespace ContentPublishing.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public async Task<ActionResult> Edit(ChapterEditViewModel model)
         {
             if (!ModelState.IsValid || !model.ChapterId.HasValue)
