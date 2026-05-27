@@ -5,7 +5,7 @@
 
 <section class="space-y-4">
     <div class="rounded-lg bg-white p-6 shadow">
-        <h2 class="text-2xl font-bold">@Model.Title</h2>
+        <h2 class="text-2xl font-bold">@Html.Raw(Model.Title)</h2>
         <p class="mt-1 text-sm text-slate-500">Content Status: @Model.ContentStatus</p>
         <div class="prose mt-4 max-w-none text-slate-700">@Html.Raw(Model.Description)</div>
     </div>

@@ -1,10 +1,40 @@
 @model IList<ContentPublishing.Web.ViewModels.UserListItemViewModel>
+@using System.Linq
 @{
     ViewBag.Title = "Users";
 }
 
 <section class="space-y-4">
     <h2 class="text-2xl font-bold">User Management</h2>
+
+    <div class="rounded-lg bg-white p-4 shadow">
+        <h3 class="text-lg font-semibold">Assign Role To Registered User</h3>
+        <p class="mt-1 text-sm text-slate-500">Select a user who has registered in the system, then choose a role.</p>
+
+        @using (Html.BeginForm("AssignRole", "Admin", FormMethod.Post, new { @class = "mt-3 grid gap-3 md:grid-cols-[2fr_1fr_auto] md:items-end" }))
+        {
+            @Html.AntiForgeryToken()
+            <div>
+                <label class="mb-1 block text-sm font-medium">Registered User</label>
+                <select name="userId" class="w-full rounded border border-slate-300 px-3 py-2" required>
+                    <option value="">Select user...</option>
+                    @foreach (var user in Model.OrderBy(u => u.FullName).ThenBy(u => u.Email))
+                    {
+                        <option value="@user.UserId">@user.FullName (@user.Email)</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label class="mb-1 block text-sm font-medium">Role</label>
+                <select name="roleName" class="w-full rounded border border-slate-300 px-3 py-2" required>
+                    <option value="Author">Author</option>
+                    <option value="Reviewer">Reviewer</option>
+                    <option value="Administrator">Administrator</option>
+                </select>
+            </div>
+            <button type="submit" class="rounded bg-slate-900 px-4 py-2 text-white">Assign Role</button>
+        }
+    </div>
 
     <div class="overflow-hidden rounded-lg bg-white shadow">
         <table class="min-w-full text-sm">

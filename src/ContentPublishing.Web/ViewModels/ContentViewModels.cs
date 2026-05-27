@@ -11,6 +11,7 @@ namespace ContentPublishing.Web.ViewModels
 
         [Required]
         [StringLength(250)]
+        [AllowHtml]
         public string Title { get; set; }
 
         [AllowHtml]

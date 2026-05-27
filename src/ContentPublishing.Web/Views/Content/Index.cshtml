@@ -23,19 +23,22 @@
             <tbody>
                 @if (!Model.Any())
                 {
-                    <tr><td colspan="5" class="px-4 py-6 text-center text-slate-500">No content yet.</td></tr>
+                    <tr>
+                        <td colspan="5" class="px-4 py-6 text-center text-slate-500">No content yet.</td>
+                    </tr>
                 }
                 else
                 {
                     foreach (var item in Model)
                     {
                         <tr class="border-t border-slate-100">
-                            <td class="px-4 py-3 font-medium">@item.Title</td>
+                            <td class="px-4 py-3 font-medium">@Html.Raw(item.Title)</td>
                             <td class="px-4 py-3">@item.Status</td>
                             <td class="px-4 py-3">@item.ChapterCount</td>
                             <td class="px-4 py-3">@item.LastModifiedDate.ToString("u")</td>
                             <td class="px-4 py-3">
-                                <a class="text-slate-900 underline" href="@Url.Action("Details", "Content", new { id = item.ContentId })">Open</a>
+                                <a class="text-slate-900 underline"
+                                   href="@Url.Action("Details", "Content", new { id = item.ContentId })">Open</a>
                             </td>
                         </tr>
                     }

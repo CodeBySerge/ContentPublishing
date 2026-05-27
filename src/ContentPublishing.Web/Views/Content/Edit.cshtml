@@ -18,12 +18,7 @@
 
         <div>
             @Html.LabelFor(m => m.Title, new { @class = "mb-1 block text-sm font-medium" })
-            @Html.TextBoxFor(m => m.Title, new
-            {
-                @class = "w-full rounded-md border border-slate-300 px-3 py-2",
-                maxlength =
- "250"
-            })
+            @Html.TextAreaFor(m => m.Title, 2, 40, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", id = "titleEditor" })
             @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-xs text-red-600" })
         </div>
 
@@ -43,10 +38,23 @@
     <script>
         $(function () {
             tinymce.init({
+                selector: "#titleEditor",
+                menubar: false,
+                plugins: "link code visualblocks",
+                toolbar: "undo redo | bold italic underline | forecolor backcolor | alignleft aligncenter alignright | link removeformat code",
+                height: 120,
+                branding: false,
+                promotion: false,
+                browser_spellcheck: true,
+                convert_urls: false
+            });
+
+            tinymce.init({
                 selector: "#descriptionEditor",
                 menubar: "file edit view insert format tools table help",
                 plugins: "lists link image table code fullscreen wordcount preview searchreplace visualblocks",
-                toolbar: "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code fullscreen preview",
+                toolbar: "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | removeformat code fullscreen preview",
+                table_toolbar: "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
                 height: 380,
                 branding: false,
                 promotion: false,
@@ -59,6 +67,7 @@
             });
 
             $("#contentForm").validate({
+                ignore: [],
                 rules: {
                     Title: { required: true, maxlength: 250 }
                 }

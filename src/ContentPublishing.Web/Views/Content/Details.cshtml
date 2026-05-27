@@ -10,7 +10,7 @@
     <div class="rounded-lg bg-white p-6 shadow">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
-                <h2 class="text-2xl font-bold">@Model.Title</h2>
+                <h2 class="text-2xl font-bold">@Html.Raw(Model.Title)</h2>
                 <p class="text-sm text-slate-500">Status: <span class="font-semibold">@Model.Status</span></p>
             </div>
             <div class="flex gap-2">
