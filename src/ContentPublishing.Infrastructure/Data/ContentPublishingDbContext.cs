@@ -6,7 +6,7 @@ namespace ContentPublishing.Infrastructure.Data
     public class ContentPublishingDbContext : DbContext
     {
         public ContentPublishingDbContext()
-            : base("name=BibleVerseDB")
+            : base("name=ContentPublishingDb")
         {
         }
 

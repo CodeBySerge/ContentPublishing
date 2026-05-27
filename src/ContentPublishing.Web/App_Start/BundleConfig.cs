@@ -6,9 +6,8 @@ namespace ContentPublishing.Web
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-{version}.js"));
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval")
-                .Include("~/Scripts/jquery.validate*", "~/Scripts/jquery.validate.unobtrusive*"));
+            // Script bundles are intentionally disabled in this scaffold because
+            // the Scripts directory is not included in the repository yet.
 
             BundleTable.EnableOptimizations = false;
         }

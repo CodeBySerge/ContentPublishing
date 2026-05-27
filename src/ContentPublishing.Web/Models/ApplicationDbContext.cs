@@ -5,7 +5,7 @@ namespace ContentPublishing.Web.Models
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext() : base("BibleVerseDB", throwIfV1Schema: false)
+        public ApplicationDbContext() : base("ContentPublishingDb", throwIfV1Schema: false)
         {
         }
 
