@@ -136,9 +136,12 @@ namespace ContentPublishing.Web.Controllers
                 return RedirectToAction("Details", new { id = model.ContentId.Value });
             }
 
-            content.Title = model.Title;
-            content.Description = model.Description;
-            SyncCombinedChaptersForDraft(content, model.Title, model.Description, ensureChapter: content.Chapters.Any(ch => !ch.IsDeleted));
+            var safeTitle = HtmlContentSanitizer.StripScripts(model.Title);
+            var safeDescription = HtmlContentSanitizer.StripScripts(model.Description);
+
+            content.Title = safeTitle;
+            content.Description = safeDescription;
+            SyncCombinedChaptersForDraft(content, safeTitle, safeDescription, ensureChapter: content.Chapters.Any(ch => !ch.IsDeleted));
             content.LastModifiedDate = DateTime.UtcNow;
             await _db.SaveChangesAsync();
 

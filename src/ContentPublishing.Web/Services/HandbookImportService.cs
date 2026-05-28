@@ -290,27 +290,152 @@ namespace ContentPublishing.Web.Services
         private static string BuildChapterBody(TocEntry entry, string rawSection)
         {
             var sb = new StringBuilder();
-            sb.Append("<h3>").Append(HttpUtility.HtmlEncode(entry.Title)).Append("</h3>");
+            sb.Append("<article style=\"max-width:760px;margin:0 auto;font-family:Georgia,'Times New Roman',serif;line-height:1.6;color:#1f2937;\">");
+            sb.Append("<h1 style=\"font-size:2rem;margin:0 0 1rem 0;font-weight:700;\">")
+                .Append(HttpUtility.HtmlEncode(entry.Title))
+                .Append("</h1>");
+
+            var headingDescriptions = ExtractHeadingDescriptions(rawSection);
 
             if (entry.ContentItems.Any())
             {
-                sb.Append("<p>Original chapter structure:</p><ul>");
+                sb.Append("<div style=\"margin-top:0.5rem;\">");
                 foreach (var item in entry.ContentItems)
                 {
-                    sb.Append("<li>").Append(HttpUtility.HtmlEncode(item)).Append("</li>");
+                    sb.Append("<section style=\"margin:0 0 1.25rem 0;\">");
+                    sb.Append("<h2 style=\"font-size:1.25rem;margin:0 0 0.4rem 0;font-weight:600;\">")
+                        .Append(HttpUtility.HtmlEncode(item))
+                        .Append("</h2>");
+
+                    if (headingDescriptions.TryGetValue(item, out var description) && !string.IsNullOrWhiteSpace(description))
+                    {
+                        sb.Append("<p style=\"margin:0;\">")
+                            .Append(HttpUtility.HtmlEncode(description))
+                            .Append("</p>");
+                    }
+                    else
+                    {
+                        sb.Append("<p style=\"margin:0;color:#6b7280;\">Content section available for editorial updates.</p>");
+                    }
+
+                    sb.Append("</section>");
                 }
 
-                sb.Append("</ul>");
+                sb.Append("</div>");
             }
 
-            if (!string.IsNullOrWhiteSpace(rawSection))
+            if (!entry.ContentItems.Any() && !string.IsNullOrWhiteSpace(rawSection))
             {
-                sb.Append("<p>Original source block:</p><pre>")
-                    .Append(HttpUtility.HtmlEncode(rawSection))
-                    .Append("</pre>");
+                sb.Append("<p style=\"margin:0;\">Content imported and ready for review.</p>");
             }
 
+            sb.Append("</article>");
             return sb.ToString();
+        }
+
+        private static Dictionary<string, string> ExtractHeadingDescriptions(string rawSection)
+        {
+            var result = new Dictionary<string, string>(System.StringComparer.OrdinalIgnoreCase);
+            if (string.IsNullOrWhiteSpace(rawSection))
+            {
+                return result;
+            }
+
+            var lines = rawSection.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+            string currentHeading = null;
+
+            for (var i = 0; i < lines.Length; i++)
+            {
+                var line = lines[i].Trim();
+
+                var headingMatch = Regex.Match(line, "^heading:\\s*\"([^\"]+)\"");
+                if (headingMatch.Success)
+                {
+                    currentHeading = headingMatch.Groups[1].Value;
+                    continue;
+                }
+
+                if (string.IsNullOrWhiteSpace(currentHeading) || !line.StartsWith("description:"))
+                {
+                    continue;
+                }
+
+                var description = ReadQuotedLiteral(lines, ref i, line.IndexOf("description:", StringComparison.Ordinal));
+                if (!string.IsNullOrWhiteSpace(description) && !result.ContainsKey(currentHeading))
+                {
+                    result[currentHeading] = description;
+                }
+            }
+
+            return result;
+        }
+
+        private static string ReadQuotedLiteral(string[] lines, ref int index, int descriptionTokenIndex)
+        {
+            var builder = new StringBuilder();
+            var started = false;
+            var escaped = false;
+
+            for (var i = index; i < lines.Length; i++)
+            {
+                var text = lines[i];
+                var startAt = i == index ? descriptionTokenIndex : 0;
+
+                for (var p = startAt; p < text.Length; p++)
+                {
+                    var ch = text[p];
+
+                    if (!started)
+                    {
+                        if (ch == '"')
+                        {
+                            started = true;
+                        }
+                        continue;
+                    }
+
+                    if (escaped)
+                    {
+                        builder.Append('\\');
+                        builder.Append(ch);
+                        escaped = false;
+                        continue;
+                    }
+
+                    if (ch == '\\')
+                    {
+                        escaped = true;
+                        continue;
+                    }
+
+                    if (ch == '"')
+                    {
+                        index = i;
+                        return DecodeEscapedContent(builder.ToString());
+                    }
+
+                    builder.Append(ch);
+                }
+
+                if (started)
+                {
+                    builder.Append('\n');
+                }
+            }
+
+            index = lines.Length - 1;
+            return DecodeEscapedContent(builder.ToString());
+        }
+
+        private static string DecodeEscapedContent(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            var normalized = value.Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\\"", "\"");
+            return normalized.Trim();
         }
 
         private static int ExtractChapterNumberFromTitle(string title)

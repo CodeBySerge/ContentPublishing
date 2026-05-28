@@ -67,12 +67,14 @@ namespace ContentPublishing.Web.Controllers
             }
 
             var nextOrder = content.Chapters.Where(ch => !ch.IsDeleted).Select(ch => (int?)ch.ChapterOrder).Max() ?? 0;
+            var safeTitle = HtmlContentSanitizer.StripScripts(model.ChapterTitle);
+            var safeBody = HtmlContentSanitizer.StripScripts(model.ChapterBody);
             var entity = new ChapterEntity
             {
                 ChapterId = Guid.NewGuid(),
                 ContentId = model.ContentId,
-                ChapterTitle = model.ChapterTitle,
-                ChapterBody = model.ChapterBody,
+                ChapterTitle = safeTitle,
+                ChapterBody = safeBody,
                 ChapterOrder = nextOrder + 1,
                 CreatedDate = DateTime.UtcNow,
                 LastModifiedDate = DateTime.UtcNow,
@@ -134,8 +136,8 @@ namespace ContentPublishing.Web.Controllers
                 return RedirectToAction("Details", "Content", new { id = chapter.ContentId });
             }
 
-            chapter.ChapterTitle = model.ChapterTitle;
-            chapter.ChapterBody = model.ChapterBody;
+            chapter.ChapterTitle = HtmlContentSanitizer.StripScripts(model.ChapterTitle);
+            chapter.ChapterBody = HtmlContentSanitizer.StripScripts(model.ChapterBody);
             chapter.LastModifiedDate = DateTime.UtcNow;
             chapter.Content.LastModifiedDate = DateTime.UtcNow;
             chapter.Content.Status = ContentStatuses.Draft;

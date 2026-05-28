@@ -3,13 +3,14 @@
     ViewBag.Title = "Edit Chapter";
 }
 
-<section class="mx-auto max-w-3xl rounded-lg bg-white p-6 shadow">
+<section class="mx-auto max-w-6xl px-4">
+    <div class="mx-auto max-w-[860px] rounded-lg bg-white p-8 shadow">
     <h2 class="mb-4 text-2xl font-bold">Edit Chapter Draft</h2>
     <p class="mb-3 text-sm text-slate-600">Content ID: @Model.ContentNumber | Chapter ID: @(Model.ChapterNumber.HasValue ? Model.ChapterNumber.Value.ToString() : "New")</p>
 
     <div class="mb-5 rounded border border-slate-200 bg-slate-50 p-4">
         <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-600">Current Chapter Content</h3>
-        <div class="prose max-w-none text-slate-700">@Html.Raw(Model.ChapterBody)</div>
+        <div class="prose prose-slate max-w-none text-slate-700 prose-headings:font-semibold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-p:leading-7">@Html.Raw(Model.ChapterBody)</div>
     </div>
 
     @using (Html.BeginForm("Edit", "Chapter", FormMethod.Post, new { id = "chapterForm", @class = "space-y-4" }))
@@ -37,6 +38,7 @@
 
         <button type="submit" class="rounded bg-slate-900 px-4 py-2 text-white">Save Draft</button>
     }
+    </div>
 </section>
 
 @section scripts {
@@ -51,6 +53,7 @@
                 toolbar: "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | removeformat code fullscreen preview",
                 table_toolbar: "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
                 height: 420,
+                content_style: "body { max-width: 760px; margin: 24px auto; font-family: Georgia, 'Times New Roman', serif; font-size: 16px; line-height: 1.6; } h1 { font-size: 2rem; } h2 { font-size: 1.6rem; } h3 { font-size: 1.3rem; }",
                 branding: false,
                 promotion: false,
                 browser_spellcheck: true,
