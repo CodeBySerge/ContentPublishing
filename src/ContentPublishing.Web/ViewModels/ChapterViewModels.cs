@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace ContentPublishing.Web.ViewModels
 {
@@ -15,6 +16,7 @@ namespace ContentPublishing.Web.ViewModels
         public string ChapterTitle { get; set; }
 
         [Required]
+        [AllowHtml]
         public string ChapterBody { get; set; }
     }
 

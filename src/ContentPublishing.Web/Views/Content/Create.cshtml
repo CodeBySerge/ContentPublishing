@@ -6,52 +6,25 @@
 <section class="mx-auto max-w-2xl rounded-lg bg-white p-6 shadow">
     <h2 class="mb-4 text-2xl font-bold">Create Content</h2>
 
-    @using (Html.BeginForm("Create", "Content", FormMethod.Post, new { id = "contentForm", @class = "space-y-4", enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Create", "Content", FormMethod.Post, new
+    {
+        id = "contentForm",
+        @class = "space-y-4"
+    }))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-sm text-red-600" })
-        @Html.HiddenFor(m => m.CropX)
-        @Html.HiddenFor(m => m.CropY)
-        @Html.HiddenFor(m => m.CropWidth)
-        @Html.HiddenFor(m => m.CropHeight)
 
         <div>
             @Html.LabelFor(m => m.Title, new { @class = "mb-1 block text-sm font-medium" })
-            @Html.TextBoxFor(m => m.Title, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", maxlength = "250" })
+            @Html.TextAreaFor(m => m.Title, 2, 40, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", id = "titleEditor" })
             @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-xs text-red-600" })
         </div>
 
         <div>
             @Html.LabelFor(m => m.Description, new { @class = "mb-1 block text-sm font-medium" })
-            @Html.TextAreaFor(m => m.Description, 6, 40, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", maxlength = "2000" })
+            @Html.TextAreaFor(m => m.Description, 10, 40, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", id = "descriptionEditor" })
             @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-xs text-red-600" })
-        </div>
-
-        <div class="space-y-3 rounded border border-slate-200 p-4">
-            <div>
-                <label class="mb-1 block text-sm font-medium" for="ImageFile">Feature Image</label>
-                <input id="ImageFile" name="ImageFile" type="file" accept="image/*" class="w-full rounded-md border border-slate-300 px-3 py-2" />
-            </div>
-            <img id="imagePreview" class="hidden max-h-72 rounded border border-slate-200 object-contain" alt="Preview" />
-            <div class="grid gap-3 sm:grid-cols-2">
-                <div>
-                    <label class="mb-1 block text-xs font-medium">Crop X</label>
-                    <input id="cropXInput" type="number" min="0" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-                </div>
-                <div>
-                    <label class="mb-1 block text-xs font-medium">Crop Y</label>
-                    <input id="cropYInput" type="number" min="0" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-                </div>
-                <div>
-                    <label class="mb-1 block text-xs font-medium">Crop Width</label>
-                    <input id="cropWidthInput" type="number" min="0" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-                </div>
-                <div>
-                    <label class="mb-1 block text-xs font-medium">Crop Height</label>
-                    <input id="cropHeightInput" type="number" min="0" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-                </div>
-            </div>
-            <p class="text-xs text-slate-500">Optional crop values are applied server-side after upload.</p>
         </div>
 
         <button type="submit" class="rounded bg-slate-900 px-4 py-2 text-white">Save Draft</button>
@@ -59,42 +32,49 @@
 </section>
 
 @section scripts {
-<script>
-$(function () {
-    function syncCropFields() {
-        $("#CropX").val($("#cropXInput").val());
-        $("#CropY").val($("#cropYInput").val());
-        $("#CropWidth").val($("#cropWidthInput").val());
-        $("#CropHeight").val($("#cropHeightInput").val());
-    }
+    <script src="https://cdn.tiny.cloud/1/zr0s1ze2y3f4ufpcb1gn892mftbi3j04oxcc3ii21s0pgaoe/tinymce/6/tinymce.min.js"
+            referrerpolicy="origin"></script>
+    <script>
+        $(function () {
+            tinymce.init({
+                selector: "#titleEditor",
+                menubar: false,
+                plugins: "link code visualblocks",
+                toolbar: "undo redo | bold italic underline | forecolor backcolor | alignleft aligncenter alignright | link removeformat code",
+                height: 120,
+                branding: false,
+                promotion: false,
+                browser_spellcheck: true,
+                convert_urls: false
+            });
 
-    $("#ImageFile").on("change", function (event) {
-        var file = event.target.files[0];
-        if (!file) {
-            return;
-        }
+            tinymce.init({
+                selector: "#descriptionEditor",
+                menubar: "file edit view insert format tools table help",
+                plugins: "lists link image table code fullscreen wordcount preview searchreplace visualblocks",
+                toolbar: "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | removeformat code fullscreen preview",
+                table_toolbar: "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
+                height: 380,
+                branding: false,
+                promotion: false,
+                browser_spellcheck: true,
+                convert_urls: false
+            });
 
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $("#imagePreview").attr("src", e.target.result).removeClass("hidden");
-        };
-        reader.readAsDataURL(file);
-    });
+            $("#contentForm").on("submit", function () {
+                tinymce.triggerSave();
+            });
 
-    $("#cropXInput, #cropYInput, #cropWidthInput, #cropHeightInput").on("input", syncCropFields);
+            $("#contentForm").validate({
+                ignore: [],
+                rules: {
+                    Title: { required: true, maxlength: 250 }
+                },
+                messages: {
+                    Title: "Title is required."
+                }
+            });
 
-    $("#contentForm").validate({
-        rules: {
-            Title: { required: true, maxlength: 250 },
-            Description: { maxlength: 2000 }
-        },
-        messages: {
-            Title: "Title is required.",
-            Description: "Description must be 2000 characters or fewer."
-        }
-    });
-
-    syncCropFields();
-});
-</script>
+        });
+    </script>
 }

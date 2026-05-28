@@ -5,9 +5,9 @@
 
 <section class="space-y-4">
     <div class="rounded-lg bg-white p-6 shadow">
-        <h2 class="text-2xl font-bold">@Model.Title</h2>
+        <h2 class="text-2xl font-bold">@Html.Raw(Model.Title)</h2>
         <p class="mt-1 text-sm text-slate-500">Content Status: @Model.ContentStatus</p>
-        <p class="mt-4 whitespace-pre-line text-slate-700">@Model.Description</p>
+        <div class="prose mt-4 max-w-none text-slate-700">@Html.Raw(Model.Description)</div>
     </div>
 
     <div class="rounded-lg bg-white p-6 shadow">
@@ -42,7 +42,8 @@
                 <input type="hidden" name="ContentId" value="@Model.ContentId" />
                 <input type="hidden" name="ReviewId" value="@Model.ReviewId" />
                 <label class="block text-sm font-medium">Rejection comments</label>
-                <textarea id="rejectComments" name="Comments" class="w-full rounded border border-slate-300 px-3 py-2" rows="5" required></textarea>
+                <textarea id="rejectComments" name="Comments" class="w-full rounded border border-slate-300 px-3 py-2"
+                          rows="5" required></textarea>
                 <button type="submit" class="rounded bg-red-700 px-4 py-2 text-white">Reject</button>
             }
         </div>
@@ -50,12 +51,12 @@
 </section>
 
 @section scripts {
-<script>
-$(function () {
-    $("#rejectForm").validate({
-        rules: { Comments: { required: true, minlength: 5 } },
-        messages: { Comments: "Rejection comments are required (minimum 5 chars)." }
-    });
-});
-</script>
+    <script>
+        $(function () {
+            $("#rejectForm").validate({
+                rules: { Comments: { required: true, minlength: 5 } },
+                messages: { Comments: "Rejection comments are required (minimum 5 chars)." }
+            });
+        });
+    </script>
 }

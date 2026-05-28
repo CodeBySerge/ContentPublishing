@@ -76,10 +76,17 @@ namespace ContentPublishing.Web.Controllers
                 var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
 
-                await UserManager.SendEmailAsync(
-                    user.Id,
-                    "Confirm your account",
-                    $"Please confirm your account by clicking <a href=\"{callbackUrl}\">this link</a>.");
+                try
+                {
+                    await UserManager.SendEmailAsync(
+                        user.Id,
+                        "Confirm your account",
+                        $"Please confirm your account by clicking <a href=\"{callbackUrl}\">this link</a>.");
+                }
+                catch
+                {
+                    TempData["RegistrationWarning"] = "Your account was created, but we could not send a confirmation email right now. Please contact support to activate your account.";
+                }
 
                 return View("RegistrationPending");
             }

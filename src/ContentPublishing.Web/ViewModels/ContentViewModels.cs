@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web;
+using System.Web.Mvc;
 
 namespace ContentPublishing.Web.ViewModels
 {
@@ -11,19 +11,11 @@ namespace ContentPublishing.Web.ViewModels
 
         [Required]
         [StringLength(250)]
+        [AllowHtml]
         public string Title { get; set; }
 
-        [StringLength(2000)]
+        [AllowHtml]
         public string Description { get; set; }
-
-        public HttpPostedFileBase ImageFile { get; set; }
-
-        public string ExistingImagePath { get; set; }
-
-        public int? CropX { get; set; }
-        public int? CropY { get; set; }
-        public int? CropWidth { get; set; }
-        public int? CropHeight { get; set; }
     }
 
     public class ContentListItemViewModel
@@ -52,7 +44,6 @@ namespace ContentPublishing.Web.ViewModels
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
-        public string PrimaryImagePath { get; set; }
         public IList<ChapterListItemViewModel> Chapters { get; set; }
     }
 

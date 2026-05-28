@@ -12,37 +12,42 @@
     }
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="rounded border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">@TempData["SuccessMessage"]</div>
-    }
+        <div class="rounded border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
+            @TempData["SuccessMessage"]</div>
+        }
 
-    <div class="overflow-hidden rounded-lg bg-white shadow">
-        <table class="min-w-full text-sm">
-            <thead class="bg-slate-100 text-left text-slate-600">
-                <tr>
-                    <th class="px-4 py-3">Title</th>
-                    <th class="px-4 py-3">Submitted</th>
-                    <th class="px-4 py-3">Chapters</th>
-                    <th class="px-4 py-3">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (!Model.Any())
-                {
-                    <tr><td colspan="4" class="px-4 py-6 text-center text-slate-500">No pending reviews.</td></tr>
-                }
-                else
-                {
-                    foreach (var item in Model)
+        <div class="overflow-hidden rounded-lg bg-white shadow">
+            <table class="min-w-full text-sm">
+                <thead class="bg-slate-100 text-left text-slate-600">
+                    <tr>
+                        <th class="px-4 py-3">Title</th>
+                        <th class="px-4 py-3">Submitted</th>
+                        <th class="px-4 py-3">Chapters</th>
+                        <th class="px-4 py-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
                     {
-                        <tr class="border-t border-slate-100">
-                            <td class="px-4 py-3 font-medium">@item.Title</td>
-                            <td class="px-4 py-3">@item.SubmittedDate.ToString("u")</td>
-                            <td class="px-4 py-3">@item.ChapterCount</td>
-                            <td class="px-4 py-3"><a class="underline" href="@Url.Action("ReviewContent", "Review", new { contentId = item.ContentId })">Open Review</a></td>
+                        <tr>
+                            <td colspan="4" class="px-4 py-6 text-center text-slate-500">No pending reviews.</td>
                         </tr>
                     }
-                }
-            </tbody>
-        </table>
-    </div>
-</section>
+                    else
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr class="border-t border-slate-100">
+                                <td class="px-4 py-3 font-medium">@Html.Raw(item.Title)</td>
+                                <td class="px-4 py-3">@item.SubmittedDate.ToString("u")</td>
+                                <td class="px-4 py-3">@item.ChapterCount</td>
+                                <td class="px-4 py-3"><a class="underline"
+                                                         href="@Url.Action("ReviewContent", "Review", new { contentId = item.ContentId })">Open
+                                    Review</a></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>

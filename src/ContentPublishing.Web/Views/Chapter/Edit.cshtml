@@ -15,13 +15,17 @@
 
         <div>
             @Html.LabelFor(m => m.ChapterTitle, new { @class = "mb-1 block text-sm font-medium" })
-            @Html.TextBoxFor(m => m.ChapterTitle, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", maxlength = "250" })
+            @Html.TextBoxFor(m => m.ChapterTitle, new
+            {
+                @class = "w-full rounded-md border border-slate-300 px-3 py-2",
+                maxlength = "250"
+            })
             @Html.ValidationMessageFor(m => m.ChapterTitle, "", new { @class = "text-xs text-red-600" })
         </div>
 
         <div>
             @Html.LabelFor(m => m.ChapterBody, new { @class = "mb-1 block text-sm font-medium" })
-            @Html.TextAreaFor(m => m.ChapterBody, 12, 60, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2" })
+            @Html.TextAreaFor(m => m.ChapterBody, 14, 60, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", id = "chapterBodyEditor" })
             @Html.ValidationMessageFor(m => m.ChapterBody, "", new { @class = "text-xs text-red-600" })
         </div>
 
@@ -30,14 +34,33 @@
 </section>
 
 @section scripts {
-<script>
-$(function () {
-    $("#chapterForm").validate({
-        rules: {
-            ChapterTitle: { required: true, maxlength: 250 },
-            ChapterBody: { required: true }
-        }
-    });
-});
-</script>
+    <script src="https://cdn.tiny.cloud/1/zr0s1ze2y3f4ufpcb1gn892mftbi3j04oxcc3ii21s0pgaoe/tinymce/6/tinymce.min.js"
+            referrerpolicy="origin"></script>
+    <script>
+        $(function () {
+            tinymce.init({
+                selector: "#chapterBodyEditor",
+                menubar: "file edit view insert format tools table help",
+                plugins: "lists link image table code fullscreen wordcount preview searchreplace visualblocks",
+                toolbar: "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | removeformat code fullscreen preview",
+                table_toolbar: "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
+                height: 420,
+                branding: false,
+                promotion: false,
+                browser_spellcheck: true,
+                convert_urls: false
+            });
+
+            $("#chapterForm").on("submit", function () {
+                tinymce.triggerSave();
+            });
+
+            $("#chapterForm").validate({
+                rules: {
+                    ChapterTitle: { required: true, maxlength: 250 },
+                    ChapterBody: { required: true }
+                }
+            });
+        });
+    </script>
 }

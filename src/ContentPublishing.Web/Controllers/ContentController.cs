@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
+using System.Web;
 using ContentPublishing.Application.Rules;
 using ContentPublishing.Web.Models;
 using ContentPublishing.Web.Services;
@@ -21,7 +21,6 @@ namespace ContentPublishing.Web.Controllers
         private readonly AuditLogService _audit;
         private readonly WorkflowNotificationService _notifications;
         private readonly ContentVersionService _versions;
-        private readonly ContentImageService _images;
         private readonly PublishingService _publishing;
 
         public ContentController()
@@ -29,7 +28,6 @@ namespace ContentPublishing.Web.Controllers
             _audit = new AuditLogService(_db);
             _notifications = new WorkflowNotificationService(_db, new SmtpEmailService());
             _versions = new ContentVersionService(_db);
-            _images = new ContentImageService(_db);
             _publishing = new PublishingService(_db);
         }
 
@@ -60,6 +58,7 @@ namespace ContentPublishing.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public async Task<ActionResult> Create(ContentEditViewModel model)
         {
             if (!ModelState.IsValid)
@@ -79,12 +78,8 @@ namespace ContentPublishing.Web.Controllers
             };
 
             _db.Contents.Add(entity);
+            SyncCombinedChaptersForDraft(entity, model.Title, model.Description, ensureChapter: false);
             await _db.SaveChangesAsync();
-
-            if (model.ImageFile != null && model.ImageFile.ContentLength > 0)
-            {
-                await _images.SavePrimaryImageAsync(entity.ContentId, model.ImageFile, model.CropX, model.CropY, model.CropWidth, model.CropHeight);
-            }
 
             await _versions.SaveSnapshotAsync(entity.ContentId, "CREATE_CONTENT", User.Identity.GetUserId(), "Initial draft created.");
 
@@ -109,13 +104,13 @@ namespace ContentPublishing.Web.Controllers
             {
                 ContentId = content.ContentId,
                 Title = content.Title,
-                Description = content.Description,
-                ExistingImagePath = content.Images.OrderByDescending(i => i.CreatedDate).Where(i => i.IsPrimary).Select(i => i.RelativePath).FirstOrDefault()
+                Description = BuildEditableDraftBody(content)
             });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public async Task<ActionResult> Edit(ContentEditViewModel model)
         {
             if (!ModelState.IsValid || !model.ContentId.HasValue)
@@ -137,13 +132,9 @@ namespace ContentPublishing.Web.Controllers
 
             content.Title = model.Title;
             content.Description = model.Description;
+            SyncCombinedChaptersForDraft(content, model.Title, model.Description, ensureChapter: content.Chapters.Any(ch => !ch.IsDeleted));
             content.LastModifiedDate = DateTime.UtcNow;
             await _db.SaveChangesAsync();
-
-            if (model.ImageFile != null && model.ImageFile.ContentLength > 0)
-            {
-                await _images.SavePrimaryImageAsync(content.ContentId, model.ImageFile, model.CropX, model.CropY, model.CropWidth, model.CropHeight);
-            }
 
             await _versions.SaveSnapshotAsync(content.ContentId, "EDIT_CONTENT", User.Identity.GetUserId(), "Content metadata updated.");
 
@@ -168,7 +159,6 @@ namespace ContentPublishing.Web.Controllers
                 Status = content.Status,
                 CreatedDate = content.CreatedDate,
                 LastModifiedDate = content.LastModifiedDate,
-                PrimaryImagePath = content.Images.OrderByDescending(i => i.CreatedDate).Where(i => i.IsPrimary).Select(i => i.RelativePath).FirstOrDefault(),
                 Chapters = content.Chapters
                     .Where(ch => !ch.IsDeleted)
                     .OrderBy(ch => ch.ChapterOrder)
@@ -235,7 +225,7 @@ namespace ContentPublishing.Web.Controllers
 
             await _versions.SaveSnapshotAsync(content.ContentId, "ARCHIVE_CONTENT", User.Identity.GetUserId(), "Content archived.");
 
-            return RedirectToAction("Index");
+            return Redirect("~/Content/Index");
         }
 
         [HttpPost]
@@ -382,18 +372,120 @@ namespace ContentPublishing.Web.Controllers
             var reviewers = new List<SelectListItem>();
             if (!string.IsNullOrWhiteSpace(reviewerRoleId))
             {
-                reviewers = await _db.Users
-                    .Where(u => u.IsActive && u.Roles.Any(role => role.RoleId == reviewerRoleId))
+                var reviewerUsers = await _db.Users
+                    .Where(u => u.IsActive && u.EmailConfirmed && u.Roles.Any(role => role.RoleId == reviewerRoleId))
                     .OrderBy(u => u.FullName)
+                    .ToListAsync();
+
+                reviewers = reviewerUsers
                     .Select(u => new SelectListItem
                     {
                         Value = u.Id,
                         Text = string.IsNullOrWhiteSpace(u.FullName) ? u.Email : u.FullName + " (" + u.Email + ")"
                     })
-                    .ToListAsync();
+                    .ToList();
             }
 
             ViewBag.ReviewerOptions = reviewers;
+        }
+
+        private void SyncCombinedChaptersForDraft(ContentEntity content, string title, string combinedBody, bool ensureChapter)
+        {
+            var activeChapters = content.Chapters
+                .Where(ch => !ch.IsDeleted)
+                .OrderBy(ch => ch.ChapterOrder)
+                .ToList();
+
+            var shouldHaveChapter = ensureChapter || activeChapters.Any() || !string.IsNullOrWhiteSpace(combinedBody);
+            if (!shouldHaveChapter)
+            {
+                return;
+            }
+
+            var chapterTitle = BuildCombinedChapterTitle(title);
+            var chapterBody = combinedBody ?? string.Empty;
+            var now = DateTime.UtcNow;
+
+            if (!activeChapters.Any())
+            {
+                _db.Chapters.Add(new ChapterEntity
+                {
+                    ChapterId = Guid.NewGuid(),
+                    ContentId = content.ContentId,
+                    ChapterTitle = chapterTitle,
+                    ChapterBody = chapterBody,
+                    ChapterOrder = 1,
+                    CreatedDate = now,
+                    LastModifiedDate = now,
+                    IsDeleted = false
+                });
+
+                return;
+            }
+
+            var primaryChapter = activeChapters[0];
+            primaryChapter.ChapterTitle = chapterTitle;
+            primaryChapter.ChapterBody = chapterBody;
+            primaryChapter.ChapterOrder = 1;
+            primaryChapter.LastModifiedDate = now;
+            primaryChapter.IsDeleted = false;
+
+            foreach (var chapter in activeChapters.Skip(1))
+            {
+                chapter.IsDeleted = true;
+                chapter.LastModifiedDate = now;
+            }
+        }
+
+        private static string BuildEditableDraftBody(ContentEntity content)
+        {
+            var activeChapters = content.Chapters
+                .Where(ch => !ch.IsDeleted)
+                .OrderBy(ch => ch.ChapterOrder)
+                .ToList();
+
+            if (!activeChapters.Any())
+            {
+                return content.Description;
+            }
+
+            if (activeChapters.Count == 1)
+            {
+                var chapterBody = activeChapters[0].ChapterBody ?? string.Empty;
+                var description = content.Description ?? string.Empty;
+                if (description.Trim() == chapterBody.Trim())
+                {
+                    return content.Description;
+                }
+            }
+
+            var parts = new System.Collections.Generic.List<string>();
+            if (!string.IsNullOrWhiteSpace(content.Description))
+            {
+                parts.Add(content.Description);
+            }
+
+            foreach (var chapter in activeChapters)
+            {
+                var chapterBody = chapter.ChapterBody ?? string.Empty;
+                var heading = "<h3>" + HttpUtility.HtmlEncode(chapter.ChapterTitle ?? string.Empty) + "</h3>";
+                parts.Add(heading + chapterBody);
+            }
+
+            return parts.Any() ? string.Join("<hr />", parts) : content.Description;
+        }
+
+        private static string BuildCombinedChapterTitle(string title)
+        {
+            var plainTitle = HttpUtility.HtmlDecode(title ?? string.Empty);
+            plainTitle = System.Text.RegularExpressions.Regex.Replace(plainTitle, "<.*?>", string.Empty).Trim();
+
+            if (string.IsNullOrWhiteSpace(plainTitle))
+            {
+                return "Combined Draft";
+            }
+
+            return plainTitle.Length > 250 ? plainTitle.Substring(0, 250) : plainTitle;
         }
 
         private static List<string> ParseReviewerIds(string reviewerIds)
