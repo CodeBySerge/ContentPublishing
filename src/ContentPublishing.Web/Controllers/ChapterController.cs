@@ -37,7 +37,11 @@ namespace ContentPublishing.Web.Controllers
                 return RedirectToAction("Details", "Content", new { id = contentId });
             }
 
-            return View(new ChapterEditViewModel { ContentId = contentId });
+            return View(new ChapterEditViewModel
+            {
+                ContentId = contentId,
+                ContentNumber = content.ContentNumber
+            });
         }
 
         [HttpPost]
@@ -99,6 +103,8 @@ namespace ContentPublishing.Web.Controllers
 
             return View(new ChapterEditViewModel
             {
+                ChapterNumber = chapter.ChapterNumber,
+                ContentNumber = chapter.Content.ContentNumber,
                 ChapterId = chapter.ChapterId,
                 ContentId = chapter.ContentId,
                 ChapterTitle = chapter.ChapterTitle,
@@ -132,9 +138,13 @@ namespace ContentPublishing.Web.Controllers
             chapter.ChapterBody = model.ChapterBody;
             chapter.LastModifiedDate = DateTime.UtcNow;
             chapter.Content.LastModifiedDate = DateTime.UtcNow;
+            chapter.Content.Status = ContentStatuses.Draft;
+            chapter.Content.PublishedDate = null;
+            chapter.Content.ScheduledPublishDate = null;
             await _db.SaveChangesAsync();
             await _versions.SaveSnapshotAsync(chapter.ContentId, "EDIT_CHAPTER", User.Identity.GetUserId(), "Chapter updated.");
 
+            TempData["SuccessMessage"] = "Chapter saved as draft. Submit for approval when ready.";
             return RedirectToAction("Details", "Content", new { id = chapter.ContentId });
         }
 
@@ -223,18 +233,16 @@ namespace ContentPublishing.Web.Controllers
 
         private async Task<ContentEntity> FindOwnedContentAsync(Guid contentId)
         {
-            var userId = User.Identity.GetUserId();
             return await _db.Contents
                 .Include(c => c.Chapters)
-                .SingleOrDefaultAsync(c => c.ContentId == contentId && c.AuthorId == userId);
+                .SingleOrDefaultAsync(c => c.ContentId == contentId);
         }
 
         private async Task<ChapterEntity> FindOwnedChapterAsync(Guid chapterId)
         {
-            var userId = User.Identity.GetUserId();
             return await _db.Chapters
                 .Include(ch => ch.Content)
-                .SingleOrDefaultAsync(ch => ch.ChapterId == chapterId && ch.Content.AuthorId == userId);
+                .SingleOrDefaultAsync(ch => ch.ChapterId == chapterId);
         }
 
         protected override void Dispose(bool disposing)

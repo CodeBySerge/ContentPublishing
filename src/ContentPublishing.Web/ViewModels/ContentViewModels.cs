@@ -20,7 +20,9 @@ namespace ContentPublishing.Web.ViewModels
 
     public class ContentListItemViewModel
     {
+        public int ContentNumber { get; set; }
         public Guid ContentId { get; set; }
+        public Guid? PrimaryChapterId { get; set; }
         public string Title { get; set; }
         public string Status { get; set; }
         public DateTime LastModifiedDate { get; set; }
@@ -29,6 +31,7 @@ namespace ContentPublishing.Web.ViewModels
 
     public class ChapterListItemViewModel
     {
+        public int ChapterNumber { get; set; }
         public Guid ChapterId { get; set; }
         public Guid ContentId { get; set; }
         public string ChapterTitle { get; set; }

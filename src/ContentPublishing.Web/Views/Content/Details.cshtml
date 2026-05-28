@@ -80,14 +80,14 @@
                             <div class="chapter-row flex items-center justify-between rounded border border-slate-200 p-3"
                                  data-id="@chapter.ChapterId">
                                 <div>
-                                    <p class="font-medium">@chapter.ChapterOrder. @chapter.ChapterTitle</p>
+                                    <p class="font-medium">Chapter ID @chapter.ChapterNumber: @chapter.ChapterTitle</p>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <button type="button" class="move-up rounded border border-slate-300 px-2 py-1 text-xs">Up</button>
                                     <button type="button"
                                             class="move-down rounded border border-slate-300 px-2 py-1 text-xs">Down</button>
                                     <a href="@Url.Action("Edit", "Chapter", new { id = chapter.ChapterId })"
-                                       class="rounded border border-slate-300 px-2 py-1 text-xs">Edit</a>
+                                       class="rounded border border-slate-300 px-2 py-1 text-xs">Open Chapter</a>
                                     @using (Html.BeginForm("Delete", "Chapter", FormMethod.Post, new { @class = "inline" }))
                                     {
                                         @Html.AntiForgeryToken()

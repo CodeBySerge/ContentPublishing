@@ -1,6 +1,7 @@
 using System.Data.Entity;
 using ContentPublishing.Web.Migrations;
 using ContentPublishing.Web.Models;
+using ContentPublishing.Web.Services;
 
 namespace ContentPublishing.Web
 {
@@ -13,6 +14,7 @@ namespace ContentPublishing.Web
             using (var context = ApplicationDbContext.Create())
             {
                 context.Database.Initialize(false);
+                HandbookImportService.EnsureImported(context);
             }
         }
     }

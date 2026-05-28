@@ -1,10 +1,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ContentPublishing.Web.Models
 {
     public class ChapterEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ChapterNumber { get; set; }
+
         [Key]
         public Guid ChapterId { get; set; }
 

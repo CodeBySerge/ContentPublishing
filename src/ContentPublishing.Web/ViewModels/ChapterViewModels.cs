@@ -6,6 +6,9 @@ namespace ContentPublishing.Web.ViewModels
 {
     public class ChapterEditViewModel
     {
+        public int? ChapterNumber { get; set; }
+        public int ContentNumber { get; set; }
+
         public Guid? ChapterId { get; set; }
 
         [Required]

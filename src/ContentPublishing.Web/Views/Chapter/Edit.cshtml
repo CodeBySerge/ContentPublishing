@@ -4,7 +4,13 @@
 }
 
 <section class="mx-auto max-w-3xl rounded-lg bg-white p-6 shadow">
-    <h2 class="mb-4 text-2xl font-bold">Edit Chapter</h2>
+    <h2 class="mb-4 text-2xl font-bold">Edit Chapter Draft</h2>
+    <p class="mb-3 text-sm text-slate-600">Content ID: @Model.ContentNumber | Chapter ID: @(Model.ChapterNumber.HasValue ? Model.ChapterNumber.Value.ToString() : "New")</p>
+
+    <div class="mb-5 rounded border border-slate-200 bg-slate-50 p-4">
+        <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-600">Current Chapter Content</h3>
+        <div class="prose max-w-none text-slate-700">@Html.Raw(Model.ChapterBody)</div>
+    </div>
 
     @using (Html.BeginForm("Edit", "Chapter", FormMethod.Post, new { id = "chapterForm", @class = "space-y-4" }))
     {
@@ -29,7 +35,7 @@
             @Html.ValidationMessageFor(m => m.ChapterBody, "", new { @class = "text-xs text-red-600" })
         </div>
 
-        <button type="submit" class="rounded bg-slate-900 px-4 py-2 text-white">Save Changes</button>
+        <button type="submit" class="rounded bg-slate-900 px-4 py-2 text-white">Save Draft</button>
     }
 </section>
 

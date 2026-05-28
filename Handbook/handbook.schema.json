@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contentpublishing.local/schemas/handbook.schema.json",
+  "title": "Handbook Import Schema",
+  "type": "object",
+  "required": ["tableOfContents", "contents", "priceList"],
+  "additionalProperties": false,
+  "properties": {
+    "tableOfContents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/tocEntry" }
+    },
+    "contents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/chapter" }
+    },
+    "priceList": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/priceItem" }
+    },
+    "sourceMeta": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "sourceFile": { "type": "string" },
+        "version": { "type": ["string", "number"] },
+        "importedAtUtc": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "$defs": {
+    "scalar": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "number" },
+        { "type": "integer" },
+        { "type": "boolean" },
+        { "type": "null" }
+      ]
+    },
+    "tocEntry": {
+      "type": "object",
+      "required": ["id", "title", "content"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "integer" },
+        "title": { "type": "string" },
+        "content": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "chapter": {
+      "type": "object",
+      "required": ["id", "title", "content"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "integer" },
+        "bg": { "type": "string" },
+        "title": { "type": "string" },
+        "content": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sectionNode" }
+        }
+      }
+    },
+    "sectionNode": {
+      "type": "object",
+      "required": ["index", "heading"],
+      "additionalProperties": true,
+      "properties": {
+        "index": { "type": ["integer", "number"] },
+        "heading": { "type": "string" },
+        "description": { "type": "string" },
+        "details": { "$ref": "#/$defs/dynamicObject" },
+        "requestForms": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/dynamicObject" }
+        },
+        "tables": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/tableLikeObject" }
+        },
+        "references": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/referenceNode" }
+        },
+        "flowData": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/dynamicObject" }
+        },
+        "children": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sectionNode" }
+        }
+      }
+    },
+    "tableLikeObject": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": { "oneOf": [{ "type": "integer" }, { "type": "string" }] },
+        "title": { "type": "string" },
+        "headers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "content": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/dynamicObject" }
+        },
+        "labs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/labRow" }
+        },
+        "tables": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/tableLikeObject" }
+        }
+      }
+    },
+    "labRow": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "labName": { "type": "string" },
+        "telephone": { "type": "string" },
+        "afterHoursMobile": { "type": "string" },
+        "weekdayHours": { "type": "string" },
+        "weekendPublicHolidayHours": { "type": "string" },
+        "callOut": { "type": "string" }
+      }
+    },
+    "referenceNode": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "title": { "type": "string" },
+        "link": { "type": "string" },
+        "path": { "type": "string" }
+      }
+    },
+    "dynamicValue": {
+      "oneOf": [
+        { "$ref": "#/$defs/scalar" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/$defs/dynamicValue" }
+        },
+        { "$ref": "#/$defs/dynamicObject" }
+      ]
+    },
+    "dynamicObject": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/dynamicValue" }
+    },
+    "priceItem": {
+      "type": "object",
+      "required": ["tariffCode", "BHFCode", "description", "price"],
+      "additionalProperties": false,
+      "properties": {
+        "tariffCode": { "type": "string" },
+        "BHFCode": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "string" }
+      }
+    }
+  }
+}

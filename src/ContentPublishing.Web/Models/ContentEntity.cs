@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ContentPublishing.Web.Models
 {
@@ -15,6 +16,9 @@ namespace ContentPublishing.Web.Models
 
     public class ContentEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ContentNumber { get; set; }
+
         [Key]
         public Guid ContentId { get; set; }
 

@@ -46,8 +46,6 @@
                        href="@Url.Action("Index", "Home")">Home</a>
                           <a class="block rounded px-3 py-2 @(currentController == "Content" && currentAction == "Index" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
                               href="@Url.Content("~/Content/Index")">My Content</a>
-                    <a class="block rounded px-3 py-2 @(currentController == "Content" && currentAction == "Create" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
-                       href="@Url.Action("Create", "Content")">Create Content</a>
                     <a class="block rounded px-3 py-2 @(currentController == "Content" && currentAction == "Published" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
                        href="@Url.Action("Published", "Content")">Published</a>
 

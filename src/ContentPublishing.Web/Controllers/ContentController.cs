@@ -11,6 +11,7 @@ using ContentPublishing.Web.Services;
 using ContentPublishing.Web.Security;
 using ContentPublishing.Web.ViewModels;
 using Microsoft.AspNet.Identity;
+using System.Text.RegularExpressions;
 
 namespace ContentPublishing.Web.Controllers
 {
@@ -33,57 +34,50 @@ namespace ContentPublishing.Web.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var userId = User.Identity.GetUserId();
-
-            var contentItems = await _db.Contents
-                .Where(c => c.AuthorId == userId)
-                .OrderByDescending(c => c.LastModifiedDate)
+            var contentItems = (await _db.Contents
                 .Select(c => new ContentListItemViewModel
                 {
+                    ContentNumber = c.ContentNumber,
                     ContentId = c.ContentId,
                     Title = c.Title,
                     Status = c.Status,
                     LastModifiedDate = c.LastModifiedDate,
-                    ChapterCount = c.Chapters.Count(ch => !ch.IsDeleted)
+                    ChapterCount = c.Chapters.Count(ch => !ch.IsDeleted),
+                    PrimaryChapterId = c.Chapters
+                        .Where(ch => !ch.IsDeleted)
+                        .OrderBy(ch => ch.ChapterOrder)
+                        .Select(ch => (Guid?)ch.ChapterId)
+                        .FirstOrDefault()
                 })
-                .ToListAsync();
+                .ToListAsync())
+                .OrderBy(c => ExtractChapterNumber(c.Title))
+                .ThenBy(c => c.Title)
+                .ToList();
+
+            foreach (var item in contentItems)
+            {
+                var chapterNumber = ExtractChapterNumber(item.Title);
+                if (chapterNumber != int.MaxValue)
+                {
+                    item.ContentNumber = chapterNumber;
+                }
+            }
 
             return View(contentItems);
         }
 
         public ActionResult Create()
         {
-            return View(new ContentEditViewModel());
+            return Redirect("~/Content/Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public async Task<ActionResult> Create(ContentEditViewModel model)
+        public ActionResult Create(ContentEditViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var entity = new ContentEntity
-            {
-                ContentId = Guid.NewGuid(),
-                Title = model.Title,
-                Description = model.Description,
-                Status = ContentStatuses.Draft,
-                AuthorId = User.Identity.GetUserId(),
-                CreatedDate = DateTime.UtcNow,
-                LastModifiedDate = DateTime.UtcNow
-            };
-
-            _db.Contents.Add(entity);
-            SyncCombinedChaptersForDraft(entity, model.Title, model.Description, ensureChapter: false);
-            await _db.SaveChangesAsync();
-
-            await _versions.SaveSnapshotAsync(entity.ContentId, "CREATE_CONTENT", User.Identity.GetUserId(), "Initial draft created.");
-
-            return RedirectToAction("Details", new { id = entity.ContentId });
+            TempData["ErrorMessage"] = "Manual content creation is disabled. Select a handbook chapter and edit it.";
+            return Redirect("~/Content/Index");
         }
 
         public async Task<ActionResult> Edit(Guid id)
@@ -91,13 +85,25 @@ namespace ContentPublishing.Web.Controllers
             var content = await FindOwnedContentAsync(id);
             if (content == null)
             {
-                return HttpNotFound();
+                TempData["ErrorMessage"] = "Selected content was not found. Choose a handbook chapter from Edit Content.";
+                return Redirect("~/Content/Index");
             }
 
             if (!ContentWorkflowRules.CanEdit(content.Status))
             {
                 TempData["ErrorMessage"] = "Archived content cannot be edited.";
                 return RedirectToAction("Details", new { id });
+            }
+
+            var primaryChapter = content.Chapters
+                .Where(ch => !ch.IsDeleted)
+                .OrderBy(ch => ch.ChapterOrder)
+                .Select(ch => (Guid?)ch.ChapterId)
+                .FirstOrDefault();
+
+            if (primaryChapter.HasValue)
+            {
+                return RedirectToAction("Edit", "Chapter", new { id = primaryChapter.Value });
             }
 
             return View(new ContentEditViewModel
@@ -164,6 +170,7 @@ namespace ContentPublishing.Web.Controllers
                     .OrderBy(ch => ch.ChapterOrder)
                     .Select(ch => new ChapterListItemViewModel
                     {
+                        ChapterNumber = ch.ChapterNumber,
                         ChapterId = ch.ChapterId,
                         ContentId = ch.ContentId,
                         ChapterTitle = ch.ChapterTitle,
@@ -355,11 +362,10 @@ namespace ContentPublishing.Web.Controllers
 
         private async Task<ContentEntity> FindOwnedContentAsync(Guid id)
         {
-            var userId = User.Identity.GetUserId();
             return await _db.Contents
                 .Include(c => c.Chapters)
                 .Include(c => c.Images)
-                .SingleOrDefaultAsync(c => c.ContentId == id && c.AuthorId == userId);
+                .SingleOrDefaultAsync(c => c.ContentId == id);
         }
 
         private async Task PopulateReviewerSelectionAsync()
@@ -501,6 +507,22 @@ namespace ContentPublishing.Web.Controllers
                 .Where(id => !string.IsNullOrWhiteSpace(id))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
+        }
+
+        private static int ExtractChapterNumber(string title)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                return int.MaxValue;
+            }
+
+            var match = Regex.Match(title, "\\b(\\d+)\\b");
+            if (!match.Success)
+            {
+                return int.MaxValue;
+            }
+
+            return int.TryParse(match.Groups[1].Value, out var value) ? value : int.MaxValue;
         }
 
         protected override void Dispose(bool disposing)
