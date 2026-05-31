@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Web;
 using ContentPublishing.Web.Models;
 using Microsoft.AspNet.Identity;
 
@@ -21,16 +22,20 @@ namespace ContentPublishing.Web.Services
             _appBaseUrl = ConfigurationManager.AppSettings["appBaseUrl"] ?? "http://localhost:8080";
         }
 
-        public async Task NotifyContentSubmittedAsync(ContentEntity content, IEnumerable<string> reviewerIds)
+        public async Task NotifyContentSubmittedAsync(ContentEntity content, IEnumerable<string> reviewerIds, string changeNotes)
         {
             var reviewers = await LoadUsersAsync(reviewerIds);
+            var notesHtml = string.IsNullOrWhiteSpace(changeNotes)
+                ? "<p><strong>Author change notes:</strong> None provided.</p>"
+                : "<p><strong>Author change notes:</strong></p><p>" + HttpUtility.HtmlEncode(changeNotes).Replace("\n", "<br />") + "</p>";
+
             foreach (var reviewer in reviewers)
             {
                 await _emailService.SendAsync(new IdentityMessage
                 {
                     Destination = reviewer.Email,
                     Subject = "New content submitted for review",
-                    Body = $"<p>{content.Title} has been submitted for your review.</p><p><a href=\"{_appBaseUrl}/Review/ReviewContent?contentId={content.ContentId}\">Open review</a></p>"
+                    Body = $"<p>{content.Title} has been submitted for your review.</p>{notesHtml}<p><a href=\"{_appBaseUrl}/Review/ReviewContent?contentId={content.ContentId}\">Open review</a></p>"
                 });
             }
 

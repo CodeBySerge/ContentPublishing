@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "IIS Express: ContentPublishing.Web (x86)",
+      "type": "clr",
+      "request": "launch",
+      "preLaunchTask": "build-content-publishing-solution",
+      "program": "${env:ProgramFiles(x86)}\\IIS Express\\iisexpress.exe",
+      "args": [
+        "/path:${workspaceFolder}\\src\\ContentPublishing.Web",
+        "/port:8080"
+      ],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+    {
+      "name": "IIS Express: ContentPublishing.Web (x64)",
+      "type": "clr",
+      "request": "launch",
+      "preLaunchTask": "build-content-publishing-solution",
+      "program": "${env:ProgramFiles}\\IIS Express\\iisexpress.exe",
+      "args": [
+        "/path:${workspaceFolder}\\src\\ContentPublishing.Web",
+        "/port:8080"
+      ],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    }
+  ]
+}

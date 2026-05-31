@@ -28,6 +28,9 @@ namespace ContentPublishing.Web.Models
 
         public string Comments { get; set; }
 
+        [StringLength(2000)]
+        public string AuthorChangeNotes { get; set; }
+
         public DateTime SubmittedDate { get; set; } = DateTime.UtcNow;
 
         public DateTime? ReviewDate { get; set; }

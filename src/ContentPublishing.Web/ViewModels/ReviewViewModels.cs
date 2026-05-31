@@ -21,6 +21,8 @@ namespace ContentPublishing.Web.ViewModels
         public string Description { get; set; }
         public string ContentStatus { get; set; }
         public string ExistingComments { get; set; }
+        public string AuthorChangeNotes { get; set; }
+        public string HighlightedChangesHtml { get; set; }
         public IList<ChapterListItemViewModel> Chapters { get; set; }
     }
 

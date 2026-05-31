@@ -1,53 +1,64 @@
 @model IList<ContentPublishing.Web.ViewModels.PendingReviewListItemViewModel>
+@using System.Web
 @{
     ViewBag.Title = "Pending Reviews";
 }
 
-<section class="space-y-4">
-    <h2 class="text-2xl font-bold">Pending Reviews</h2>
+<section class="space-y-5">
+    <div class="app-card p-6">
+        <h2 class="text-2xl font-bold">Pending Reviews</h2>
+        <p class="mt-1 text-sm text-slate-600">Drafts assigned to you for review decision.</p>
+    </div>
 
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700">@TempData["ErrorMessage"]</div>
+        <div class="app-card border-red-200 bg-red-50 p-3 text-sm text-red-700" role="alert">@TempData["ErrorMessage"]</div>
     }
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="rounded border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
+        <div class="app-card border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700" role="status">
             @TempData["SuccessMessage"]</div>
         }
 
-        <div class="overflow-hidden rounded-lg bg-white shadow">
-            <table class="min-w-full text-sm">
-                <thead class="bg-slate-100 text-left text-slate-600">
-                    <tr>
-                        <th class="px-4 py-3">Title</th>
-                        <th class="px-4 py-3">Submitted</th>
-                        <th class="px-4 py-3">Chapters</th>
-                        <th class="px-4 py-3">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!Model.Any())
-                    {
-                        <tr>
-                            <td colspan="4" class="px-4 py-6 text-center text-slate-500">No pending reviews.</td>
-                        </tr>
-                    }
-                    else
-                    {
-                        foreach (var item in Model)
-                        {
-                            <tr class="border-t border-slate-100">
-                                <td class="px-4 py-3 font-medium">@Html.Raw(item.Title)</td>
-                                <td class="px-4 py-3">@item.SubmittedDate.ToString("u")</td>
-                                <td class="px-4 py-3">@item.ChapterCount</td>
-                                <td class="px-4 py-3"><a class="underline"
-                                                         href="@Url.Action("ReviewContent", "Review", new { contentId = item.ContentId })">Open
-                                    Review</a></td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
+        @if (!Model.Any())
+        {
+            <div class="app-card p-6 text-center text-slate-500">No pending reviews.</div>
+        }
+        else
+        {
+            <div class="grid gap-4 md:grid-cols-2">
+                @foreach (var item in Model)
+                {
+                    <article class="app-card p-5" aria-label="Pending review for @item.Title">
+                        <div class="flex items-start justify-between gap-3">
+                            <h3 class="text-lg font-semibold text-slate-900">@Html.Raw(item.Title)</h3>
+                            <span class="rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-700">Pending</span>
+                        </div>
+                        <p class="mt-2 text-sm text-slate-600">Submitted @item.SubmittedDate.ToString("u")</p>
+                        <p class="mt-1 text-sm text-slate-500">@item.ChapterCount chapter(s) included</p>
+
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-xs text-slate-500">Open to see author notes and highlighted changes</span>
+                            <a class="app-btn-primary rounded-lg px-3 py-2 text-sm font-semibold text-white"
+                               href="@Url.Action("ReviewContent", "Review", new { contentId = item.ContentId })">Review</a>
+                        </div>
+                    </article>
+                }
             </div>
-        </section>
+        }
+    </section>
+
+    @section scripts {
+        <script>
+            $(function () {
+                @if (TempData["SuccessMessage"] != null)
+                    {
+                        <text>window.appToast("success", "@HttpUtility.JavaScriptStringEncode((string)TempData["SuccessMessage"])");</text>
+                }
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <text>window.appToast("error", "@HttpUtility.JavaScriptStringEncode((string)TempData["ErrorMessage"])");</text>
+                }
+                });
+        </script>
+    }

@@ -1,62 +1,137 @@
 @model ContentPublishing.Web.ViewModels.ReviewContentViewModel
+@using System.Web
 @{
     ViewBag.Title = "Review Content";
 }
 
 <section class="space-y-4">
-    <div class="rounded-lg bg-white p-6 shadow">
+    <div class="app-card p-6">
         <h2 class="text-2xl font-bold">@Html.Raw(Model.Title)</h2>
         <p class="mt-1 text-sm text-slate-500">Content Status: @Model.ContentStatus</p>
         <div class="prose mt-4 max-w-none text-slate-700">@Html.Raw(Model.Description)</div>
     </div>
 
-    <div class="rounded-lg bg-white p-6 shadow">
-        <h3 class="mb-2 text-xl font-semibold">Chapters</h3>
-        <ul class="space-y-2">
-            @foreach (var ch in Model.Chapters)
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="app-card border-red-200 bg-red-50 p-3 text-sm text-red-700" role="alert">@TempData["ErrorMessage"]</div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="app-card border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700" role="status">
+            @TempData["SuccessMessage"]</div>
+        }
+
+        <div class="app-card p-6">
+            <h3 class="mb-2 text-xl font-semibold">Author Change Notes</h3>
+            @if (string.IsNullOrWhiteSpace(Model.AuthorChangeNotes))
             {
-                <li class="rounded border border-slate-200 p-3">
-                    <p class="font-semibold">@ch.ChapterOrder. @ch.ChapterTitle</p>
-                </li>
+                <p class="text-slate-500">No author notes were provided for this submission.</p>
             }
-        </ul>
-    </div>
+            else
+            {
+                <div class="prose max-w-none text-slate-700">@Html.Raw(Model.AuthorChangeNotes)</div>
+            }
+        </div>
 
-    <div class="rounded-lg bg-white p-6 shadow">
-        <h3 class="mb-4 text-xl font-semibold">Decision</h3>
+        <div class="app-card p-6">
+            <h3 class="mb-2 text-xl font-semibold">Highlighted Changes</h3>
+            @Html.Raw(Model.HighlightedChangesHtml)
+        </div>
 
-        <div class="grid gap-4 md:grid-cols-2">
+        <div class="app-card p-6">
+            <h3 class="mb-2 text-xl font-semibold">Chapters</h3>
+            <ul class="space-y-2">
+                @foreach (var ch in Model.Chapters)
+                {
+                    <li class="rounded border border-slate-200 p-3">
+                        <p class="font-semibold">@ch.ChapterOrder. @ch.ChapterTitle</p>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="app-card p-6">
+            <h3 class="mb-4 text-xl font-semibold">Decision</h3>
+
             @using (Html.BeginForm("Approve", "Review", FormMethod.Post, new { id = "approveForm", @class = "space-y-3" }))
             {
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="ContentId" value="@Model.ContentId" />
                 <input type="hidden" name="ReviewId" value="@Model.ReviewId" />
-                <label class="block text-sm font-medium">Approval comments</label>
-                <textarea name="Comments" class="w-full rounded border border-slate-300 px-3 py-2" rows="5"></textarea>
-                <button type="submit" class="rounded bg-emerald-700 px-4 py-2 text-white">Approve</button>
-            }
+                <label class="block text-sm font-medium" for="approveComments">Approval comments (optional)</label>
+                <textarea id="approveComments" name="Comments"
+                          class="app-form-field w-full rounded-lg border border-slate-300 px-3 py-2" rows="4"
+                          aria-label="Approval comments"></textarea>
+                <div class="flex flex-wrap gap-3">
+                    <button type="submit" class="app-btn-accent rounded-lg px-4 py-2 text-sm font-semibold text-white">Approve
+                        Draft</button>
+                        <button type="button" id="openRejectModal"
+                                class="rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-50">Reject
+                            Draft</button>
+                        </div>
+                    }
 
-            @using (Html.BeginForm("Reject", "Review", FormMethod.Post, new { id = "rejectForm", @class = "space-y-3" }))
-            {
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="ContentId" value="@Model.ContentId" />
-                <input type="hidden" name="ReviewId" value="@Model.ReviewId" />
-                <label class="block text-sm font-medium">Rejection comments</label>
-                <textarea id="rejectComments" name="Comments" class="w-full rounded border border-slate-300 px-3 py-2"
-                          rows="5" required></textarea>
-                <button type="submit" class="rounded bg-red-700 px-4 py-2 text-white">Reject</button>
-            }
-        </div>
-    </div>
-</section>
+                    <div id="rejectModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 p-4"
+                         role="dialog" aria-modal="true" aria-labelledby="rejectModalTitle">
+                        <div class="app-card w-full max-w-lg p-5">
+                            <h4 id="rejectModalTitle" class="text-lg font-semibold">Reject Draft</h4>
+                            <p class="mt-1 text-sm text-slate-600">Provide rejection notes so the author can revise effectively.</p>
 
-@section scripts {
-    <script>
-        $(function () {
-            $("#rejectForm").validate({
-                rules: { Comments: { required: true, minlength: 5 } },
-                messages: { Comments: "Rejection comments are required (minimum 5 chars)." }
-            });
-        });
-    </script>
-}
+                            @using (Html.BeginForm("Reject", "Review", FormMethod.Post, new { id = "rejectForm", @class = "mt-4 space-y-3" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="ContentId" value="@Model.ContentId" />
+                                <input type="hidden" name="ReviewId" value="@Model.ReviewId" />
+                                <label class="block text-sm font-medium" for="rejectComments">Rejection notes</label>
+                                <textarea id="rejectComments" name="Comments"
+                                          class="app-form-field w-full rounded-lg border border-slate-300 px-3 py-2" rows="5" required
+                                          aria-required="true"></textarea>
+                                <div class="flex justify-end gap-2">
+                                    <button type="button" id="cancelRejectModal"
+                                            class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700">Cancel</button>
+                                    <button type="submit"
+                                            class="rounded-lg bg-red-700 px-4 py-2 text-sm font-semibold text-white">Confirm
+                                        Rejection</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                @section scripts {
+                    <script>
+                        $(function () {
+                            var $rejectModal = $("#rejectModal");
+
+                            $("#openRejectModal").on("click", function () {
+                                $rejectModal.removeClass("hidden").addClass("flex");
+                                $("#rejectComments").trigger("focus");
+                            });
+
+                            $("#cancelRejectModal").on("click", function () {
+                                $rejectModal.addClass("hidden").removeClass("flex");
+                            });
+
+                            $rejectModal.on("click", function (e) {
+                                if (e.target === this) {
+                                    $rejectModal.addClass("hidden").removeClass("flex");
+                                }
+                            });
+
+                            $("#rejectForm").validate({
+                                rules: { Comments: { required: true, minlength: 5 } },
+                                messages: { Comments: "Rejection comments are required (minimum 5 chars)." }
+                            });
+
+                            @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <text>window.appToast("success", "@HttpUtility.JavaScriptStringEncode((string)TempData["SuccessMessage"])");</text>
+                            }
+                                @if (TempData["ErrorMessage"] != null)
+                                {
+                                    <text>window.appToast("error", "@HttpUtility.JavaScriptStringEncode((string)TempData["ErrorMessage"])");</text>
+                            }
+                            });
+                    </script>
+                }

@@ -18,6 +18,12 @@
         </div>
 
         <div>
+            @Html.LabelFor(m => m.Description, new { @class = "mb-1 block text-sm font-medium" })
+            @Html.TextAreaFor(m => m.Description, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", rows = "3", placeholder = "Short identifier or responsibility (for example: Grade 7 Science Author)." })
+            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-xs text-red-600" })
+        </div>
+
+        <div>
             @Html.LabelFor(m => m.Email, new { @class = "mb-1 block text-sm font-medium" })
             @Html.TextBoxFor(m => m.Email, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2" })
             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-xs text-red-600" })

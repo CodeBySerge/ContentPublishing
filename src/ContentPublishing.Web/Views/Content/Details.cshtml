@@ -1,13 +1,14 @@
 @model ContentPublishing.Web.ViewModels.ContentDetailsViewModel
 @using System.Collections.Generic
 @using System.Web.Mvc
+@using System.Web
 @{
     ViewBag.Title = "Content Details";
     var reviewerOptions = ViewBag.ReviewerOptions as IList<SelectListItem> ?? new List<SelectListItem>();
 }
 
 <section class="space-y-4">
-    <div class="rounded-lg bg-white p-6 shadow">
+    <div class="app-card p-6">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
                 <h2 class="text-2xl font-bold">@Html.Raw(Model.Title)</h2>
@@ -29,12 +30,13 @@
 
         @if (TempData["ErrorMessage"] != null)
         {
-            <div class="mt-4 rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700">@TempData["ErrorMessage"]
+            <div class="mt-4 rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700" role="alert">
+                @TempData["ErrorMessage"]
             </div>
         }
         @if (TempData["SuccessMessage"] != null)
         {
-            <div class="mt-4 rounded border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
+            <div class="mt-4 rounded border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700" role="status">
                 @TempData["SuccessMessage"]</div>
             }
 
@@ -44,108 +46,157 @@
                 <input type="hidden" name="id" value="@Model.ContentId" />
                 <input type="hidden" id="reviewerIds" name="reviewerIds" value="" />
 
-                <div class="mb-3">
-                    <label class="mb-1 block text-sm font-medium">Assign Reviewers (optional)</label>
-                    <select id="reviewerSelect" class="w-full rounded border border-slate-300 px-3 py-2" multiple size="5">
+                <div class="mb-4">
+                    <label class="mb-1 block text-sm font-medium" for="reviewerSelect">Assign Reviewer(s)</label>
+                    <select id="reviewerSelect" class="w-full" multiple>
                         @foreach (var option in reviewerOptions)
                         {
                             <option value="@option.Value">@option.Text</option>
                         }
                     </select>
-                    <p class="mt-1 text-xs text-slate-500">Choose one or more reviewers, or leave empty for admin assignment.
+                    <p class="mt-1 text-xs text-slate-500">Choose at least one reviewer before submitting. Plain text entry is
+                        not allowed.
                     </p>
                 </div>
 
-                <button type="submit" class="rounded bg-indigo-700 px-4 py-2 text-white">Submit For Review</button>
-            }
-        </div>
-
-        <div class="rounded-lg bg-white p-6 shadow">
-            <div class="mb-3 flex items-center justify-between">
-                <h3 class="text-xl font-semibold">Chapters</h3>
-                <button id="applyOrder" type="button" class="rounded border border-slate-300 px-3 py-2 text-sm">Apply
-                    Order</button>
+                <div class="mb-4">
+                    <label class="mb-1 block text-sm font-medium" for="changeNotesEditor">Change Notes For Reviewer</label>
+                    <textarea id="changeNotesEditor" name="changeNotes" class="w-full rounded border border-slate-300 px-3 py-2"
+                              rows="4" placeholder="Describe what changed and what the reviewer should focus on."
+                              aria-label="Change notes editor"></textarea>
                 </div>
 
-                <div id="chapterList" class="space-y-2">
-                    @if (!Model.Chapters.Any())
-                    {
-                        <div class="rounded border border-dashed border-slate-300 p-4 text-sm text-slate-500">No chapters added yet.
-                        </div>
-                    }
-                    else
-                    {
-                        foreach (var chapter in Model.Chapters)
-                        {
-                            <div class="chapter-row flex items-center justify-between rounded border border-slate-200 p-3"
-                                 data-id="@chapter.ChapterId">
-                                <div>
-                                    <p class="font-medium">Chapter ID @chapter.ChapterNumber: @chapter.ChapterTitle</p>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <button type="button" class="move-up rounded border border-slate-300 px-2 py-1 text-xs">Up</button>
-                                    <button type="button"
-                                            class="move-down rounded border border-slate-300 px-2 py-1 text-xs">Down</button>
-                                    <a href="@Url.Action("Edit", "Chapter", new { id = chapter.ChapterId })"
-                                       class="rounded border border-slate-300 px-2 py-1 text-xs">Open Chapter</a>
-                                    @using (Html.BeginForm("Delete", "Chapter", FormMethod.Post, new { @class = "inline" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="id" value="@chapter.ChapterId" />
-                                        <button type="submit"
-                                                class="rounded border border-red-300 px-2 py-1 text-xs text-red-700">Delete</button>
-                                    }
-                                </div>
-                            </div>
-                        }
-                    }
-                </div>
-
-                @using (Html.BeginForm("Reorder", "Chapter", FormMethod.Post, new { id = "reorderForm", @class = "hidden" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="ContentId" value="@Model.ContentId" />
-                    <input type="hidden" id="OrderedChapterIds" name="OrderedChapterIds" value="" />
+                <button type="submit" class="app-btn-primary rounded-lg px-4 py-2 font-semibold text-white">Submit For
+                    Review</button>
                 }
             </div>
-        </section>
 
-        @section scripts {
-            <script>
-                $(function () {
-                    $("#submitForm").on("submit", function (e) {
-                        if ($("#chapterList .chapter-row").length < 1) {
-                            e.preventDefault();
-                            alert("At least one chapter is required before submission.");
-                            return;
+            <div class="app-card p-6">
+                <div class="mb-3 flex items-center justify-between">
+                    <h3 class="text-xl font-semibold">Chapters</h3>
+                    <button id="applyOrder" type="button" class="rounded border border-slate-300 px-3 py-2 text-sm">Apply
+                        Order</button>
+                    </div>
+
+                    <div id="chapterList" class="space-y-2">
+                        @if (!Model.Chapters.Any())
+                        {
+                            <div class="rounded border border-dashed border-slate-300 p-4 text-sm text-slate-500">No chapters added yet.
+                            </div>
                         }
+                        else
+                        {
+                            foreach (var chapter in Model.Chapters)
+                            {
+                                <div class="chapter-row flex items-center justify-between rounded border border-slate-200 p-3"
+                                     data-id="@chapter.ChapterId">
+                                    <div>
+                                        <p class="font-medium">Chapter ID @chapter.ChapterNumber: @chapter.ChapterTitle</p>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <button type="button" class="move-up rounded border border-slate-300 px-2 py-1 text-xs">Up</button>
+                                        <button type="button"
+                                                class="move-down rounded border border-slate-300 px-2 py-1 text-xs">Down</button>
+                                        <a href="@Url.Action("Edit", "Chapter", new { id = chapter.ChapterId })"
+                                           class="rounded border border-slate-300 px-2 py-1 text-xs">Open Chapter</a>
+                                        @using (Html.BeginForm("Delete", "Chapter", FormMethod.Post, new { @class = "inline" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@chapter.ChapterId" />
+                                            <button type="submit"
+                                                    class="rounded border border-red-300 px-2 py-1 text-xs text-red-700">Delete</button>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
 
-                        var selectedReviewerIds = $("#reviewerSelect").val() || [];
-                        $("#reviewerIds").val(selectedReviewerIds.join(","));
+                    @using (Html.BeginForm("Reorder", "Chapter", FormMethod.Post, new { id = "reorderForm", @class = "hidden" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ContentId" value="@Model.ContentId" />
+                        <input type="hidden" id="OrderedChapterIds" name="OrderedChapterIds" value="" />
+                    }
+                </div>
+            </section>
+
+            @section scripts {
+                <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                <script src="https://cdn.tiny.cloud/1/zr0s1ze2y3f4ufpcb1gn892mftbi3j04oxcc3ii21s0pgaoe/tinymce/6/tinymce.min.js"
+                        referrerpolicy="origin"></script>
+                <script>
+                    $(function () {
+                    $("#reviewerSelect").select2({
+                    width: "100%",
+                    placeholder: "Select reviewer(s)",
+                    closeOnSelect: false
+                    });
+
+                    tinymce.init({
+                    selector: "#changeNotesEditor",
+                    menubar: false,
+                    plugins: "lists link code",
+                    toolbar: "undo redo | bold italic underline | bullist numlist | link | code",
+                    height: 220,
+                    branding: false,
+                    promotion: false,
+                    content_style: "body { font-family: 'Open Sans', sans-serif; font-size: 14px; }"
+                    });
+
+                    $("#submitForm").on("submit", function (e) {
+                    tinymce.triggerSave();
+
+                    if ($("#chapterList .chapter-row").length < 1) {
+                    e.preventDefault();
+                    window.appToast("error", "At least one chapter is required before submission.");
+                    return;
+                    }
+
+                    var selectedReviewerIds = $("#reviewerSelect").val() || [];
+                    if (selectedReviewerIds.length < 1) {
+                    e.preventDefault();
+                    window.appToast("error", "Please select at least one reviewer before submitting.");
+                    return;
+                    }
+
+                    $("#reviewerIds").val(selectedReviewerIds.join(","));
                     });
 
                     $(document).on("click", ".move-up", function () {
-                        var row = $(this).closest(".chapter-row");
-                        row.prev(".chapter-row").before(row);
+                    var row = $(this).closest(".chapter-row");
+                    row.prev(".chapter-row").before(row);
                     });
 
                     $(document).on("click", ".move-down", function () {
-                        var row = $(this).closest(".chapter-row");
-                        row.next(".chapter-row").after(row);
+                    var row = $(this).closest(".chapter-row");
+                    row.next(".chapter-row").after(row);
                     });
 
                     $("#applyOrder").on("click", function () {
-                        var ids = [];
-                        $("#chapterList .chapter-row").each(function () {
-                            ids.push($(this).data("id"));
-                        });
-                        if (ids.length < 1) {
-                            alert("No chapters available to reorder.");
-                            return;
-                        }
-                        $("#OrderedChapterIds").val(ids.join(","));
-                        $("#reorderForm").submit();
+                    var ids = [];
+                    $("#chapterList .chapter-row").each(function () {
+                    ids.push($(this).data("id"));
                     });
-                });
-            </script>
-        }
+
+                    if (ids.length < 1) {
+                    window.appToast("info", "No chapters available to reorder.");
+                    return;
+                    }
+
+                    $("#OrderedChapterIds").val(ids.join(","));
+                    $("#reorderForm").submit();
+                    });
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <text>window.appToast("success", "@HttpUtility.JavaScriptStringEncode((string)TempData["SuccessMessage"])");</text>
+                    }
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <text>window.appToast("error", "@HttpUtility.JavaScriptStringEncode((string)TempData["ErrorMessage"])");</text>
+                    }
+                    });
+                </script>
+            }

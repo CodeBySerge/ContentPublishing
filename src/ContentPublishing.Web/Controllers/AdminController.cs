@@ -51,14 +51,17 @@ namespace ContentPublishing.Web.Controllers
         public async Task<ActionResult> Users()
         {
             var roles = await _db.Roles.ToDictionaryAsync(r => r.Id, r => r.Name);
+            var roleDescriptions = RoleDescriptions();
             var users = await _db.Users
                 .OrderBy(u => u.FullName)
                 .Select(u => new UserListItemViewModel
                 {
                     UserId = u.Id,
                     FullName = u.FullName,
+                    Description = u.Description,
                     Email = u.Email,
                     IsActive = u.IsActive,
+                    AssignedRoleName = u.RoleId,
                     Roles = u.Roles.Select(r => r.RoleId).ToList()
                 })
                 .ToListAsync();
@@ -66,6 +69,24 @@ namespace ContentPublishing.Web.Controllers
             foreach (var user in users)
             {
                 user.Roles = user.Roles.Select(roleId => roles.ContainsKey(roleId) ? roles[roleId] : "Unknown").ToList();
+                if (!string.IsNullOrWhiteSpace(user.AssignedRoleName) && roles.ContainsKey(user.AssignedRoleName))
+                {
+                    user.AssignedRoleName = roles[user.AssignedRoleName];
+                }
+                else
+                {
+                    user.AssignedRoleName = null;
+                }
+
+                if (string.IsNullOrWhiteSpace(user.AssignedRoleName))
+                {
+                    user.AssignedRoleName = user.Roles.FirstOrDefault();
+                }
+
+                if (!string.IsNullOrWhiteSpace(user.AssignedRoleName) && roleDescriptions.ContainsKey(user.AssignedRoleName))
+                {
+                    user.AssignedRoleDescription = roleDescriptions[user.AssignedRoleName];
+                }
             }
 
             return View(users);
@@ -91,15 +112,55 @@ namespace ContentPublishing.Web.Controllers
                 return RedirectToAction("Users");
             }
 
+            if (roleName != RoleNames.Author && roleName != RoleNames.Reviewer && roleName != RoleNames.Administrator)
+            {
+                TempData["ErrorMessage"] = "Unsupported role selection.";
+                return RedirectToAction("Users");
+            }
+
             var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var existingRoles = await userManager.GetRolesAsync(userId);
-            foreach (var existing in existingRoles)
+
+            var rolesToRemove = existingRoles
+                .Where(existing => existing == RoleNames.Author || existing == RoleNames.Reviewer || existing == RoleNames.Administrator)
+                .Where(existing => roleName == RoleNames.Author || existing != RoleNames.Administrator && existing != RoleNames.Reviewer)
+                .ToList();
+
+            foreach (var existing in rolesToRemove)
             {
                 await userManager.RemoveFromRoleAsync(userId, existing);
             }
 
-            await userManager.AddToRoleAsync(userId, roleName);
+            if (!existingRoles.Contains(roleName))
+            {
+                var addResult = await userManager.AddToRoleAsync(userId, roleName);
+                if (!addResult.Succeeded)
+                {
+                    TempData["ErrorMessage"] = "Unable to assign selected role: " + string.Join("; ", addResult.Errors);
+                    return RedirectToAction("Users");
+                }
+            }
+
+            var user = await _db.Users.SingleOrDefaultAsync(u => u.Id == userId);
+            if (user != null)
+            {
+                user.RoleId = role.Id;
+                user.LastModifiedDate = DateTime.UtcNow;
+                await _db.SaveChangesAsync();
+            }
+
+            await _db.Database.ExecuteSqlCommandAsync(
+                @"UPDATE ur
+SET ur.[Description] = COALESCE(r.[Description], r.[Name])
+FROM [dbo].[AspNetUserRoles] ur
+INNER JOIN [dbo].[AspNetRoles] r ON r.[Id] = ur.[RoleId]
+WHERE ur.[UserId] = @p0 AND ur.[RoleId] = @p1;",
+                userId,
+                role.Id);
+
             await _audit.LogAsync(User.Identity.GetUserId(), AuditActions.Update, "User", Guid.Empty, string.Join(",", existingRoles), roleName, Request.UserHostAddress, "Admin changed user role.");
+
+            TempData["SuccessMessage"] = "Role updated successfully.";
 
             return RedirectToAction("Users");
         }
@@ -278,6 +339,16 @@ namespace ContentPublishing.Web.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        private static System.Collections.Generic.Dictionary<string, string> RoleDescriptions()
+        {
+            return new System.Collections.Generic.Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                { RoleNames.Author, "Creates and submits draft content for review." },
+                { RoleNames.Reviewer, "Reviews author submissions and approves or rejects with notes." },
+                { RoleNames.Administrator, "Manages users, role assignments, and publication workflow." }
+            };
         }
     }
 }

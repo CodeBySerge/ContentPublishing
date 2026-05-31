@@ -1,6 +1,7 @@
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -15,6 +16,10 @@ namespace ContentPublishing.Web.Models
         }
 
         public string FullName { get; set; }
+        [StringLength(500)]
+        public string Description { get; set; }
+        [StringLength(128)]
+        public string RoleId { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime LastModifiedDate { get; set; } = DateTime.UtcNow;

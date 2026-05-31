@@ -1,6 +1,7 @@
 @model ContentPublishing.Web.Models.ApplicationUser
 @{
     ViewBag.Title = "Profile";
+    var roleDisplay = (ViewBag.RoleDisplay as string) ?? "Unassigned";
 }
 
 <section class="mx-auto max-w-2xl rounded-lg bg-white p-6 shadow">
@@ -13,6 +14,15 @@
         <div>
             <dt class="text-sm text-slate-500">Email</dt>
             <dd class="font-medium">@Model.Email</dd>
+        </div>
+        <div>
+            <dt class="text-sm text-slate-500">Description</dt>
+            <dd class="font-medium">@(string.IsNullOrWhiteSpace(Model.Description) ? "Not provided" : Model.Description)
+            </dd>
+        </div>
+        <div>
+            <dt class="text-sm text-slate-500">Assigned Role</dt>
+            <dd class="font-medium">@roleDisplay</dd>
         </div>
         <div>
             <dt class="text-sm text-slate-500">Created</dt>

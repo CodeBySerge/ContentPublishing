@@ -17,10 +17,12 @@ namespace ContentPublishing.Web.Controllers
     {
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
         private readonly ContentVersionService _versions;
+        private readonly WorkflowNotificationService _notifications;
 
         public ChapterController()
         {
             _versions = new ContentVersionService(_db);
+            _notifications = new WorkflowNotificationService(_db, new SmtpEmailService());
         }
 
         public async Task<ActionResult> Create(Guid contentId)
@@ -103,6 +105,13 @@ namespace ContentPublishing.Web.Controllers
                 return RedirectToAction("Details", "Content", new { id = chapter.ContentId });
             }
 
+            var selectedReviewerIds = await _db.ContentReviewerAssignments
+                .Where(a => a.ContentId == chapter.ContentId && a.IsActive)
+                .Select(a => a.ReviewerId)
+                .ToListAsync();
+
+            await PopulateReviewerSelectionAsync(selectedReviewerIds);
+
             return View(new ChapterEditViewModel
             {
                 ChapterNumber = chapter.ChapterNumber,
@@ -110,7 +119,8 @@ namespace ContentPublishing.Web.Controllers
                 ChapterId = chapter.ChapterId,
                 ContentId = chapter.ContentId,
                 ChapterTitle = chapter.ChapterTitle,
-                ChapterBody = chapter.ChapterBody
+                ChapterBody = chapter.ChapterBody,
+                ReviewerIds = string.Join(",", selectedReviewerIds)
             });
         }
 
@@ -121,6 +131,7 @@ namespace ContentPublishing.Web.Controllers
         {
             if (!ModelState.IsValid || !model.ChapterId.HasValue)
             {
+                await PopulateReviewerSelectionAsync(ParseReviewerIds(model.ReviewerIds));
                 return View(model);
             }
 
@@ -136,17 +147,94 @@ namespace ContentPublishing.Web.Controllers
                 return RedirectToAction("Details", "Content", new { id = chapter.ContentId });
             }
 
+            var requestedReviewerIds = ParseReviewerIds(model.ReviewerIds);
+            if (!requestedReviewerIds.Any())
+            {
+                ModelState.AddModelError("ReviewerIds", "Select at least one reviewer before saving the draft.");
+                await PopulateReviewerSelectionAsync(requestedReviewerIds);
+                return View(model);
+            }
+
+            var eligibleReviewerIds = await GetEligibleReviewerIdsAsync(requestedReviewerIds);
+            if (eligibleReviewerIds.Count != requestedReviewerIds.Count)
+            {
+                ModelState.AddModelError("ReviewerIds", "Invalid reviewer selection. Use the dropdown and choose active Admin or Reviewer accounts.");
+                await PopulateReviewerSelectionAsync(requestedReviewerIds);
+                return View(model);
+            }
+
+            var safeChangeNotes = HtmlContentSanitizer.StripScripts(model.ChangeNotes);
+
             chapter.ChapterTitle = HtmlContentSanitizer.StripScripts(model.ChapterTitle);
             chapter.ChapterBody = HtmlContentSanitizer.StripScripts(model.ChapterBody);
             chapter.LastModifiedDate = DateTime.UtcNow;
             chapter.Content.LastModifiedDate = DateTime.UtcNow;
-            chapter.Content.Status = ContentStatuses.Draft;
+            chapter.Content.Status = ContentStatuses.UnderReview;
             chapter.Content.PublishedDate = null;
             chapter.Content.ScheduledPublishDate = null;
-            await _db.SaveChangesAsync();
-            await _versions.SaveSnapshotAsync(chapter.ContentId, "EDIT_CHAPTER", User.Identity.GetUserId(), "Chapter updated.");
 
-            TempData["SuccessMessage"] = "Chapter saved as draft. Submit for approval when ready.";
+            var existingAssignments = await _db.ContentReviewerAssignments
+                .Where(a => a.ContentId == chapter.ContentId)
+                .ToListAsync();
+
+            foreach (var assignment in existingAssignments)
+            {
+                assignment.IsActive = eligibleReviewerIds.Contains(assignment.ReviewerId, StringComparer.OrdinalIgnoreCase);
+            }
+
+            foreach (var reviewerId in eligibleReviewerIds)
+            {
+                var assignment = existingAssignments.FirstOrDefault(a => a.ReviewerId == reviewerId);
+                if (assignment == null)
+                {
+                    _db.ContentReviewerAssignments.Add(new ContentReviewerAssignmentEntity
+                    {
+                        AssignmentId = Guid.NewGuid(),
+                        ContentId = chapter.ContentId,
+                        ReviewerId = reviewerId,
+                        AssignedByUserId = User.Identity.GetUserId(),
+                        AssignedDate = DateTime.UtcNow,
+                        IsActive = true
+                    });
+                }
+                else
+                {
+                    assignment.IsActive = true;
+                    assignment.AssignedByUserId = User.Identity.GetUserId();
+                    assignment.AssignedDate = DateTime.UtcNow;
+                }
+
+                var hasPending = await _db.Reviews.AnyAsync(r => r.ContentId == chapter.ContentId && r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending);
+                if (!hasPending)
+                {
+                    _db.Reviews.Add(new ReviewEntity
+                    {
+                        ReviewId = Guid.NewGuid(),
+                        ContentId = chapter.ContentId,
+                        ReviewerId = reviewerId,
+                        Status = ReviewStatuses.Pending,
+                        SubmittedDate = DateTime.UtcNow,
+                        AuthorChangeNotes = safeChangeNotes
+                    });
+                }
+            }
+
+            await _db.SaveChangesAsync();
+            await _versions.SaveSnapshotAsync(chapter.ContentId, "EDIT_CHAPTER", User.Identity.GetUserId(), string.IsNullOrWhiteSpace(safeChangeNotes) ? "Chapter updated and submitted for review." : "Chapter updated with notes: " + safeChangeNotes);
+            var emailSkipped = false;
+            try
+            {
+                await _notifications.NotifyContentSubmittedAsync(chapter.Content, eligibleReviewerIds, safeChangeNotes);
+            }
+            catch
+            {
+                // Email is optional in this flow; assignments and review records are already persisted.
+                emailSkipped = true;
+            }
+
+            TempData["SuccessMessage"] = emailSkipped
+                ? "Draft saved and routed to selected reviewers. Email notification was skipped."
+                : "Draft saved and routed to selected reviewers.";
             return RedirectToAction("Details", "Content", new { id = chapter.ContentId });
         }
 
@@ -245,6 +333,70 @@ namespace ContentPublishing.Web.Controllers
             return await _db.Chapters
                 .Include(ch => ch.Content)
                 .SingleOrDefaultAsync(ch => ch.ChapterId == chapterId);
+        }
+
+        private async Task PopulateReviewerSelectionAsync(IEnumerable<string> selectedReviewerIds)
+        {
+            var selected = (selectedReviewerIds ?? Enumerable.Empty<string>())
+                .Where(id => !string.IsNullOrWhiteSpace(id))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            var eligibleUsers = await GetEligibleReviewerQuery()
+                .OrderBy(u => u.FullName)
+                .ToListAsync();
+
+            ViewBag.ReviewerOptions = eligibleUsers
+                .Select(u => new SelectListItem
+                {
+                    Value = u.Id,
+                    Text = string.IsNullOrWhiteSpace(u.FullName) ? u.Email : u.FullName + " (" + u.Email + ")",
+                    Selected = selected.Contains(u.Id, StringComparer.OrdinalIgnoreCase)
+                })
+                .ToList();
+        }
+
+        private IQueryable<ApplicationUser> GetEligibleReviewerQuery()
+        {
+            var eligibleRoleIds = _db.Roles
+                .Where(r => r.Name == RoleNames.Reviewer || r.Name == RoleNames.Administrator)
+                .Select(r => r.Id);
+
+            return _db.Users
+                .Where(u => eligibleRoleIds.Contains(u.RoleId) || u.Roles.Any(ur => eligibleRoleIds.Contains(ur.RoleId)));
+        }
+
+        private async Task<List<string>> GetEligibleReviewerIdsAsync(IEnumerable<string> requestedReviewerIds)
+        {
+            var requested = requestedReviewerIds
+                .Where(id => !string.IsNullOrWhiteSpace(id))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            if (!requested.Any())
+            {
+                return new List<string>();
+            }
+
+            return await GetEligibleReviewerQuery()
+                .Where(u => requested.Contains(u.Id))
+                .Select(u => u.Id)
+                .ToListAsync();
+        }
+
+        private static List<string> ParseReviewerIds(string reviewerIds)
+        {
+            if (string.IsNullOrWhiteSpace(reviewerIds))
+            {
+                return new List<string>();
+            }
+
+            return reviewerIds
+                .Split(',')
+                .Select(id => id.Trim())
+                .Where(id => !string.IsNullOrWhiteSpace(id))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
         }
 
         protected override void Dispose(bool disposing)

@@ -9,6 +9,10 @@ namespace ContentPublishing.Web.Models
         [StringLength(200)]
         public string FullName { get; set; }
 
+        [Display(Name = "Description")]
+        [StringLength(500)]
+        public string Description { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

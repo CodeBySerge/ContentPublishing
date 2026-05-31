@@ -9,6 +9,10 @@ using ContentPublishing.Web.Services;
 using ContentPublishing.Web.Security;
 using ContentPublishing.Web.ViewModels;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
 
 namespace ContentPublishing.Web.Controllers
 {
@@ -70,6 +74,8 @@ namespace ContentPublishing.Web.Controllers
                 Description = review.Content.Description,
                 ContentStatus = review.Content.Status,
                 ExistingComments = review.Comments,
+                AuthorChangeNotes = review.AuthorChangeNotes,
+                HighlightedChangesHtml = await BuildHighlightedChangesHtmlAsync(review.ContentId),
                 Chapters = review.Content.Chapters
                     .Where(ch => !ch.IsDeleted)
                     .OrderBy(ch => ch.ChapterOrder)
@@ -162,6 +168,12 @@ namespace ContentPublishing.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Reject(ReviewDecisionViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.Comments))
+            {
+                TempData["ErrorMessage"] = "Rejection note is required.";
+                return RedirectToAction("ReviewContent", new { contentId = model.ContentId });
+            }
+
             var reviewerId = User.Identity.GetUserId();
             var review = await _db.Reviews
                 .Include(r => r.Content)
@@ -205,6 +217,114 @@ namespace ContentPublishing.Web.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        private async Task<string> BuildHighlightedChangesHtmlAsync(Guid contentId)
+        {
+            var versions = await _db.ContentVersions
+                .Where(v => v.ContentId == contentId)
+                .OrderByDescending(v => v.VersionNumber)
+                .Take(2)
+                .ToListAsync();
+
+            if (versions.Count < 2)
+            {
+                return "<p>No previous version available to highlight changes yet.</p>";
+            }
+
+            var latest = SafeParseSnapshot(versions[0].SnapshotJson);
+            var previous = SafeParseSnapshot(versions[1].SnapshotJson);
+            if (latest == null || previous == null)
+            {
+                return "<p>Unable to compute highlighted changes for this submission.</p>";
+            }
+
+            var latestChapters = latest["Chapters"] as JArray ?? new JArray();
+            var previousChapters = previous["Chapters"] as JArray ?? new JArray();
+            var prevById = previousChapters
+                .OfType<JObject>()
+                .Where(c => c["ChapterId"] != null)
+                .ToDictionary(c => (string)c["ChapterId"], c => c);
+
+            var sb = new StringBuilder();
+            sb.Append("<div class='space-y-3'>");
+
+            foreach (var chapter in latestChapters.OfType<JObject>())
+            {
+                var chapterId = (string)chapter["ChapterId"];
+                var chapterTitle = (string)chapter["ChapterTitle"] ?? "Chapter";
+                var chapterBody = (string)chapter["ChapterBody"] ?? string.Empty;
+
+                prevById.TryGetValue(chapterId ?? string.Empty, out var previousChapter);
+                var previousBody = previousChapter == null ? string.Empty : (string)previousChapter["ChapterBody"] ?? string.Empty;
+
+                var diffHtml = BuildSimpleLineDiff(previousBody, chapterBody);
+                if (string.IsNullOrWhiteSpace(diffHtml))
+                {
+                    continue;
+                }
+
+                sb.Append("<section class='rounded border border-slate-200 p-3'>")
+                    .Append("<h4 class='mb-2 font-semibold'>")
+                    .Append(HttpUtility.HtmlEncode(chapterTitle))
+                    .Append("</h4>")
+                    .Append("<div class='space-y-1 text-sm'>")
+                    .Append(diffHtml)
+                    .Append("</div></section>");
+            }
+
+            sb.Append("</div>");
+            return sb.ToString();
+        }
+
+        private static JObject SafeParseSnapshot(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+
+            try
+            {
+                return JObject.Parse(json);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static string BuildSimpleLineDiff(string oldText, string newText)
+        {
+            var oldLines = (oldText ?? string.Empty).Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+            var newLines = (newText ?? string.Empty).Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+            var oldSet = new HashSet<string>(oldLines.Where(l => !string.IsNullOrWhiteSpace(l)));
+            var newSet = new HashSet<string>(newLines.Where(l => !string.IsNullOrWhiteSpace(l)));
+
+            var added = newLines.Where(l => !string.IsNullOrWhiteSpace(l) && !oldSet.Contains(l)).Take(8).ToList();
+            var removed = oldLines.Where(l => !string.IsNullOrWhiteSpace(l) && !newSet.Contains(l)).Take(8).ToList();
+
+            if (!added.Any() && !removed.Any())
+            {
+                return string.Empty;
+            }
+
+            var sb = new StringBuilder();
+            foreach (var line in added)
+            {
+                sb.Append("<div class='rounded bg-emerald-50 px-2 py-1 text-emerald-800'><strong>+ </strong>")
+                    .Append(HttpUtility.HtmlEncode(line))
+                    .Append("</div>");
+            }
+
+            foreach (var line in removed)
+            {
+                sb.Append("<div class='rounded bg-red-50 px-2 py-1 text-red-800'><strong>- </strong>")
+                    .Append(HttpUtility.HtmlEncode(line))
+                    .Append("</div>");
+            }
+
+            return sb.ToString();
         }
     }
 }

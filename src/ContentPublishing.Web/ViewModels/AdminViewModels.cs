@@ -50,8 +50,11 @@ namespace ContentPublishing.Web.ViewModels
     {
         public string UserId { get; set; }
         public string FullName { get; set; }
+        public string Description { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
         public IList<string> Roles { get; set; }
+        public string AssignedRoleName { get; set; }
+        public string AssignedRoleDescription { get; set; }
     }
 }

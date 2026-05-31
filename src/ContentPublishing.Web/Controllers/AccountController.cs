@@ -1,6 +1,8 @@
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using System.Web;
+using System.Linq;
+using System.Data.Entity;
 using ContentPublishing.Web.Models;
 using ContentPublishing.Web.Security;
 using Microsoft.AspNet.Identity;
@@ -60,17 +62,32 @@ namespace ContentPublishing.Web.Controllers
                 UserName = model.Email,
                 Email = model.Email,
                 FullName = model.FullName,
+                Description = model.Description,
                 IsActive = true
             };
 
             var result = await UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                var roleResult = await UserManager.AddToRoleAsync(user.Id, RoleNames.Author);
-                if (!roleResult.Succeeded)
+                var addRoleResult = await UserManager.AddToRoleAsync(user.Id, RoleNames.Author);
+                if (!addRoleResult.Succeeded)
                 {
-                    AddErrors(roleResult);
+                    await UserManager.DeleteAsync(user);
+                    AddErrors(addRoleResult);
                     return View(model);
+                }
+
+                var dbContext = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+                var authorRoleId = await dbContext.Roles
+                    .Where(r => r.Name == RoleNames.Author)
+                    .Select(r => r.Id)
+                    .SingleOrDefaultAsync();
+
+                if (!string.IsNullOrWhiteSpace(authorRoleId))
+                {
+                    user.RoleId = authorRoleId;
+                    user.LastModifiedDate = System.DateTime.UtcNow;
+                    await UserManager.UpdateAsync(user);
                 }
 
                 var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -158,6 +175,23 @@ namespace ContentPublishing.Web.Controllers
                 return HttpNotFound();
             }
 
+            string roleName = null;
+            if (!string.IsNullOrWhiteSpace(user.RoleId))
+            {
+                roleName = await HttpContext.GetOwinContext().Get<ApplicationDbContext>().Roles
+                    .Where(r => r.Id == user.RoleId)
+                    .Select(r => r.Name)
+                    .SingleOrDefaultAsync();
+            }
+
+            if (string.IsNullOrWhiteSpace(roleName))
+            {
+                var roles = await UserManager.GetRolesAsync(userId);
+                roleName = GetRoleDisplay(roles, returnRawRoleName: true);
+            }
+
+            ViewBag.RoleDisplay = ToDisplayRole(roleName);
+
             return View(user);
         }
 
@@ -204,6 +238,60 @@ namespace ContentPublishing.Web.Controllers
             {
                 ModelState.AddModelError(string.Empty, error);
             }
+        }
+
+        private static string GetRoleDisplay(System.Collections.Generic.IEnumerable<string> roles, bool returnRawRoleName = false)
+        {
+            if (roles == null)
+            {
+                return returnRawRoleName ? null : "Unassigned";
+            }
+
+            foreach (var role in roles)
+            {
+                if (role == "Administrator")
+                {
+                    return returnRawRoleName ? "Administrator" : "Admin";
+                }
+            }
+
+            foreach (var role in roles)
+            {
+                if (role == "Reviewer")
+                {
+                    return returnRawRoleName ? "Reviewer" : "Reviewer";
+                }
+            }
+
+            foreach (var role in roles)
+            {
+                if (role == "Author")
+                {
+                    return returnRawRoleName ? "Author" : "Author";
+                }
+            }
+
+            return returnRawRoleName ? null : "Unassigned";
+        }
+
+        private static string ToDisplayRole(string roleName)
+        {
+            if (roleName == "Administrator")
+            {
+                return "Admin";
+            }
+
+            if (roleName == "Reviewer")
+            {
+                return "Reviewer";
+            }
+
+            if (roleName == "Author")
+            {
+                return "Author";
+            }
+
+            return "Unassigned";
         }
 
         protected override void Dispose(bool disposing)

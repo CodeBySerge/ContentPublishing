@@ -240,7 +240,7 @@ namespace ContentPublishing.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Submit(Guid id, string reviewerIds)
+        public async Task<ActionResult> Submit(Guid id, string reviewerIds, string changeNotes)
         {
             var content = await FindOwnedContentAsync(id);
             if (content == null)
@@ -261,15 +261,29 @@ namespace ContentPublishing.Web.Controllers
                 return RedirectToAction("Details", new { id });
             }
 
+            var parsedReviewerIds = ParseReviewerIds(reviewerIds);
+            if (!parsedReviewerIds.Any())
+            {
+                TempData["ErrorMessage"] = "Please select at least one reviewer from the dropdown before submitting.";
+                return RedirectToAction("Details", new { id });
+            }
+
+            var validReviewerIds = await GetEligibleReviewerIdsAsync(parsedReviewerIds);
+            if (validReviewerIds.Count != parsedReviewerIds.Count)
+            {
+                TempData["ErrorMessage"] = "Invalid reviewer selection. Please use the reviewer dropdown and select active reviewer accounts.";
+                return RedirectToAction("Details", new { id });
+            }
+
             var previousStatus = content.Status;
             content.Status = ContentStatuses.UnderReview;
             content.LastModifiedDate = DateTime.UtcNow;
+            var safeChangeNotes = HtmlContentSanitizer.StripScripts(changeNotes);
             await _db.SaveChangesAsync();
 
-            var parsedReviewerIds = ParseReviewerIds(reviewerIds);
-            if (parsedReviewerIds.Any())
+            if (validReviewerIds.Any())
             {
-                foreach (var reviewerId in parsedReviewerIds)
+                foreach (var reviewerId in validReviewerIds)
                 {
                     var alreadyAssigned = await _db.ContentReviewerAssignments.AnyAsync(a => a.ContentId == content.ContentId && a.ReviewerId == reviewerId && a.IsActive);
                     if (!alreadyAssigned)
@@ -294,7 +308,8 @@ namespace ContentPublishing.Web.Controllers
                             ContentId = content.ContentId,
                             ReviewerId = reviewerId,
                             Status = ReviewStatuses.Pending,
-                            SubmittedDate = DateTime.UtcNow
+                            SubmittedDate = DateTime.UtcNow,
+                            AuthorChangeNotes = safeChangeNotes
                         });
                     }
                 }
@@ -312,16 +327,17 @@ namespace ContentPublishing.Web.Controllers
                 ipAddress: Request.UserHostAddress,
                 changeDetails: "Content submitted for review.");
 
-            if (parsedReviewerIds.Any())
+            if (validReviewerIds.Any())
             {
-                await _notifications.NotifyContentSubmittedAsync(content, parsedReviewerIds);
+                await _notifications.NotifyContentSubmittedAsync(content, validReviewerIds, safeChangeNotes);
             }
 
-            await _versions.SaveSnapshotAsync(content.ContentId, "SUBMIT_CONTENT", User.Identity.GetUserId(), parsedReviewerIds.Any() ? "Submitted with selected reviewers." : "Submitted without selected reviewers.");
+            var submitNotes = string.IsNullOrWhiteSpace(safeChangeNotes)
+                ? "Submitted with selected reviewers."
+                : "Author change notes: " + safeChangeNotes;
+            await _versions.SaveSnapshotAsync(content.ContentId, "SUBMIT_CONTENT", User.Identity.GetUserId(), submitNotes);
 
-            TempData["SuccessMessage"] = parsedReviewerIds.Any()
-                ? "Content submitted for review and reviewers assigned."
-                : "Content submitted for review. Admin can assign reviewers.";
+            TempData["SuccessMessage"] = "Content submitted for review and reviewers assigned.";
             return RedirectToAction("Details", new { id });
         }
 
@@ -373,29 +389,47 @@ namespace ContentPublishing.Web.Controllers
 
         private async Task PopulateReviewerSelectionAsync()
         {
-            var reviewerRoleId = await _db.Roles
-                .Where(r => r.Name == RoleNames.Reviewer)
-                .Select(r => r.Id)
-                .SingleOrDefaultAsync();
+            var reviewerUsers = await GetEligibleReviewerQuery()
+                .OrderBy(u => u.FullName)
+                .ToListAsync();
 
-            var reviewers = new List<SelectListItem>();
-            if (!string.IsNullOrWhiteSpace(reviewerRoleId))
-            {
-                var reviewerUsers = await _db.Users
-                    .Where(u => u.IsActive && u.EmailConfirmed && u.Roles.Any(role => role.RoleId == reviewerRoleId))
-                    .OrderBy(u => u.FullName)
-                    .ToListAsync();
-
-                reviewers = reviewerUsers
-                    .Select(u => new SelectListItem
-                    {
-                        Value = u.Id,
-                        Text = string.IsNullOrWhiteSpace(u.FullName) ? u.Email : u.FullName + " (" + u.Email + ")"
-                    })
-                    .ToList();
-            }
+            var reviewers = reviewerUsers
+                .Select(u => new SelectListItem
+                {
+                    Value = u.Id,
+                    Text = string.IsNullOrWhiteSpace(u.FullName) ? u.Email : u.FullName + " (" + u.Email + ")"
+                })
+                .ToList();
 
             ViewBag.ReviewerOptions = reviewers;
+        }
+
+        private async Task<List<string>> GetEligibleReviewerIdsAsync(IEnumerable<string> requestedIds)
+        {
+            var requested = requestedIds
+                .Where(id => !string.IsNullOrWhiteSpace(id))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            if (!requested.Any())
+            {
+                return new List<string>();
+            }
+
+            return await GetEligibleReviewerQuery()
+                .Where(u => requested.Contains(u.Id))
+                .Select(u => u.Id)
+                .ToListAsync();
+        }
+
+        private IQueryable<ApplicationUser> GetEligibleReviewerQuery()
+        {
+            var eligibleRoleIds = _db.Roles
+                .Where(r => r.Name == RoleNames.Reviewer || r.Name == RoleNames.Administrator)
+                .Select(r => r.Id);
+
+            return _db.Users
+                .Where(u => eligibleRoleIds.Contains(u.RoleId) || u.Roles.Any(ur => eligibleRoleIds.Contains(ur.RoleId)));
         }
 
         private void SyncCombinedChaptersForDraft(ContentEntity content, string title, string combinedBody, bool ensureChapter)

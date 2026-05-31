@@ -1,3 +1,5 @@
+@using Microsoft.AspNet.Identity
+@using ContentPublishing.Web.Models
 <!DOCTYPE html>
 <html>
 
@@ -5,32 +7,237 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - Content Publishing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@500;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --app-bg: #f3f4f8;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #64748b;
+            --line: #dbe3ee;
+            --nav-bg: #0f172a;
+            --accent: #2563eb;
+            --accent-2: #0f766e;
+            --danger: #b91c1c;
+            --warning: #b45309;
+            --success: #047857;
+        }
+
+        body {
+            background: radial-gradient(circle at 15% 15%, #ffffff 0%, var(--app-bg) 45%, #e8edf6 100%);
+            color: var(--text-main);
+            font-family: "Open Sans", sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Roboto", sans-serif;
+            letter-spacing: 0.01em;
+        }
+
+        .app-card {
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+        }
+
+        .app-btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #fff;
+        }
+
+        .app-btn-primary:hover,
+        .app-btn-primary:focus-visible {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+        }
+
+        .app-btn-accent {
+            background: linear-gradient(135deg, #0f766e, #0f766e);
+            color: #fff;
+        }
+
+        .app-nav-link:focus-visible,
+        .app-btn-primary:focus-visible,
+        .app-btn-accent:focus-visible,
+        .app-form-field:focus-visible {
+            outline: 3px solid #93c5fd;
+            outline-offset: 2px;
+        }
+
+        .app-toast-wrap {
+            position: fixed;
+            right: 1rem;
+            top: 1rem;
+            z-index: 9999;
+            width: min(24rem, calc(100vw - 2rem));
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .app-toast {
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            color: #fff;
+            box-shadow: 0 10px 24px rgba(2, 6, 23, 0.25);
+            animation: toastIn 0.25s ease;
+        }
+
+        .app-toast-success {
+            background: var(--success);
+        }
+
+        .app-toast-error {
+            background: var(--danger);
+        }
+
+        .app-toast-info {
+            background: var(--accent);
+        }
+
+        @@keyframes toastIn {
+            from { transform: translateY(-8px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
 </head>
 
 <body class="min-h-screen bg-slate-100 text-slate-900">
     @{
         var currentController = (ViewContext.RouteData.Values["controller"] ?? string.Empty).ToString();
         var currentAction = (ViewContext.RouteData.Values["action"] ?? string.Empty).ToString();
+        var isAdmin = User != null && (User.IsInRole("Admin") || User.IsInRole("Administrator"));
+        var isReviewer = User != null && User.IsInRole("Reviewer");
+        var isAuthor = User != null && User.IsInRole("Author");
+        var roleDisplay = "Unassigned";
+        var roleBadgeClass = "bg-amber-100 text-amber-800";
+        var assignedRoleName = string.Empty;
+
+        if (Request.IsAuthenticated)
+        {
+            var currentUserId = User.Identity.GetUserId();
+            if (!string.IsNullOrWhiteSpace(currentUserId))
+            {
+                using (var db = ApplicationDbContext.Create())
+                {
+                    var linkedRoleIds = db.Users
+                        .Where(u => u.Id == currentUserId)
+                        .SelectMany(u => u.Roles)
+                        .Select(ur => ur.RoleId)
+                        .ToList();
+
+                    var linkedRoleNames = db.Roles
+                        .Where(r => linkedRoleIds.Contains(r.Id))
+                        .Select(r => r.Name)
+                        .ToList();
+
+                    var assignedRoleId = db.Users
+                        .Where(u => u.Id == currentUserId)
+                        .Select(u => u.RoleId)
+                        .FirstOrDefault();
+
+                    if (!string.IsNullOrWhiteSpace(assignedRoleId))
+                    {
+                        assignedRoleName = db.Roles
+                            .Where(r => r.Id == assignedRoleId)
+                            .Select(r => r.Name)
+                            .FirstOrDefault();
+                    }
+
+                    isAdmin = isAdmin
+                        || linkedRoleNames.Contains("Admin")
+                        || linkedRoleNames.Contains("Administrator")
+                        || assignedRoleName == "Administrator"
+                        || assignedRoleName == "Admin";
+
+                    isReviewer = isReviewer
+                        || linkedRoleNames.Contains("Reviewer")
+                        || assignedRoleName == "Reviewer";
+
+                    isAuthor = isAuthor
+                        || linkedRoleNames.Contains("Author")
+                        || assignedRoleName == "Author";
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(assignedRoleName))
+            {
+                if (isAdmin)
+                {
+                    assignedRoleName = "Administrator";
+                }
+                else if (isReviewer)
+                {
+                    assignedRoleName = "Reviewer";
+                }
+                else if (User.IsInRole("Author"))
+                {
+                    assignedRoleName = "Author";
+                }
+            }
+
+            if (assignedRoleName == "Reviewer")
+            {
+                roleDisplay = "Reviewer";
+                roleBadgeClass = "bg-emerald-100 text-emerald-800";
+            }
+            else if (assignedRoleName == "Author")
+            {
+                roleDisplay = "Author";
+                roleBadgeClass = "bg-violet-100 text-violet-800";
+            }
+            else if (assignedRoleName == "Administrator")
+            {
+                roleDisplay = "Admin";
+                roleBadgeClass = "bg-blue-100 text-blue-800";
+            }
+        }
     }
-    <header class="bg-slate-900 text-white">
-        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-            <h1 class="text-xl font-semibold">Content Publishing & Review Management</h1>
-            <nav class="flex items-center gap-4 text-sm">
-                <a class="hover:underline" href="@Url.Action("Index", "Home")">Home</a>
-                <a class="hover:underline" href="@Url.Action("Published", "Content")">Published</a>
+    <div id="appToastWrap" class="app-toast-wrap" aria-live="polite" aria-atomic="true"></div>
+
+    <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700">
+                    <i class="ri-layout-grid-line text-xl" aria-hidden="true"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900">Content Publishing Workspace</h1>
+                    <p class="text-xs text-slate-500">Dashboard, drafting, and review operations</p>
+                </div>
+            </div>
+            <nav class="flex items-center gap-3 text-sm">
+                @if (Request.IsAuthenticated)
+                {
+                    <div class="hidden rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 md:block">
+                        <p class="text-xs text-slate-500">Logged in as</p>
+                        <p class="text-sm font-semibold text-slate-800">@User.Identity.Name</p>
+                    </div>
+                    <span class="rounded-full px-3 py-1 text-xs font-semibold @roleBadgeClass" aria-label="Current role">Role: @roleDisplay</span>
+                }
+                <a class="app-nav-link rounded px-3 py-2 text-slate-700 hover:bg-slate-100" href="@Url.Action("Index", "Home")">Home</a>
+                <a class="app-nav-link rounded px-3 py-2 text-slate-700 hover:bg-slate-100" href="@Url.Action("Published", "Content")">Published</a>
                 @if (Request.IsAuthenticated)
                 {
                     using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @class = "inline" }))
                     {
                         @Html.AntiForgeryToken()
-                        <button type="submit" class="rounded bg-white px-3 py-1 text-slate-900">Logout</button>
+                        <button type="submit" class="rounded border border-slate-300 bg-white px-3 py-2 text-slate-900 hover:bg-slate-100">Logout</button>
                     }
                 }
                 else
                 {
-                    <a class="hover:underline" href="@Url.Action("Login", "Account")">Login</a>
-                    <a class="hover:underline" href="@Url.Action("Register", "Account")">Register</a>
+                    <a class="app-nav-link rounded px-3 py-2 text-slate-700 hover:bg-slate-100" href="@Url.Action("Login", "Account")">Login</a>
+                    <a class="app-nav-link rounded px-3 py-2 text-slate-700 hover:bg-slate-100" href="@Url.Action("Register", "Account")">Register</a>
                 }
             </nav>
         </div>
@@ -39,35 +246,68 @@
     @if (Request.IsAuthenticated)
     {
         <div class="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 lg:flex-row">
-            <aside class="lg:sticky lg:top-4 lg:h-fit lg:w-64 lg:shrink-0 rounded-lg bg-white p-4 shadow">
-                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Navigation</h2>
-                <nav class="mt-3 space-y-1 text-sm">
-                    <a class="block rounded px-3 py-2 @(currentController == "Home" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+            <aside class="app-card lg:sticky lg:top-24 lg:h-fit lg:w-72 lg:shrink-0 p-4">
+                <div class="mb-4 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3">
+                    <p class="text-xs uppercase tracking-wide text-slate-500">Account</p>
+                    <p class="mt-1 truncate text-sm font-semibold text-slate-800">@User.Identity.Name</p>
+                    <p class="mt-2 inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-semibold @roleBadgeClass">
+                        @if (roleDisplay == "Admin")
+                        {
+                            <i class="ri-shield-user-line" aria-hidden="true"></i>
+                        }
+                        else if (roleDisplay == "Reviewer")
+                        {
+                            <i class="ri-file-search-line" aria-hidden="true"></i>
+                        }
+                        else if (roleDisplay == "Author")
+                        {
+                            <i class="ri-quill-pen-line" aria-hidden="true"></i>
+                        }
+                        Role: @roleDisplay
+                    </p>
+                </div>
+
+                <h2 class="px-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Dashboard</h2>
+                <nav class="mt-2 space-y-1 text-sm">
+                    <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Home" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
                        href="@Url.Action("Index", "Home")">Home</a>
-                          <a class="block rounded px-3 py-2 @(currentController == "Content" && currentAction == "Index" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
-                              href="@Url.Content("~/Content/Index")">My Content</a>
-                    <a class="block rounded px-3 py-2 @(currentController == "Content" && currentAction == "Published" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+                    <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Content" && currentAction == "Published" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
                        href="@Url.Action("Published", "Content")">Published</a>
+                </nav>
 
-                    @if (User.IsInRole("Reviewer"))
-                    {
-                        <a class="block rounded px-3 py-2 @(currentController == "Review" && currentAction == "PendingReviews" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+                <h2 class="mt-4 px-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Drafts</h2>
+                <nav class="mt-2 space-y-1 text-sm">
+                    <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Content" && currentAction == "Index" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+                       href="@Url.Content("~/Content/Index")">My Content</a>
+                </nav>
+
+                @if (isReviewer)
+                {
+                    <h2 class="mt-4 px-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Reviews</h2>
+                    <nav class="mt-2 space-y-1 text-sm">
+                        <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Review" && currentAction == "PendingReviews" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
                            href="@Url.Action("PendingReviews", "Review")">Pending Reviews</a>
-                        <a class="block rounded px-3 py-2 @(currentController == "Review" && currentAction == "ReviewHistory" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+                        <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Review" && currentAction == "ReviewHistory" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
                            href="@Url.Action("ReviewHistory", "Review")">Review History</a>
-                    }
+                    </nav>
+                }
 
-                    @if (User.IsInRole("Administrator"))
-                    {
-                        <a class="block rounded px-3 py-2 @(currentController == "Admin" && currentAction == "Dashboard" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
-                           href="@Url.Action("Dashboard", "Admin")">Admin Dashboard</a>
-                        <a class="block rounded px-3 py-2 @(currentController == "Admin" && currentAction == "ContentManagement" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
-                           href="@Url.Action("ContentManagement", "Admin")">Content Management</a>
-                        <a class="block rounded px-3 py-2 @(currentController == "Admin" && currentAction == "Users" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+                @if (isAdmin)
+                {
+                    <h2 class="mt-4 px-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">User Management</h2>
+                    <nav class="mt-2 space-y-1 text-sm">
+                        <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Admin" && currentAction == "Users" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
                            href="@Url.Action("Users", "Admin")">Users</a>
-                    }
+                        <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Admin" && currentAction == "Dashboard" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+                           href="@Url.Action("Dashboard", "Admin")">Admin Dashboard</a>
+                        <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Admin" && currentAction == "ContentManagement" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+                           href="@Url.Action("ContentManagement", "Admin")">Content Management</a>
+                    </nav>
+                }
 
-                    <a class="block rounded px-3 py-2 @(currentController == "Account" && currentAction == "Profile" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+                <h2 class="mt-4 px-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Account</h2>
+                <nav class="mt-2 space-y-1 text-sm">
+                    <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Account" && currentAction == "Profile" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
                        href="@Url.Action("Profile", "Account")">Profile</a>
                 </nav>
             </aside>
@@ -88,6 +328,29 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
     <script
     src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@4.0.0/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        window.appToast = function (type, message) {
+            if (!message) {
+                return;
+            }
+
+            var wrap = document.getElementById("appToastWrap");
+            if (!wrap) {
+                return;
+            }
+
+            var toast = document.createElement("div");
+            var normalizedType = type === "error" ? "error" : (type === "success" ? "success" : "info");
+            toast.className = "app-toast app-toast-" + normalizedType;
+            toast.setAttribute("role", "status");
+            toast.textContent = message;
+            wrap.appendChild(toast);
+
+            setTimeout(function () {
+                toast.remove();
+            }, 3600);
+        };
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 

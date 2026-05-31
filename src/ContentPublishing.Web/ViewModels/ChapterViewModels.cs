@@ -21,6 +21,11 @@ namespace ContentPublishing.Web.ViewModels
         [Required]
         [AllowHtml]
         public string ChapterBody { get; set; }
+
+        public string ReviewerIds { get; set; }
+
+        [StringLength(2000)]
+        public string ChangeNotes { get; set; }
     }
 
     public class ReorderChaptersViewModel
