@@ -47,3 +47,18 @@
 
 - This is Phase 1 scaffold for the BRD-based implementation.
 - Current implementation includes Identity auth, content/chapter CRUD, reviewer workflow, admin publishing, audit logging, and automatic EF schema initialization.
+
+
+## User test
+
+Author
+Username: author.workflow@contentpublishing.local
+Password: WorkflowAuthor1
+
+Reviewer
+Username: reviewer.workflow@contentpublishing.local
+Password: WorkflowReviewer1
+
+Admin
+Username: admin.workflow@contentpublishing.local
+Password: WorkflowAdmin1
