@@ -1,0 +1,93 @@
+@model ContentPublishing.Web.ViewModels.ReviewDashboardViewModel
+@using System.Linq
+@{
+    ViewBag.Title = "Review Dashboard";
+}
+
+<section class="space-y-5">
+    <div class="app-card p-6">
+        <h2 class="text-2xl font-bold">Review Dashboard</h2>
+        <p class="mt-1 text-sm text-slate-600">Focused reviewer workspace for assigned drafts, completed reviews, and notifications.</p>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <article class="app-card p-5">
+            <p class="text-xs uppercase tracking-wide text-slate-500">Pending Reviews</p>
+            <p class="mt-2 text-3xl font-bold text-slate-900">@Model.PendingReviewCount</p>
+            <p class="mt-1 text-xs text-slate-500">Assigned drafts waiting for your decision.</p>
+            <div class="mt-4">
+                <a class="app-btn-primary rounded-lg px-3 py-2 text-xs font-semibold text-white"
+                   href="@Url.Action("PendingReviews", "Review")">Open Pending Reviews</a>
+            </div>
+        </article>
+
+        <article class="app-card p-5">
+            <p class="text-xs uppercase tracking-wide text-slate-500">Completed Reviews</p>
+            <p class="mt-2 text-3xl font-bold text-slate-900">@Model.CompletedReviewCount</p>
+            <p class="mt-1 text-xs text-slate-500">Your review history (approved and rejected).</p>
+            <div class="mt-4">
+                <a class="app-btn-primary rounded-lg px-3 py-2 text-xs font-semibold text-white"
+                   href="@Url.Action("ReviewHistory", "Review")">Open Completed Reviews</a>
+            </div>
+        </article>
+
+        <article class="app-card p-5">
+            <p class="text-xs uppercase tracking-wide text-slate-500">Notifications</p>
+            <p class="mt-2 text-3xl font-bold text-slate-900">@Model.NotificationCount</p>
+            <p class="mt-1 text-xs text-slate-500">New assignments and author clarification notes.</p>
+            <div class="mt-4">
+                <a class="app-btn-primary rounded-lg px-3 py-2 text-xs font-semibold text-white"
+                   href="@Url.Action("Notifications", "Review")">Open Notifications</a>
+            </div>
+        </article>
+    </div>
+
+    <div class="app-card p-6">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <h3 class="text-xl font-semibold">Next Pending Reviews</h3>
+            @if (Model.OldestPendingSubmitted.HasValue)
+            {
+                <p class="text-sm text-slate-500">Oldest pending: @Model.OldestPendingSubmitted.Value.ToString("u")</p>
+            }
+        </div>
+
+        @if (Model.NextPendingReviews == null || !Model.NextPendingReviews.Any())
+        {
+            <p class="mt-4 text-sm text-slate-500">No pending reviews assigned right now.</p>
+        }
+        else
+        {
+            <div class="mt-4 overflow-hidden rounded-lg border border-slate-200">
+                <table class="min-w-full text-sm">
+                    <thead class="bg-slate-50 text-left text-slate-600">
+                        <tr>
+                            <th class="px-4 py-3">Title</th>
+                            <th class="px-4 py-3">Submitted</th>
+                            <th class="px-4 py-3">Chapters</th>
+                            <th class="px-4 py-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.NextPendingReviews)
+                        {
+                            <tr class="border-t border-slate-100">
+                                <td class="px-4 py-3 font-medium">@Html.Raw(item.Title)</td>
+                                <td class="px-4 py-3">@item.SubmittedDate.ToString("u")</td>
+                                <td class="px-4 py-3">@item.ChapterCount</td>
+                                <td class="px-4 py-3">
+                                    <a class="app-btn-primary rounded-lg px-3 py-2 text-xs font-semibold text-white"
+                                       href="@Url.Action("ReviewContent", "Review", new { contentId = item.ContentId })">Open</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                <a class="rounded border border-slate-300 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                   href="@Url.Action("PendingReviews", "Review")">View all pending reviews</a>
+            </div>
+        }
+    </div>
+</section>

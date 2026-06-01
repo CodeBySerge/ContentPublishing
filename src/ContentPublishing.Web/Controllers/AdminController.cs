@@ -1,5 +1,6 @@
 using System.Web.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace ContentPublishing.Web.Controllers
     [Authorize(Roles = RoleNames.Administrator)]
     public class AdminController : Controller
     {
+        private const string QueueApproveAction = "ADMIN_APPROVE_FOR_QUEUE";
+        private const string QueueReadyAction = "ADMIN_MARK_READY";
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
         private readonly AuditLogService _audit;
         private readonly WorkflowNotificationService _notifications;
@@ -190,23 +193,291 @@ WHERE ur.[UserId] = @p0 AND ur.[RoleId] = @p1;",
         public async Task<ActionResult> ContentManagement()
         {
             await _publishing.PublishDueContentAsync(Request?.UserHostAddress);
-            await PopulateReviewerOptionsAsync();
 
-            var contentItems = await _db.Contents
+            var approvedItems = await _db.Contents
+                .Where(c => c.Status == ContentStatuses.Approved)
                 .OrderByDescending(c => c.LastModifiedDate)
-                .Select(c => new AdminContentListItemViewModel
+                .Select(c => new
                 {
-                    ContentId = c.ContentId,
-                    Title = c.Title,
-                    AuthorName = c.AuthorId,
-                    Status = c.Status,
-                    LastModifiedDate = c.LastModifiedDate,
-                    AssignedReviewerCount = _db.ContentReviewerAssignments.Count(a => a.ContentId == c.ContentId && a.IsActive),
-                    ScheduledPublishDate = c.ScheduledPublishDate
+                    c.ContentId,
+                    c.Title,
+                    c.AuthorId,
+                    c.LastModifiedDate,
+                    ChapterCount = c.Chapters.Count(ch => !ch.IsDeleted)
                 })
                 .ToListAsync();
 
-            return View(contentItems);
+            var authorIds = approvedItems.Select(c => c.AuthorId).Distinct().ToList();
+            var authorNames = await _db.Users
+                .Where(u => authorIds.Contains(u.Id))
+                .Select(u => new { u.Id, u.FullName, u.Email })
+                .ToListAsync();
+            var authorMap = authorNames.ToDictionary(
+                u => u.Id,
+                u => string.IsNullOrWhiteSpace(u.FullName) ? u.Email : u.FullName);
+
+            var contentIds = approvedItems.Select(c => c.ContentId).ToList();
+            var queueEvents = await _db.ContentVersions
+                .Where(v => contentIds.Contains(v.ContentId) && (v.Action == QueueApproveAction || v.Action == QueueReadyAction))
+                .Select(v => new
+                {
+                    v.ContentId,
+                    v.Action,
+                    v.VersionNumber,
+                    v.CreatedDate
+                })
+                .ToListAsync();
+
+            var latestQueueActionByContent = queueEvents
+                .GroupBy(v => v.ContentId)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g
+                        .OrderByDescending(v => v.VersionNumber)
+                        .ThenByDescending(v => v.CreatedDate)
+                        .Select(v => v.Action)
+                        .FirstOrDefault());
+
+            var pendingItems = new List<AdminQueueItemViewModel>();
+            var awaitingPreviewItems = new List<AdminQueueItemViewModel>();
+            var completedPreviewItems = new List<AdminQueueItemViewModel>();
+
+            foreach (var content in approvedItems)
+            {
+                latestQueueActionByContent.TryGetValue(content.ContentId, out var latestQueueAction);
+                var item = new AdminQueueItemViewModel
+                {
+                    ContentId = content.ContentId,
+                    Title = content.Title,
+                    AuthorName = authorMap.ContainsKey(content.AuthorId) ? authorMap[content.AuthorId] : content.AuthorId,
+                    LastModifiedDate = content.LastModifiedDate,
+                    ChapterCount = content.ChapterCount,
+                    QueueStatusLabel = ResolveQueueLabel(latestQueueAction)
+                };
+
+                if (latestQueueAction == QueueReadyAction)
+                {
+                    completedPreviewItems.Add(item);
+                }
+                else if (latestQueueAction == QueueApproveAction)
+                {
+                    awaitingPreviewItems.Add(item);
+                }
+                else
+                {
+                    pendingItems.Add(item);
+                }
+            }
+
+            var model = new AdminContentQueueViewModel
+            {
+                PendingItems = pendingItems,
+                AwaitingPreviewItems = awaitingPreviewItems,
+                CompletedPreviewItems = completedPreviewItems
+            };
+
+            return View(model);
+        }
+
+        public async Task<ActionResult> Preview(Guid id)
+        {
+            if (!User.IsInRole(RoleNames.Administrator))
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            var content = await _db.Contents
+                .Include(c => c.Chapters)
+                .SingleOrDefaultAsync(c => c.ContentId == id);
+
+            if (content == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (content.Status != ContentStatuses.Approved)
+            {
+                TempData["ErrorMessage"] = "Only approved content can be previewed in the queue.";
+                return RedirectToAction("ContentManagement");
+            }
+
+            var author = await _db.Users
+                .Where(u => u.Id == content.AuthorId)
+                .Select(u => new { u.FullName, u.Email })
+                .SingleOrDefaultAsync();
+
+            var latestQueueAction = await GetLatestQueueActionAsync(content.ContentId);
+
+            var model = new AdminContentPreviewViewModel
+            {
+                ContentId = content.ContentId,
+                Title = content.Title,
+                Description = content.Description,
+                AuthorName = author == null ? content.AuthorId : (string.IsNullOrWhiteSpace(author.FullName) ? author.Email : author.FullName),
+                LastModifiedDate = content.LastModifiedDate,
+                QueueStatusLabel = ResolveQueueLabel(latestQueueAction),
+                CanApproveForQueue = string.IsNullOrWhiteSpace(latestQueueAction),
+                CanMarkAsReady = latestQueueAction == QueueApproveAction,
+                Chapters = content.Chapters
+                    .Where(ch => !ch.IsDeleted)
+                    .OrderBy(ch => ch.ChapterOrder)
+                    .Select(ch => new AdminPreviewChapterItemViewModel
+                    {
+                        ChapterTitle = ch.ChapterTitle,
+                        ChapterBody = ch.ChapterBody,
+                        ChapterOrder = ch.ChapterOrder
+                    })
+                    .ToList()
+            };
+
+            ViewBag.SuccessMessage = "Preview opened. Review the full article/handbook before marking it ready.";
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ApproveForQueue(Guid id)
+        {
+            var content = await _db.Contents.SingleOrDefaultAsync(c => c.ContentId == id);
+            if (content == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (content.Status != ContentStatuses.Approved)
+            {
+                TempData["ErrorMessage"] = "Only approved content can be added to queue.";
+                return RedirectToAction("ContentManagement");
+            }
+
+            var latestQueueAction = await GetLatestQueueActionAsync(id);
+            if (latestQueueAction == QueueApproveAction || latestQueueAction == QueueReadyAction)
+            {
+                TempData["ErrorMessage"] = "This content is already in the admin queue workflow.";
+                return RedirectToAction("ContentManagement");
+            }
+
+            await _versions.SaveSnapshotAsync(id, QueueApproveAction, User.Identity.GetUserId(), "Admin approved content for publishing queue.");
+            await _audit.LogAsync(User.Identity.GetUserId(), AuditActions.Update, "Content", id, null, QueueApproveAction, Request.UserHostAddress, "Admin approved content for queue.");
+
+            TempData["SuccessMessage"] = "Content approved for queue. Preview is required before marking ready.";
+            return RedirectToAction("ContentManagement");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> MarkAsReady(Guid id)
+        {
+            var content = await _db.Contents.SingleOrDefaultAsync(c => c.ContentId == id);
+            if (content == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (content.Status != ContentStatuses.Approved)
+            {
+                TempData["ErrorMessage"] = "Only approved content can be marked as ready.";
+                return RedirectToAction("ContentManagement");
+            }
+
+            var latestQueueAction = await GetLatestQueueActionAsync(id);
+            if (latestQueueAction != QueueApproveAction)
+            {
+                TempData["ErrorMessage"] = "Approve content for queue first, then preview, before marking ready.";
+                return RedirectToAction("ContentManagement");
+            }
+
+            await _versions.SaveSnapshotAsync(id, QueueReadyAction, User.Identity.GetUserId(), "Admin completed preview and marked content ready.");
+            await _audit.LogAsync(User.Identity.GetUserId(), AuditActions.Update, "Content", id, QueueApproveAction, QueueReadyAction, Request.UserHostAddress, "Admin marked queued content as ready.");
+
+            TempData["SuccessMessage"] = "Content marked as ready after preview.";
+            return RedirectToAction("ContentManagement");
+        }
+
+        public async Task<ActionResult> ReviewerMetrics()
+        {
+            var reviewerRoleId = await _db.Roles
+                .Where(r => r.Name == RoleNames.Reviewer)
+                .Select(r => r.Id)
+                .SingleOrDefaultAsync();
+
+            if (string.IsNullOrWhiteSpace(reviewerRoleId))
+            {
+                return View(new ReviewerMetricsViewModel
+                {
+                    GeneratedAtUtc = DateTime.UtcNow,
+                    Reviewers = new System.Collections.Generic.List<ReviewerMetricListItemViewModel>()
+                });
+            }
+
+            var reviewers = await _db.Users
+                .Where(u => u.Roles.Any(ur => ur.RoleId == reviewerRoleId) || u.RoleId == reviewerRoleId)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.FullName,
+                    u.Email
+                })
+                .ToListAsync();
+
+            var reviewerIds = reviewers.Select(r => r.Id).ToList();
+            var reviews = await _db.Reviews
+                .Where(r => reviewerIds.Contains(r.ReviewerId))
+                .Select(r => new
+                {
+                    r.ReviewerId,
+                    r.Status,
+                    r.SubmittedDate,
+                    r.ReviewDate
+                })
+                .ToListAsync();
+
+            var metrics = reviewers
+                .Select(reviewer =>
+                {
+                    var reviewerReviews = reviews.Where(r => r.ReviewerId == reviewer.Id).ToList();
+                    var pending = reviewerReviews.Count(r => r.Status == ReviewStatuses.Pending);
+                    var completed = reviewerReviews.Count(r => r.Status == ReviewStatuses.Approved || r.Status == ReviewStatuses.Rejected);
+                    var approved = reviewerReviews.Count(r => r.Status == ReviewStatuses.Approved);
+                    var rejected = reviewerReviews.Count(r => r.Status == ReviewStatuses.Rejected);
+
+                    var completedWithTime = reviewerReviews
+                        .Where(r => r.ReviewDate.HasValue && (r.Status == ReviewStatuses.Approved || r.Status == ReviewStatuses.Rejected))
+                        .ToList();
+
+                    var averageHours = completedWithTime.Any()
+                        ? (int)Math.Round(completedWithTime.Average(r => (r.ReviewDate.Value - r.SubmittedDate).TotalHours))
+                        : 0;
+
+                    var approvalRate = completed > 0
+                        ? (int)Math.Round((double)approved * 100 / completed)
+                        : 0;
+
+                    return new ReviewerMetricListItemViewModel
+                    {
+                        ReviewerId = reviewer.Id,
+                        ReviewerName = string.IsNullOrWhiteSpace(reviewer.FullName) ? reviewer.Email : reviewer.FullName,
+                        ReviewerEmail = reviewer.Email,
+                        PendingCount = pending,
+                        CompletedCount = completed,
+                        ApprovedCount = approved,
+                        RejectedCount = rejected,
+                        AverageTurnaroundHours = averageHours,
+                        ApprovalRate = approvalRate
+                    };
+                })
+                .OrderByDescending(r => r.PendingCount)
+                .ThenBy(r => r.ReviewerName)
+                .ToList();
+
+            var model = new ReviewerMetricsViewModel
+            {
+                GeneratedAtUtc = DateTime.UtcNow,
+                Reviewers = metrics
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -329,6 +600,31 @@ WHERE ur.[UserId] = @p0 AND ur.[RoleId] = @p1;",
                     Text = string.IsNullOrWhiteSpace(u.FullName) ? u.Email : u.FullName + " (" + u.Email + ")"
                 })
                 .ToListAsync();
+        }
+
+        private async Task<string> GetLatestQueueActionAsync(Guid contentId)
+        {
+            return await _db.ContentVersions
+                .Where(v => v.ContentId == contentId && (v.Action == QueueApproveAction || v.Action == QueueReadyAction))
+                .OrderByDescending(v => v.VersionNumber)
+                .ThenByDescending(v => v.CreatedDate)
+                .Select(v => v.Action)
+                .FirstOrDefaultAsync();
+        }
+
+        private static string ResolveQueueLabel(string queueAction)
+        {
+            if (queueAction == QueueReadyAction)
+            {
+                return "Completed Preview";
+            }
+
+            if (queueAction == QueueApproveAction)
+            {
+                return "Approved Awaiting Preview";
+            }
+
+            return "Pending";
         }
 
         protected override void Dispose(bool disposing)

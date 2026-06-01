@@ -35,7 +35,35 @@
 
         <div class="app-card p-6">
             <h3 class="mb-2 text-xl font-semibold">Highlighted Changes</h3>
-            @Html.Raw(Model.HighlightedChangesHtml)
+            @if (Model.HasHighlightedChanges)
+            {
+                <p class="mb-3 text-sm text-slate-600">Default view shows only edited sections. Use toggle to expand full context if needed.</p>
+                <div class="mb-3 flex flex-wrap gap-2">
+                    <button type="button" id="showEditOnly"
+                            class="rounded border border-slate-300 bg-slate-900 px-3 py-1 text-sm font-semibold text-white">Edits Only</button>
+                    <button type="button" id="showFullContext"
+                            class="rounded border border-slate-300 bg-white px-3 py-1 text-sm font-semibold text-slate-700">Show Full Context</button>
+                </div>
+
+                <div id="editsOnlyDiff">@Html.Raw(Model.HighlightedChangesIsolatedHtml)</div>
+                <div id="fullContextDiff" class="hidden">@Html.Raw(Model.HighlightedChangesFullHtml)</div>
+            }
+            else
+            {
+                @Html.Raw(Model.HighlightedChangesIsolatedHtml)
+            }
+        </div>
+
+        <div class="app-card p-6">
+            <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+                <h3 class="text-xl font-semibold">Full Updated Article Preview</h3>
+                <button type="button" id="toggleFullPreview"
+                        class="rounded border border-slate-300 bg-white px-3 py-1 text-sm font-semibold text-slate-700">Show Full Preview</button>
+            </div>
+            <p class="mb-3 text-sm text-slate-600">Use this when you want to review the final article as a complete document before approval.</p>
+            <div id="fullArticlePreview" class="hidden">
+                @Html.Raw(Model.FullPreviewHtml)
+            </div>
         </div>
 
         <div class="app-card p-6">
@@ -52,6 +80,18 @@
 
         <div class="app-card p-6">
             <h3 class="mb-4 text-xl font-semibold">Decision</h3>
+
+            @using (Html.BeginForm("RequestClarification", "Review", FormMethod.Post, new { id = "clarificationForm", @class = "mb-5 space-y-3 rounded-lg border border-amber-200 bg-amber-50 p-4" }))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="ContentId" value="@Model.ContentId" />
+                <input type="hidden" name="ReviewId" value="@Model.ReviewId" />
+                <label class="block text-sm font-medium" for="clarificationMessage">Request Clarification From Author</label>
+                <textarea id="clarificationMessage" name="Message"
+                          class="app-form-field w-full rounded-lg border border-amber-300 px-3 py-2" rows="3"
+                          placeholder="Ask the author for clarification before making an approve/reject decision."></textarea>
+                <button type="submit" class="rounded-lg border border-amber-500 bg-white px-4 py-2 text-sm font-semibold text-amber-700 hover:bg-amber-100">Send Clarification Request</button>
+            }
 
             @using (Html.BeginForm("Approve", "Review", FormMethod.Post, new { id = "approveForm", @class = "space-y-3" }))
             {
@@ -122,6 +162,37 @@
                             $("#rejectForm").validate({
                                 rules: { Comments: { required: true, minlength: 5 } },
                                 messages: { Comments: "Rejection comments are required (minimum 5 chars)." }
+                            });
+
+                            $("#clarificationForm").validate({
+                                rules: { Message: { required: true, minlength: 5 } },
+                                messages: { Message: "Clarification request requires at least 5 characters." }
+                            });
+
+                            $("#showEditOnly").on("click", function () {
+                                $("#editsOnlyDiff").removeClass("hidden");
+                                $("#fullContextDiff").addClass("hidden");
+                                $(this).removeClass("bg-white text-slate-700").addClass("bg-slate-900 text-white");
+                                $("#showFullContext").removeClass("bg-slate-900 text-white").addClass("bg-white text-slate-700");
+                            });
+
+                            $("#showFullContext").on("click", function () {
+                                $("#fullContextDiff").removeClass("hidden");
+                                $("#editsOnlyDiff").addClass("hidden");
+                                $(this).removeClass("bg-white text-slate-700").addClass("bg-slate-900 text-white");
+                                $("#showEditOnly").removeClass("bg-slate-900 text-white").addClass("bg-white text-slate-700");
+                            });
+
+                            $("#toggleFullPreview").on("click", function () {
+                                var $preview = $("#fullArticlePreview");
+                                var isHidden = $preview.hasClass("hidden");
+                                if (isHidden) {
+                                    $preview.removeClass("hidden");
+                                    $(this).text("Hide Full Preview");
+                                } else {
+                                    $preview.addClass("hidden");
+                                    $(this).text("Show Full Preview");
+                                }
                             });
 
                             @if (TempData["SuccessMessage"] != null)

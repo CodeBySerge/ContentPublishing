@@ -24,6 +24,43 @@ namespace ContentPublishing.Web.ViewModels
         public DateTime? ScheduledPublishDate { get; set; }
     }
 
+    public class AdminContentQueueViewModel
+    {
+        public IList<AdminQueueItemViewModel> PendingItems { get; set; }
+        public IList<AdminQueueItemViewModel> AwaitingPreviewItems { get; set; }
+        public IList<AdminQueueItemViewModel> CompletedPreviewItems { get; set; }
+    }
+
+    public class AdminQueueItemViewModel
+    {
+        public Guid ContentId { get; set; }
+        public string Title { get; set; }
+        public string AuthorName { get; set; }
+        public DateTime LastModifiedDate { get; set; }
+        public int ChapterCount { get; set; }
+        public string QueueStatusLabel { get; set; }
+    }
+
+    public class AdminContentPreviewViewModel
+    {
+        public Guid ContentId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string AuthorName { get; set; }
+        public DateTime LastModifiedDate { get; set; }
+        public string QueueStatusLabel { get; set; }
+        public bool CanApproveForQueue { get; set; }
+        public bool CanMarkAsReady { get; set; }
+        public IList<AdminPreviewChapterItemViewModel> Chapters { get; set; }
+    }
+
+    public class AdminPreviewChapterItemViewModel
+    {
+        public string ChapterTitle { get; set; }
+        public string ChapterBody { get; set; }
+        public int ChapterOrder { get; set; }
+    }
+
     public class AssignReviewerViewModel
     {
         [Required]
@@ -56,5 +93,24 @@ namespace ContentPublishing.Web.ViewModels
         public IList<string> Roles { get; set; }
         public string AssignedRoleName { get; set; }
         public string AssignedRoleDescription { get; set; }
+    }
+
+    public class ReviewerMetricListItemViewModel
+    {
+        public string ReviewerId { get; set; }
+        public string ReviewerName { get; set; }
+        public string ReviewerEmail { get; set; }
+        public int PendingCount { get; set; }
+        public int CompletedCount { get; set; }
+        public int ApprovedCount { get; set; }
+        public int RejectedCount { get; set; }
+        public int AverageTurnaroundHours { get; set; }
+        public int ApprovalRate { get; set; }
+    }
+
+    public class ReviewerMetricsViewModel
+    {
+        public DateTime GeneratedAtUtc { get; set; }
+        public IList<ReviewerMetricListItemViewModel> Reviewers { get; set; }
     }
 }

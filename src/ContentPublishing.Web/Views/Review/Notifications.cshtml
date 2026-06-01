@@ -1,0 +1,38 @@
+@model ContentPublishing.Web.ViewModels.ReviewNotificationsViewModel
+@{
+    ViewBag.Title = "Review Notifications";
+}
+
+<section class="space-y-5">
+    <div class="app-card p-6">
+        <h2 class="text-2xl font-bold">Notifications</h2>
+        <p class="mt-1 text-sm text-slate-600">New assignments and author clarifications relevant to your reviews.</p>
+    </div>
+
+    @if (Model.Items == null || !Model.Items.Any())
+    {
+        <div class="app-card p-6 text-center text-slate-500">No notifications yet.</div>
+    }
+    else
+    {
+        <div class="space-y-3">
+            @foreach (var item in Model.Items)
+            {
+                <article class="app-card p-5">
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">@item.NotificationType</p>
+                            <h3 class="mt-1 text-lg font-semibold text-slate-900">@Html.Raw(item.Title)</h3>
+                        </div>
+                        <p class="text-xs text-slate-500">@item.CreatedDate.ToString("u")</p>
+                    </div>
+                    <p class="mt-3 text-sm text-slate-700">@item.Message</p>
+                    <div class="mt-4">
+                        <a class="app-btn-primary rounded-lg px-3 py-2 text-xs font-semibold text-white"
+                           href="@Url.Action("ReviewContent", "Review", new { contentId = item.ContentId })">Open Review</a>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+</section>

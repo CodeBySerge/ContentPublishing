@@ -1,0 +1,52 @@
+@model ContentPublishing.Web.ViewModels.ReviewerMetricsViewModel
+@{
+    ViewBag.Title = "Reviewer Metrics";
+}
+
+<section class="space-y-4">
+    <div class="app-card p-6">
+        <h2 class="text-2xl font-bold">Reviewer Performance Metrics</h2>
+        <p class="mt-1 text-sm text-slate-600">Operational snapshot of reviewer workload and review outcomes.</p>
+        <p class="mt-2 text-xs text-slate-500">Generated: @Model.GeneratedAtUtc.ToString("u")</p>
+    </div>
+
+    @if (Model.Reviewers == null || !Model.Reviewers.Any())
+    {
+        <div class="app-card p-6 text-center text-slate-500">No reviewer metrics available yet.</div>
+    }
+    else
+    {
+        <div class="app-card overflow-hidden">
+            <table class="min-w-full text-sm">
+                <thead class="bg-slate-100 text-left text-slate-600">
+                    <tr>
+                        <th class="px-4 py-3">Reviewer</th>
+                        <th class="px-4 py-3">Pending</th>
+                        <th class="px-4 py-3">Completed</th>
+                        <th class="px-4 py-3">Approved</th>
+                        <th class="px-4 py-3">Rejected</th>
+                        <th class="px-4 py-3">Avg Turnaround (hrs)</th>
+                        <th class="px-4 py-3">Approval Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reviewer in Model.Reviewers)
+                    {
+                        <tr class="border-t border-slate-100">
+                            <td class="px-4 py-3">
+                                <p class="font-semibold">@reviewer.ReviewerName</p>
+                                <p class="text-xs text-slate-500">@reviewer.ReviewerEmail</p>
+                            </td>
+                            <td class="px-4 py-3">@reviewer.PendingCount</td>
+                            <td class="px-4 py-3">@reviewer.CompletedCount</td>
+                            <td class="px-4 py-3 text-emerald-700">@reviewer.ApprovedCount</td>
+                            <td class="px-4 py-3 text-red-700">@reviewer.RejectedCount</td>
+                            <td class="px-4 py-3">@reviewer.AverageTurnaroundHours</td>
+                            <td class="px-4 py-3">@reviewer.ApprovalRate%</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

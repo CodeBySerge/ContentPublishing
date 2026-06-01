@@ -18,6 +18,7 @@ namespace ContentPublishing.Web.Controllers
     [Authorize(Roles = RoleNames.Author + "," + RoleNames.Administrator)]
     public class ContentController : Controller
     {
+        private const string ClarificationPrefix = "CLARIFICATION_REQUEST::";
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
         private readonly AuditLogService _audit;
         private readonly WorkflowNotificationService _notifications;
@@ -168,6 +169,18 @@ namespace ContentPublishing.Web.Controllers
                 Status = content.Status,
                 CreatedDate = content.CreatedDate,
                 LastModifiedDate = content.LastModifiedDate,
+                ClarificationRequests = (await _db.Reviews
+                        .Include(r => r.Reviewer)
+                        .Where(r => r.ContentId == content.ContentId && r.Status == ReviewStatuses.Pending && r.Comments != null && r.Comments.StartsWith(ClarificationPrefix))
+                        .OrderByDescending(r => r.SubmittedDate)
+                        .ToListAsync())
+                    .Select(r => new ContentClarificationRequestItemViewModel
+                    {
+                        ReviewerName = string.IsNullOrWhiteSpace(r.Reviewer.FullName) ? r.Reviewer.Email : r.Reviewer.FullName,
+                        Message = (r.Comments ?? string.Empty).Substring(ClarificationPrefix.Length),
+                        RequestedDate = r.SubmittedDate
+                    })
+                    .ToList(),
                 Chapters = content.Chapters
                     .Where(ch => !ch.IsDeleted)
                     .OrderBy(ch => ch.ChapterOrder)
@@ -311,6 +324,21 @@ namespace ContentPublishing.Web.Controllers
                             SubmittedDate = DateTime.UtcNow,
                             AuthorChangeNotes = safeChangeNotes
                         });
+                    }
+                    else
+                    {
+                        var existingReview = await _db.Reviews
+                            .SingleOrDefaultAsync(r => r.ContentId == content.ContentId && r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending);
+
+                        if (existingReview != null)
+                        {
+                            existingReview.AuthorChangeNotes = safeChangeNotes;
+                            existingReview.SubmittedDate = DateTime.UtcNow;
+                            if (!string.IsNullOrWhiteSpace(existingReview.Comments) && existingReview.Comments.StartsWith(ClarificationPrefix))
+                            {
+                                existingReview.Comments = null;
+                            }
+                        }
                     }
                 }
 

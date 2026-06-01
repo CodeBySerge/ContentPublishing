@@ -275,33 +275,40 @@
                        href="@Url.Action("Published", "Content")">Published</a>
                 </nav>
 
-                <h2 class="mt-4 px-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Drafts</h2>
-                <nav class="mt-2 space-y-1 text-sm">
-                    <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Content" && currentAction == "Index" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
-                       href="@Url.Content("~/Content/Index")">My Content</a>
-                </nav>
+                @if (isAuthor)
+                {
+                    <h2 class="mt-4 px-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Drafts</h2>
+                    <nav class="mt-2 space-y-1 text-sm">
+                        <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Content" && currentAction == "Index" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+                           href="@Url.Content("~/Content/Index")">My Content</a>
+                    </nav>
+                }
 
                 @if (isReviewer)
                 {
-                    <h2 class="mt-4 px-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Reviews</h2>
+                    <h2 class="mt-4 px-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Reviewer Workspace</h2>
                     <nav class="mt-2 space-y-1 text-sm">
                         <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Review" && currentAction == "PendingReviews" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
                            href="@Url.Action("PendingReviews", "Review")">Pending Reviews</a>
                         <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Review" && currentAction == "ReviewHistory" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
-                           href="@Url.Action("ReviewHistory", "Review")">Review History</a>
+                           href="@Url.Action("ReviewHistory", "Review")">Completed Reviews</a>
+                        <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Review" && currentAction == "Notifications" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+                           href="@Url.Action("Notifications", "Review")">Notifications</a>
                     </nav>
                 }
 
                 @if (isAdmin)
                 {
-                    <h2 class="mt-4 px-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">User Management</h2>
+                    <h2 class="mt-4 px-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Admin Workspace</h2>
                     <nav class="mt-2 space-y-1 text-sm">
                         <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Admin" && currentAction == "Users" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
                            href="@Url.Action("Users", "Admin")">Users</a>
                         <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Admin" && currentAction == "Dashboard" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
                            href="@Url.Action("Dashboard", "Admin")">Admin Dashboard</a>
                         <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Admin" && currentAction == "ContentManagement" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
-                           href="@Url.Action("ContentManagement", "Admin")">Content Management</a>
+                                    href="@Url.Action("ContentManagement", "Admin")">Admin Content Queue</a>
+                                <a class="app-nav-link block rounded-lg px-3 py-2 @(currentController == "Admin" && currentAction == "ReviewerMetrics" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100")"
+                                    href="@Url.Action("ReviewerMetrics", "Admin")">Reviewer Metrics</a>
                     </nav>
                 }
 

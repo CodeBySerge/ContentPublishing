@@ -48,6 +48,14 @@ namespace ContentPublishing.Web.ViewModels
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
         public IList<ChapterListItemViewModel> Chapters { get; set; }
+        public IList<ContentClarificationRequestItemViewModel> ClarificationRequests { get; set; }
+    }
+
+    public class ContentClarificationRequestItemViewModel
+    {
+        public string ReviewerName { get; set; }
+        public string Message { get; set; }
+        public DateTime RequestedDate { get; set; }
     }
 
     public class ContentVersionListItemViewModel

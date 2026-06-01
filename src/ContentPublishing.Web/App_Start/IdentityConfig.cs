@@ -1,5 +1,6 @@
 using System;
 using System.Configuration;
+using System.Data.Entity;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using ContentPublishing.Web.Models;
@@ -83,6 +84,15 @@ namespace ContentPublishing.Web
 
     public static class IdentitySeeder
     {
+        private sealed class SeedUserDefinition
+        {
+            public string Email { get; set; }
+            public string FullName { get; set; }
+            public string RoleName { get; set; }
+            public string Description { get; set; }
+            public string Password { get; set; }
+        }
+
         public static async Task EnsureRolesAsync(ApplicationDbContext dbContext)
         {
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(dbContext));
@@ -173,6 +183,108 @@ WHERE u.[RoleId] IS NOT NULL
 UPDATE u
 SET u.[Description] = COALESCE(NULLIF(u.[Description], ''), u.[FullName])
 FROM [dbo].[AspNetUsers] u;");
+        }
+
+        public static async Task EnsureTestUsersAsync(ApplicationDbContext dbContext)
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dbContext));
+
+            var roleIds = await dbContext.Roles
+                .ToDictionaryAsync(r => r.Name, r => r.Id);
+
+            var users = new[]
+            {
+                new SeedUserDefinition
+                {
+                    Email = "author.workflow@contentpublishing.local",
+                    FullName = "Workflow Author",
+                    RoleName = RoleNames.Author,
+                    Description = "Seeded test account for author workflow validation.",
+                    Password = "WorkflowAuthor1"
+                },
+                new SeedUserDefinition
+                {
+                    Email = "reviewer.workflow@contentpublishing.local",
+                    FullName = "Workflow Reviewer",
+                    RoleName = RoleNames.Reviewer,
+                    Description = "Seeded test account for reviewer workflow validation.",
+                    Password = "WorkflowReviewer1"
+                },
+                new SeedUserDefinition
+                {
+                    Email = "admin.workflow@contentpublishing.local",
+                    FullName = "Workflow Admin",
+                    RoleName = RoleNames.Administrator,
+                    Description = "Seeded test account for admin queue workflow validation.",
+                    Password = "WorkflowAdmin1"
+                }
+            };
+
+            foreach (var def in users)
+            {
+                var user = await userManager.FindByEmailAsync(def.Email);
+                if (user == null)
+                {
+                    user = new ApplicationUser
+                    {
+                        UserName = def.Email,
+                        Email = def.Email,
+                        FullName = def.FullName,
+                        Description = def.Description,
+                        EmailConfirmed = true,
+                        IsActive = true,
+                        CreatedDate = DateTime.UtcNow,
+                        LastModifiedDate = DateTime.UtcNow
+                    };
+
+                    var createResult = await userManager.CreateAsync(user, def.Password);
+                    if (!createResult.Succeeded)
+                    {
+                        throw new InvalidOperationException("Failed to seed test user " + def.Email + ": " + string.Join("; ", createResult.Errors));
+                    }
+                }
+
+                if (!await userManager.IsInRoleAsync(user.Id, def.RoleName))
+                {
+                    var addRoleResult = await userManager.AddToRoleAsync(user.Id, def.RoleName);
+                    if (!addRoleResult.Succeeded)
+                    {
+                        throw new InvalidOperationException("Failed to assign role " + def.RoleName + " to " + def.Email + ": " + string.Join("; ", addRoleResult.Errors));
+                    }
+                }
+
+                var hasPassword = await userManager.HasPasswordAsync(user.Id);
+                if (hasPassword)
+                {
+                    var removePasswordResult = await userManager.RemovePasswordAsync(user.Id);
+                    if (!removePasswordResult.Succeeded)
+                    {
+                        throw new InvalidOperationException("Failed to reset password for " + def.Email + ": " + string.Join("; ", removePasswordResult.Errors));
+                    }
+                }
+
+                var addPasswordResult = await userManager.AddPasswordAsync(user.Id, def.Password);
+                if (!addPasswordResult.Succeeded)
+                {
+                    throw new InvalidOperationException("Failed to apply password for " + def.Email + ": " + string.Join("; ", addPasswordResult.Errors));
+                }
+
+                user.EmailConfirmed = true;
+                user.IsActive = true;
+                user.Description = def.Description;
+                user.FullName = def.FullName;
+                user.LastModifiedDate = DateTime.UtcNow;
+                if (roleIds.ContainsKey(def.RoleName))
+                {
+                    user.RoleId = roleIds[def.RoleName];
+                }
+
+                var updateResult = await userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded)
+                {
+                    throw new InvalidOperationException("Failed to update seeded user profile for " + def.Email + ": " + string.Join("; ", updateResult.Errors));
+                }
+            }
         }
     }
 }

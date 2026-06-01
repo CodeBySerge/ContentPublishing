@@ -1,0 +1,85 @@
+@model ContentPublishing.Web.ViewModels.AdminContentPreviewViewModel
+@using System.Linq
+@{
+    ViewBag.Title = "Queue Preview";
+}
+
+<section class="space-y-4">
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <div class="rounded border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">@ViewBag.SuccessMessage
+        </div>
+    }
+
+    <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <h2 class="text-2xl font-bold text-slate-900">Queue Preview</h2>
+            <a class="rounded border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50"
+               href="@Url.Action("ContentManagement", "Admin")">Back to Queue</a>
+        </div>
+        <p class="mt-2 text-sm text-slate-500">Full preview before queue readiness confirmation.</p>
+        <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Queue Status:
+            @Model.QueueStatusLabel</p>
+        </div>
+
+        <article class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <header class="border-b border-slate-100 pb-4">
+                <h1 class="text-3xl font-extrabold text-slate-900">@Html.Raw(Model.Title)</h1>
+                <div class="mt-2 flex flex-wrap gap-4 text-xs uppercase tracking-wide text-slate-500">
+                    <span>Author: @Model.AuthorName</span>
+                    <span>Updated: @Model.LastModifiedDate.ToString("u")</span>
+                    <span>Chapters: @(Model.Chapters == null ? 0 : Model.Chapters.Count)</span>
+                </div>
+            </header>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <section class="prose mt-6 max-w-none text-slate-700">
+                    @Html.Raw(Model.Description)
+                </section>
+            }
+
+            @if (Model.Chapters != null && Model.Chapters.Any())
+            {
+                foreach (var chapter in Model.Chapters.OrderBy(c => c.ChapterOrder))
+                {
+                    <section class="mt-8 border-t border-slate-100 pt-6">
+                        <h2 class="text-xl font-semibold text-slate-900">@chapter.ChapterTitle</h2>
+                        <div class="prose mt-3 max-w-none text-slate-700">
+                            @Html.Raw(chapter.ChapterBody)
+                        </div>
+                    </section>
+                }
+            }
+        </article>
+
+        <div class="flex flex-wrap gap-2">
+            @if (Model.CanApproveForQueue)
+            {
+                using (Html.BeginForm("ApproveForQueue", "Admin", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.ContentId" />
+                    <button type="submit" class="rounded bg-slate-900 px-4 py-2 text-sm font-semibold text-white">Approve for
+                        Queue</button>
+                    }
+                }
+
+                @if (Model.CanMarkAsReady)
+                {
+                    using (Html.BeginForm("MarkAsReady", "Admin", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.ContentId" />
+                        <button type="submit" class="rounded bg-emerald-700 px-4 py-2 text-sm font-semibold text-white">Mark as
+                            Ready</button>
+                        }
+                    }
+
+                    @if (!Model.CanApproveForQueue && !Model.CanMarkAsReady)
+                    {
+                        <p class="rounded border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-600">This item has already
+                            completed preview and is marked ready.</p>
+                        }
+                    </div>
+                </section>

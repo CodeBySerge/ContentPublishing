@@ -14,6 +14,8 @@ namespace ContentPublishing.Web
             using (var context = ApplicationDbContext.Create())
             {
                 context.Database.Initialize(false);
+                IdentitySeeder.EnsureRolesAsync(context).GetAwaiter().GetResult();
+                IdentitySeeder.EnsureTestUsersAsync(context).GetAwaiter().GetResult();
                 HandbookImportService.EnsureImported(context);
             }
         }
