@@ -237,7 +237,10 @@ namespace ContentPublishing.Web.Controllers
             review.Comments = model.Comments;
             review.ReviewDate = DateTime.UtcNow;
 
-            var pendingCount = await _db.Reviews.CountAsync(r => r.ContentId == model.ContentId && r.Status == ReviewStatuses.Pending);
+            var pendingCount = await _db.Reviews.CountAsync(r =>
+                r.ContentId == model.ContentId &&
+                r.Status == ReviewStatuses.Pending &&
+                r.ReviewId != model.ReviewId);
             if (pendingCount == 0)
             {
                 var previousStatus = review.Content.Status;
@@ -252,7 +255,7 @@ namespace ContentPublishing.Web.Controllers
                 await _versions.SaveSnapshotAsync(model.ContentId, "APPROVE_CONTENT", reviewerId, "All reviewers approved content.");
                 await _versions.SaveSnapshotAsync(model.ContentId, QueueApproveAction, reviewerId, "Automatically moved to Admin queue as Awaiting Preview.");
 
-                TempData["SuccessMessage"] = "Review approved. Content is now Approved.";
+                TempData["SuccessMessage"] = "Review approved. Content moved to Awaiting Preview in the Admin queue.";
                 return RedirectToAction("PendingReviews");
             }
 

@@ -621,7 +621,7 @@ WHERE ur.[UserId] = @p0 AND ur.[RoleId] = @p1;",
 
             if (queueAction == QueueApproveAction)
             {
-                return "Approved Awaiting Preview";
+                return "Awaiting Preview";
             }
 
             return "Pending";
