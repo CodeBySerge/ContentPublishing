@@ -1,0 +1,31 @@
+@model IReadOnlyList<ContentPublishing.Web.Net8.Models.PendingReviewItemViewModel>
+@{
+    ViewData["Title"] = "Pending Reviews";
+}
+
+<section class="space-y-6">
+    <div class="app-card section-card">
+        <h2>Pending Reviews</h2>
+        <p class="text-muted mb-0">Content items currently under review and available for reviewer inspection.</p>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="app-card section-card text-muted">No pending reviews.</div>
+    }
+    else
+    {
+        <div class="content-grid">
+            @foreach (var item in Model)
+            {
+                <article class="app-card section-card">
+                    <h3 class="h5">@item.Title</h3>
+                    <p class="mb-1 text-muted">Status: @item.Status</p>
+                    <p class="mb-1 text-muted">Chapters: @item.ChapterCount</p>
+                    <p class="mb-3 text-muted">Updated: @item.LastModifiedDate.ToString("u")</p>
+                    <a asp-controller="Review" asp-action="ReviewContent" asp-route-contentId="@item.ContentId">Open review</a>
+                </article>
+            }
+        </div>
+    }
+</section>
