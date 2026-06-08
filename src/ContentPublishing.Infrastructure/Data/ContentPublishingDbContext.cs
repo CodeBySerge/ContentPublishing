@@ -10,6 +10,11 @@ namespace ContentPublishing.Infrastructure.Data
         {
         }
 
+        public ContentPublishingDbContext(string connectionString)
+            : base(connectionString)
+        {
+        }
+
         public DbSet<AppUser> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<ContentItem> Contents { get; set; }

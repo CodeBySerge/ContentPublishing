@@ -1,0 +1,58 @@
+@model IReadOnlyList<ContentPublishing.Web.Net8.Models.ContentListItemViewModel>
+@{
+    ViewData["Title"] = "Content";
+}
+
+<section class="space-y-6">
+    <div class="app-card section-card">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <h2 class="m-0">Content Library</h2>
+            <a class="quick-link" asp-controller="Content" asp-action="Published">Published Content</a>
+        </div>
+        <p class="mt-2 text-muted">Step 1 migration slice: list and read content in the .NET 8 host.</p>
+    </div>
+
+    @if (TempData["ErrorMessage"] is string error && !string.IsNullOrWhiteSpace(error))
+    {
+        <div class="alert alert-warning" role="alert">@error</div>
+    }
+
+    <div class="app-card section-card">
+        @if (!Model.Any())
+        {
+            <p class="m-0 text-muted">No content records found.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Chapter</th>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Chapters</th>
+                            <th>Updated</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(item.ContentNumber == int.MaxValue ? "-" : item.ContentNumber)</td>
+                                <td>@item.Title</td>
+                                <td>@item.Status</td>
+                                <td>@item.ChapterCount</td>
+                                <td>@item.LastModifiedDate.ToString("u")</td>
+                                <td>
+                                    <a asp-controller="Content" asp-action="Details" asp-route-id="@item.ContentId">Open</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

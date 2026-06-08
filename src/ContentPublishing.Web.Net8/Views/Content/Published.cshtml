@@ -1,0 +1,38 @@
+@model IReadOnlyList<ContentPublishing.Web.Net8.Models.ContentListItemViewModel>
+@{
+    ViewData["Title"] = "Published Content";
+}
+
+<section class="space-y-6">
+    <div class="app-card section-card">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <h2 class="m-0">Published Content</h2>
+            <a class="quick-link" asp-controller="Content" asp-action="Index">Back to Content</a>
+        </div>
+    </div>
+
+    @if (TempData["ErrorMessage"] is string error && !string.IsNullOrWhiteSpace(error))
+    {
+        <div class="alert alert-warning" role="alert">@error</div>
+    }
+
+    <div class="content-grid">
+        @if (!Model.Any())
+        {
+            <div class="app-card section-card text-muted">No published content yet.</div>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <article class="app-card section-card">
+                    <h3 class="h5">@item.Title</h3>
+                    <p class="mb-1 text-muted">Status: @item.Status</p>
+                    <p class="mb-1 text-muted">Chapters: @item.ChapterCount</p>
+                    <p class="mb-3 text-muted">Published: @(item.PublishedDate?.ToString("u") ?? "-")</p>
+                    <a asp-controller="Content" asp-action="Details" asp-route-id="@item.ContentId">Open</a>
+                </article>
+            }
+        }
+    </div>
+</section>
