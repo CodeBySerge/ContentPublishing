@@ -15,7 +15,16 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var isAuthenticated = User.Identity?.IsAuthenticated == true;
+        var model = new HomeDashboardViewModel
+        {
+            IsAuthenticated = isAuthenticated,
+            IsAdmin = isAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Administrator")),
+            IsReviewer = isAuthenticated && User.IsInRole("Reviewer"),
+            IsAuthor = isAuthenticated && User.IsInRole("Author")
+        };
+
+        return View(model);
     }
 
     public IActionResult Privacy()

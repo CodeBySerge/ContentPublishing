@@ -1,8 +1,66 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model ContentPublishing.Web.Net8.Models.HomeDashboardViewModel
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="space-y-6">
+    <div class="app-card overflow-hidden">
+        <div class="hero-grid">
+            <div class="hero-panel">
+                <p class="hero-eyebrow">Content Publishing</p>
+                <h2 class="hero-title">Welcome to your workflow dashboard</h2>
+                <p class="hero-copy">This .NET 8 host is the migration target. Existing MVC 5 flows can be moved here incrementally while preserving role-based actions.</p>
+
+                <div class="badge-row">
+                    @if (Model.IsAdmin)
+                    {
+                        <span class="role-badge">Admin Access</span>
+                    }
+                    @if (Model.IsReviewer)
+                    {
+                        <span class="role-badge">Reviewer Queue</span>
+                    }
+                    @if (Model.IsAuthor)
+                    {
+                        <span class="role-badge">Author Drafts</span>
+                    }
+                    @if (!Model.IsAuthenticated)
+                    {
+                        <span class="role-badge">Anonymous Session</span>
+                    }
+                </div>
+            </div>
+
+            <div class="quick-panel">
+                <h3 class="quick-title">Quick Actions</h3>
+                <div class="quick-links">
+                    <a class="quick-link" asp-controller="Home" asp-action="Index">Dashboard Home</a>
+                    <a class="quick-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    <a class="quick-link" href="#">Content Flows (next migration step)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="app-card section-card">
+            <h3>Draft Workspace</h3>
+            <p>Planned: chapter authoring, draft revisions, and submission workflow from the legacy app.</p>
+            <div class="button-row">
+                <a class="app-btn-primary" href="#">Open Drafts (planned)</a>
+            </div>
+        </div>
+
+        <div class="app-card section-card">
+            <h3>Review Queue</h3>
+            @if (Model.IsReviewer)
+            {
+                <p>Reviewer role detected. Pending reviews will be wired in upcoming migration slices.</p>
+            }
+            else
+            {
+                <p>Reviewer access is required to view assigned review tasks.</p>
+            }
+        </div>
+    </div>
+</section>
