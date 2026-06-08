@@ -1,6 +1,6 @@
 - [x] Verify that the copilot-instructions.md file in the .github directory is created. Completed: file exists at .github/copilot-instructions.md.
 
-- [x] Clarify Project Requirements. Completed: .NET Framework 4.8, SQL Server 2022, IIS deployment target, Tailwind CSS, JavaScript/jQuery validation, email notifications, image upload/crop option, version history support, multi-reviewer flow.
+- [x] Clarify Project Requirements. Completed: .NET Framework 4.8.1, SQL Server 2022, IIS deployment target, Tailwind CSS, JavaScript/jQuery validation, email notifications, image upload/crop option, version history support, multi-reviewer flow.
 
 - [x] Scaffold the Project. Completed: created solution and projects under src and tests with layer references.
 

@@ -8,7 +8,7 @@ Use this repo on another PC by cloning the GitHub repository and opening the sol
 
 ## How to Continue on Another PC
 1. Install Visual Studio 2022 with ASP.NET and web development workloads.
-2. Install the .NET Framework 4.8 targeting pack if it is not already available.
+2. Install the .NET Framework 4.8.1 Developer Pack if it is not already available.
 3. Clone the repository:
    ```powershell
    git clone https://github.com/CodeBySerge/ContentPublishing.git
@@ -34,3 +34,4 @@ Use this repo on another PC by cloning the GitHub repository and opening the sol
 - Initial commit created on `main`.
 - Unit tests pass locally.
 - The app currently needs a valid local SQL Server connection string on the machine where you run it.
+- The solution now targets .NET Framework 4.8.1 and carries reference assemblies in NuGet for smoother VS Code builds.

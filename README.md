@@ -2,7 +2,7 @@
 
 ## Stack (Current Scaffold)
 
-- ASP.NET MVC 5 style app targeting .NET Framework 4.8
+- ASP.NET MVC 5 style app targeting .NET Framework 4.8.1
 - SQL Server 2022 (connection string in Web.config)
 - Tailwind CSS (CDN), jQuery + jQuery validation
 - EF6, ASP.NET Identity packages, Serilog, FluentValidation
@@ -22,6 +22,12 @@
 2. Restore NuGet packages.
 3. Set `ContentPublishing.Web` as startup project.
 4. Run with IIS Express.
+
+## Tooling Compatibility
+
+- The solution targets .NET Framework 4.8.1, the latest stable .NET Framework release.
+- SDK-style projects include `Microsoft.NETFramework.ReferenceAssemblies.net481`, so `dotnet build` and `dotnet test` work in VS Code without separately installing the targeting pack.
+- Visual Studio 2022 remains fully supported. Installing the .NET Framework 4.8.1 Developer Pack is still recommended for the smoothest IDE experience.
 
 ## Database Initialization
 
