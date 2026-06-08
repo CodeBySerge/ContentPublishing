@@ -1,0 +1,18 @@
+@model ContentPublishing.Web.Net8.Models.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<section class="space-y-6">
+    <div class="app-card section-card">
+        <h2>Admin Dashboard</h2>
+        <p class="text-muted mb-0">Role-restricted migration slice for admin metrics.</p>
+    </div>
+
+    <div class="content-grid">
+        <article class="app-card section-card"><h3>Total Content</h3><p class="mb-0">@Model.TotalContent</p></article>
+        <article class="app-card section-card"><h3>Draft</h3><p class="mb-0">@Model.DraftCount</p></article>
+        <article class="app-card section-card"><h3>Under Review</h3><p class="mb-0">@Model.UnderReviewCount</p></article>
+        <article class="app-card section-card"><h3>Published</h3><p class="mb-0">@Model.PublishedCount</p></article>
+    </div>
+</section>
