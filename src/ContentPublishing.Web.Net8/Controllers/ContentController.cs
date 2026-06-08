@@ -1,10 +1,12 @@
 using ContentPublishing.Web.Net8.Data;
 using ContentPublishing.Web.Net8.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ContentPublishing.Web.Net8.Controllers;
 
+[Authorize(Roles = "Author,Reviewer,Admin")]
 public class ContentController : Controller
 {
     private readonly ContentReadDbContext _db;
@@ -111,6 +113,7 @@ public class ContentController : Controller
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> Published()
     {
         try

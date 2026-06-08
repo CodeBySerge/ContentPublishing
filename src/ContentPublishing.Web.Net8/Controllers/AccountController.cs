@@ -7,6 +7,13 @@ namespace ContentPublishing.Web.Net8.Controllers;
 
 public class AccountController : Controller
 {
+    private static readonly HashSet<string> AllowedRoles = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Admin",
+        "Reviewer",
+        "Author"
+    };
+
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
 
@@ -85,7 +92,8 @@ public class AccountController : Controller
             return View(model);
         }
 
-        var role = string.IsNullOrWhiteSpace(model.Role) ? "Author" : model.Role;
+        var requestedRole = string.IsNullOrWhiteSpace(model.Role) ? "Author" : model.Role;
+        var role = AllowedRoles.Contains(requestedRole) ? requestedRole : "Author";
         await _userManager.AddToRoleAsync(user, role);
         await _signInManager.SignInAsync(user, isPersistent: false);
 
