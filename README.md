@@ -23,6 +23,21 @@
 3. Set `ContentPublishing.Web` as startup project.
 4. Run with IIS Express.
 
+## NET 8 Migration Track
+
+- The solution now includes [src/ContentPublishing.Web.Net8/ContentPublishing.Web.Net8.csproj](src/ContentPublishing.Web.Net8/ContentPublishing.Web.Net8.csproj) as the ASP.NET Core migration host.
+- Core layers are dual-targeted to `net481;net8.0`:
+  - [src/ContentPublishing.Domain/ContentPublishing.Domain.csproj](src/ContentPublishing.Domain/ContentPublishing.Domain.csproj)
+  - [src/ContentPublishing.Application/ContentPublishing.Application.csproj](src/ContentPublishing.Application/ContentPublishing.Application.csproj)
+  - [src/ContentPublishing.Infrastructure/ContentPublishing.Infrastructure.csproj](src/ContentPublishing.Infrastructure/ContentPublishing.Infrastructure.csproj)
+- Legacy MVC 5 web app remains in [src/ContentPublishing.Web/ContentPublishing.Web.csproj](src/ContentPublishing.Web/ContentPublishing.Web.csproj) during the transition.
+
+Run the new NET 8 web host:
+
+```powershell
+dotnet run --project src/ContentPublishing.Web.Net8/ContentPublishing.Web.Net8.csproj
+```
+
 ## Tooling Compatibility
 
 - The solution targets .NET Framework 4.8.1, the latest stable .NET Framework release.
