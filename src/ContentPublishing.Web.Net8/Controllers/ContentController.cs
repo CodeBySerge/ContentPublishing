@@ -1,38 +1,32 @@
-using ContentPublishing.Infrastructure.Data;
+using ContentPublishing.Web.Net8.Data;
 using ContentPublishing.Web.Net8.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContentPublishing.Web.Net8.Controllers;
 
 public class ContentController : Controller
 {
-    private readonly IConfiguration _configuration;
+    private readonly ContentReadDbContext _db;
 
-    public ContentController(IConfiguration configuration)
+    public ContentController(ContentReadDbContext db)
     {
-        _configuration = configuration;
+        _db = db;
     }
 
     [HttpGet]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var connectionString = _configuration.GetConnectionString("ContentPublishingDb");
-        if (string.IsNullOrWhiteSpace(connectionString))
-        {
-            TempData["ErrorMessage"] = "Missing ContentPublishingDb connection string in appsettings.";
-            return View(new List<ContentListItemViewModel>());
-        }
-
         try
         {
-            using var db = new ContentPublishingDbContext(connectionString);
-
-            var chapterLookup = db.Chapters
+            var chapterLookup = await _db.Chapters
+                .AsNoTracking()
                 .Where(ch => !ch.IsDeleted)
                 .GroupBy(ch => ch.ContentId)
-                .ToDictionary(g => g.Key, g => g.Count());
+                .ToDictionaryAsync(g => g.Key, g => g.Count());
 
-            var items = db.Contents
+            var items = await _db.Contents
+                .AsNoTracking()
                 .OrderBy(c => c.Title)
                 .Select(c => new ContentListItemViewModel
                 {
@@ -44,7 +38,7 @@ public class ContentController : Controller
                     PublishedDate = c.PublishedDate,
                     ChapterCount = 0
                 })
-                .ToList();
+                .ToListAsync();
 
             var normalized = items
                 .Select(i => new ContentListItemViewModel
@@ -71,25 +65,20 @@ public class ContentController : Controller
     }
 
     [HttpGet]
-    public IActionResult Details(Guid id)
+    public async Task<IActionResult> Details(Guid id)
     {
-        var connectionString = _configuration.GetConnectionString("ContentPublishingDb");
-        if (string.IsNullOrWhiteSpace(connectionString))
-        {
-            TempData["ErrorMessage"] = "Missing ContentPublishingDb connection string in appsettings.";
-            return RedirectToAction(nameof(Index));
-        }
-
         try
         {
-            using var db = new ContentPublishingDbContext(connectionString);
-            var content = db.Contents.SingleOrDefault(c => c.ContentId == id);
+            var content = await _db.Contents
+                .AsNoTracking()
+                .SingleOrDefaultAsync(c => c.ContentId == id);
             if (content == null)
             {
                 return NotFound();
             }
 
-            var chapters = db.Chapters
+            var chapters = await _db.Chapters
+                .AsNoTracking()
                 .Where(ch => ch.ContentId == id && !ch.IsDeleted)
                 .OrderBy(ch => ch.ChapterOrder)
                 .Select(ch => new ChapterItemViewModel
@@ -99,7 +88,7 @@ public class ContentController : Controller
                     ChapterTitle = ch.ChapterTitle,
                     IsDeleted = ch.IsDeleted
                 })
-                .ToList();
+                .ToListAsync();
 
             var model = new ContentDetailsViewModel
             {
@@ -122,25 +111,18 @@ public class ContentController : Controller
     }
 
     [HttpGet]
-    public IActionResult Published()
+    public async Task<IActionResult> Published()
     {
-        var connectionString = _configuration.GetConnectionString("ContentPublishingDb");
-        if (string.IsNullOrWhiteSpace(connectionString))
-        {
-            TempData["ErrorMessage"] = "Missing ContentPublishingDb connection string in appsettings.";
-            return View(new List<ContentListItemViewModel>());
-        }
-
         try
         {
-            using var db = new ContentPublishingDbContext(connectionString);
-
-            var chapterLookup = db.Chapters
+            var chapterLookup = await _db.Chapters
+                .AsNoTracking()
                 .Where(ch => !ch.IsDeleted)
                 .GroupBy(ch => ch.ContentId)
-                .ToDictionary(g => g.Key, g => g.Count());
+                .ToDictionaryAsync(g => g.Key, g => g.Count());
 
-            var items = db.Contents
+            var items = await _db.Contents
+                .AsNoTracking()
                 .Where(c => c.Status == "Published")
                 .OrderByDescending(c => c.PublishedDate)
                 .Select(c => new ContentListItemViewModel
@@ -153,7 +135,7 @@ public class ContentController : Controller
                     PublishedDate = c.PublishedDate,
                     ChapterCount = 0
                 })
-                .ToList();
+                .ToListAsync();
 
             var normalized = items
                 .Select(i => new ContentListItemViewModel

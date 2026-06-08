@@ -1,3 +1,4 @@
+using ContentPublishing.Web.Net8.Data;
 using ContentPublishing.Web.Net8.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ContentReadDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ContentPublishingDb")));
 builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDb")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
