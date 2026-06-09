@@ -1,6 +1,7 @@
 using ContentPublishing.Domain.Entities;
 using ContentPublishing.Web.Net8.Data;
 using ContentPublishing.Web.Net8.Models;
+using ContentPublishing.Web.Net8.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,12 @@ namespace ContentPublishing.Web.Net8.Controllers;
 public class ChapterController : Controller
 {
     private readonly ContentReadDbContext _db;
+    private readonly AppIdentityDbContext _identityDb;
 
-    public ChapterController(ContentReadDbContext db)
+    public ChapterController(ContentReadDbContext db, AppIdentityDbContext identityDb)
     {
         _db = db;
+        _identityDb = identityDb;
     }
 
     [HttpGet]
@@ -173,6 +176,55 @@ public class ChapterController : Controller
 
         content.Status = "UnderReview";
         content.LastModifiedDate = DateTime.UtcNow;
+
+        var reviewerRoleId = await _identityDb.Roles
+            .AsNoTracking()
+            .Where(r => r.Name == "Reviewer")
+            .Select(r => r.Id)
+            .SingleOrDefaultAsync();
+
+        if (!string.IsNullOrWhiteSpace(reviewerRoleId))
+        {
+            var reviewerIds = await _identityDb.UserRoles
+                .AsNoTracking()
+                .Where(ur => ur.RoleId == reviewerRoleId)
+                .Select(ur => ur.UserId)
+                .Distinct()
+                .ToListAsync();
+
+            var existingPending = await _db.Reviews
+                .Where(r => r.ContentId == contentId && r.Status == "Pending")
+                .ToListAsync();
+
+            var safeChangeNotes = string.IsNullOrWhiteSpace(changeNotes)
+                ? null
+                : (changeNotes.Trim().Length > 2000 ? changeNotes.Trim().Substring(0, 2000) : changeNotes.Trim());
+
+            foreach (var reviewerId in reviewerIds)
+            {
+                var pending = existingPending.FirstOrDefault(r => string.Equals(r.ReviewerId, reviewerId, StringComparison.Ordinal));
+                if (pending != null)
+                {
+                    pending.AuthorChangeNotes = safeChangeNotes;
+                    pending.SubmittedDate = DateTime.UtcNow;
+                    pending.Comments = null;
+                    continue;
+                }
+
+                _db.Reviews.Add(new ReviewRecord
+                {
+                    ReviewId = Guid.NewGuid(),
+                    ContentId = contentId,
+                    ReviewerId = reviewerId,
+                    Status = "Pending",
+                    Comments = null,
+                    AuthorChangeNotes = safeChangeNotes,
+                    SubmittedDate = DateTime.UtcNow,
+                    ReviewDate = null
+                });
+            }
+        }
+
         await _db.SaveChangesAsync();
 
         TempData["SuccessMessage"] = string.IsNullOrWhiteSpace(changeNotes)

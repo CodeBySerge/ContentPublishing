@@ -1,0 +1,48 @@
+@model IReadOnlyList<ContentPublishing.Web.Net8.Models.ReviewHistoryItemViewModel>
+@{
+    ViewData["Title"] = "Review History";
+}
+
+<section class="space-y-5">
+    <div class="app-card section-card">
+        <h2>Review History</h2>
+        <p class="text-muted mb-0">Your recent review decisions and comments.</p>
+    </div>
+
+    <div class="app-card section-card">
+        @if (!Model.Any())
+        {
+            <p class="text-muted mb-0">No review history yet.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-sm align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Submitted</th>
+                            <th>Reviewed</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-controller="Review" asp-action="ReviewContent" asp-route-contentId="@item.ContentId">@item.Title</a>
+                                </td>
+                                <td>@item.Status</td>
+                                <td>@item.SubmittedDate.ToString("u")</td>
+                                <td>@(item.ReviewDate.HasValue ? item.ReviewDate.Value.ToString("u") : "-")</td>
+                                <td>@item.Comments</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

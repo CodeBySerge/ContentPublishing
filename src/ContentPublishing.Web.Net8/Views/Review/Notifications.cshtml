@@ -1,0 +1,35 @@
+@model ContentPublishing.Web.Net8.Models.ReviewNotificationsViewModel
+@{
+    ViewData["Title"] = "Review Notifications";
+}
+
+<section class="space-y-5">
+    <div class="app-card section-card">
+        <h2>Notifications</h2>
+        <p class="text-muted mb-0">Assignments and author clarifications relevant to your review queue.</p>
+    </div>
+
+    @if (!Model.Items.Any())
+    {
+        <div class="app-card section-card text-muted">No notifications yet.</div>
+    }
+    else
+    {
+        <div class="space-y-3">
+            @foreach (var item in Model.Items)
+            {
+                <article class="app-card section-card">
+                    <div class="d-flex justify-content-between align-items-start gap-2">
+                        <div>
+                            <p class="text-muted small mb-1">@item.NotificationType</p>
+                            <h3 class="h5 mb-1">@item.Title</h3>
+                        </div>
+                        <p class="text-muted small mb-0">@item.CreatedDate.ToString("u")</p>
+                    </div>
+                    <p class="mb-2">@item.Message</p>
+                    <a asp-controller="Review" asp-action="ReviewContent" asp-route-contentId="@item.ContentId">Open Review</a>
+                </article>
+            }
+        </div>
+    }
+</section>
