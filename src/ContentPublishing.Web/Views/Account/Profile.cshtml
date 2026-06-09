@@ -2,35 +2,50 @@
 @{
     ViewBag.Title = "Profile";
     var roleDisplay = (ViewBag.RoleDisplay as string) ?? "Unassigned";
+    var fullName = string.IsNullOrWhiteSpace(Model.FullName) ? Model.UserName : Model.FullName;
 }
 
-<section class="mx-auto max-w-2xl rounded-lg bg-white p-6 shadow">
-    <h2 class="mb-4 text-2xl font-bold">Profile</h2>
-    <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-            <dt class="text-sm text-slate-500">Full Name</dt>
-            <dd class="font-medium">@Model.FullName</dd>
+<section class="mx-auto max-w-4xl space-y-6">
+    <div class="app-card overflow-hidden">
+        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-blue-900 p-8 text-white">
+            <p class="text-xs uppercase tracking-[0.2em] text-blue-100">Account</p>
+            <h2 class="mt-2 text-3xl font-bold">Profile</h2>
+            <p class="mt-2 text-sm text-slate-200">Your account identity and assigned workflow role.</p>
+
+            <div class="mt-6 grid gap-4 md:grid-cols-3">
+                <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm">
+                    <p class="text-xs uppercase tracking-wide text-blue-100">Name</p>
+                    <p class="mt-2 text-lg font-semibold text-white">@fullName</p>
+                </div>
+                <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm">
+                    <p class="text-xs uppercase tracking-wide text-blue-100">Email</p>
+                    <p class="mt-2 break-all text-lg font-semibold text-white">@Model.Email</p>
+                </div>
+                <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm">
+                    <p class="text-xs uppercase tracking-wide text-blue-100">Role</p>
+                    <p class="mt-2 text-lg font-semibold text-white">@roleDisplay</p>
+                </div>
+            </div>
         </div>
-        <div>
-            <dt class="text-sm text-slate-500">Email</dt>
-            <dd class="font-medium">@Model.Email</dd>
-        </div>
-        <div>
-            <dt class="text-sm text-slate-500">Description</dt>
-            <dd class="font-medium">@(string.IsNullOrWhiteSpace(Model.Description) ? "Not provided" : Model.Description)
-            </dd>
-        </div>
-        <div>
-            <dt class="text-sm text-slate-500">Assigned Role</dt>
-            <dd class="font-medium">@roleDisplay</dd>
-        </div>
-        <div>
-            <dt class="text-sm text-slate-500">Created</dt>
-            <dd class="font-medium">@Model.CreatedDate.ToString("u")</dd>
-        </div>
-        <div>
-            <dt class="text-sm text-slate-500">Last Login</dt>
-            <dd class="font-medium">@(Model.LastLogin.HasValue ? Model.LastLogin.Value.ToString("u") : "Never")</dd>
-        </div>
-    </dl>
-</section>
+    </div>
+
+    <div class="app-card p-6">
+        <h3 class="text-lg font-semibold text-slate-900">Additional Details</h3>
+        <dl class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+                <dt class="text-sm text-slate-500">Description</dt>
+                <dd class="font-medium text-slate-900">@(string.IsNullOrWhiteSpace(Model.Description) ? "Not provided" :
+                                        Model.Description)</dd>
+                </div>
+                <div>
+                    <dt class="text-sm text-slate-500">Created</dt>
+                    <dd class="font-medium text-slate-900">@Model.CreatedDate.ToString("u")</dd>
+                </div>
+                <div>
+                    <dt class="text-sm text-slate-500">Last Login</dt>
+                    <dd class="font-medium text-slate-900">@(Model.LastLogin.HasValue? Model.LastLogin.Value.ToString("u")
+                                        : "Never")</dd>
+                    </div>
+                </dl>
+            </div>
+        </section>

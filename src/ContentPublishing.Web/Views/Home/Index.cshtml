@@ -1,146 +1,118 @@
-@using Microsoft.AspNet.Identity
-@using ContentPublishing.Web.Models
 @{
     ViewBag.Title = "Home";
-    var isAdmin = Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Administrator"));
-    var isReviewer = Request.IsAuthenticated && User.IsInRole("Reviewer");
-    var isAuthor = Request.IsAuthenticated && User.IsInRole("Author");
-
-    if (Request.IsAuthenticated)
-    {
-        var userId = User.Identity.GetUserId();
-        if (!string.IsNullOrWhiteSpace(userId))
-        {
-            using (var db = ApplicationDbContext.Create())
-            {
-                var roleNames = db.Users
-                    .Where(u => u.Id == userId)
-                    .SelectMany(u => u.Roles)
-                    .Join(db.Roles, ur => ur.RoleId, r => r.Id, (ur, r) => r.Name)
-                    .ToList();
-
-                var roleById = db.Users
-                    .Where(u => u.Id == userId)
-                    .Select(u => db.Roles.Where(r => r.Id == u.RoleId).Select(r => r.Name).FirstOrDefault())
-                    .FirstOrDefault();
-
-                isAdmin = isAdmin || roleNames.Contains("Administrator") || roleById == "Administrator";
-                isReviewer = isReviewer || roleNames.Contains("Reviewer") || roleById == "Reviewer";
-                isAuthor = isAuthor || roleNames.Contains("Author") || roleById == "Author";
-            }
-        }
-    }
 }
 
-<section class="space-y-6">
+<section id="homeDashboard" class="space-y-6" data-role-state-url="@Url.Action("RoleState", "Home")">
     <div class="app-card overflow-hidden">
         <div class="grid gap-0 lg:grid-cols-[1.7fr_1fr]">
             <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 p-7 text-white">
                 <p class="text-xs uppercase tracking-[0.15em] text-blue-100">Content Publishing</p>
                 <h2 class="mt-2 text-3xl font-bold leading-tight">Welcome to your workflow dashboard</h2>
-                <p class="mt-3 max-w-2xl text-sm text-slate-200">Manage users, collaborate on drafts, and complete review decisions in one place with clear role-specific actions.</p>
+                <p class="mt-3 max-w-2xl text-sm text-slate-200">Manage users, collaborate on drafts, and complete
+                    review decisions in one place with clear role-specific actions.</p>
 
-                <div class="mt-5 flex flex-wrap gap-2 text-xs">
-                    @if (isAdmin)
-                    {
-                        <span class="rounded-full border border-white/30 bg-white/10 px-3 py-1 font-semibold">Admin Access</span>
-                    }
-                    @if (isReviewer)
-                    {
-                        <span class="rounded-full border border-white/30 bg-white/10 px-3 py-1 font-semibold">Reviewer Queue</span>
-                    }
-                    @if (isAuthor)
-                    {
-                        <span class="rounded-full border border-white/30 bg-white/10 px-3 py-1 font-semibold">Author Drafts</span>
-                    }
+                    <div class="mt-5 flex flex-wrap gap-2 text-xs">
+                        <span class="hidden rounded-full border border-white/30 bg-white/10 px-3 py-1 font-semibold"
+                              data-role-visible="admin">Admin Access</span>
+                        <span class="hidden rounded-full border border-white/30 bg-white/10 px-3 py-1 font-semibold"
+                              data-role-visible="reviewer">Reviewer Queue</span>
+                        <span class="hidden rounded-full border border-white/30 bg-white/10 px-3 py-1 font-semibold"
+                              data-role-visible="author">Author Drafts</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="p-6">
-                <h3 class="text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">Quick Actions</h3>
-                <div class="mt-3 space-y-2">
-                    <a class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50" href="@Url.Content("~/Content/Index")">
-                        <span class="flex items-center gap-2"><i class="ri-draft-line" aria-hidden="true"></i> My Drafts</span>
-                        <i class="ri-arrow-right-line" aria-hidden="true"></i>
-                    </a>
-                    <a class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50" href="@Url.Action("Published", "Content")">
-                        <span class="flex items-center gap-2"><i class="ri-book-open-line" aria-hidden="true"></i> Published Content</span>
-                        <i class="ri-arrow-right-line" aria-hidden="true"></i>
-                    </a>
-                    @if (isReviewer)
-                    {
-                        <a class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50" href="@Url.Action("PendingReviews", "Review")">
-                            <span class="flex items-center gap-2"><i class="ri-file-search-line" aria-hidden="true"></i> Pending Reviews</span>
-                            <i class="ri-arrow-right-line" aria-hidden="true"></i>
-                        </a>
-                    }
-                    @if (isAdmin)
-                    {
-                        <a class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50" href="@Url.Action("Users", "Admin")">
-                            <span class="flex items-center gap-2"><i class="ri-team-line" aria-hidden="true"></i> User Management</span>
-                            <i class="ri-arrow-right-line" aria-hidden="true"></i>
-                        </a>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
+                <div class="p-6">
+                    <h3 class="text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">Quick Actions</h3>
+                    <div class="mt-3 space-y-2">
+                        <a class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                           href="@Url.Content("~/Content/Index")">
+                            <span class="flex items-center gap-2"><i class="ri-draft-line" aria-hidden="true"></i> My
+                                Drafts</span>
+                                <i class="ri-arrow-right-line" aria-hidden="true"></i>
+                            </a>
+                            <a class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                               href="@Url.Action("Published", "Content")">
+                                <span class="flex items-center gap-2"><i class="ri-book-open-line" aria-hidden="true"></i>
+                                    Published Content</span>
+                                    <i class="ri-arrow-right-line" aria-hidden="true"></i>
+                                </a>
+                                <a class="hidden flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                                   data-role-visible="reviewer" href="@Url.Action("PendingReviews", "Review")">
+                                    <span class="flex items-center gap-2"><i class="ri-file-search-line" aria-hidden="true"></i>
+                                        Pending Reviews</span>
+                                        <i class="ri-arrow-right-line" aria-hidden="true"></i>
+                                    </a>
+                                    <a class="hidden flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                                       data-role-visible="admin" href="@Url.Action("Users", "Admin")">
+                                        <span class="flex items-center gap-2"><i class="ri-team-line" aria-hidden="true"></i> User
+                                            Management</span>
+                                            <i class="ri-arrow-right-line" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
-        <div class="app-card p-6">
-            <h3 class="text-xl font-semibold text-slate-900">Draft Workspace</h3>
-            <p class="mt-2 text-sm text-slate-600">Create, revise, and submit chapters with reviewer assignment and author notes.</p>
-            <div class="mt-4 flex flex-wrap gap-2">
-                <a class="app-btn-primary rounded-lg px-4 py-2 text-sm font-semibold text-white" href="@Url.Content("~/Content/Index")">Open Drafts</a>
-                <a class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50" href="@Url.Action("Published", "Content")">View Published</a>
-            </div>
-        </div>
+                        <div class="grid gap-4 lg:grid-cols-2">
+                            <div class="app-card p-6">
+                                <h3 class="text-xl font-semibold text-slate-900">Draft Workspace</h3>
+                                <p class="mt-2 text-sm text-slate-600">Create, revise, and submit chapters with reviewer assignment and
+                                    author notes.</p>
+                                    <div class="mt-4 flex flex-wrap gap-2">
+                                        <a class="app-btn-primary rounded-lg px-4 py-2 text-sm font-semibold text-white"
+                                           href="@Url.Content("~/Content/Index")">Open Drafts</a>
+                                        <a class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                                           href="@Url.Action("Published", "Content")">View Published</a>
+                                    </div>
+                                </div>
 
-        @if (isReviewer)
-        {
-            <div class="app-card p-6">
-                <h3 class="text-xl font-semibold text-slate-900">Review Queue</h3>
-                <p class="mt-2 text-sm text-slate-600">Open assigned drafts, inspect highlighted changes, and capture approval or rejection notes.</p>
-                <div class="mt-4 flex flex-wrap gap-2">
-                    <a class="app-btn-accent rounded-lg px-4 py-2 text-sm font-semibold text-white" href="@Url.Action("PendingReviews", "Review")">Open Pending Reviews</a>
-                    <a class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50" href="@Url.Action("ReviewHistory", "Review")">Review History</a>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="app-card p-6">
-                <h3 class="text-xl font-semibold text-slate-900">Review Queue</h3>
-                <p class="mt-2 text-sm text-slate-500">Reviewer access is required to view assigned review tasks.</p>
-            </div>
-        }
-    </div>
+                                <div class="hidden app-card p-6" data-role-visible="reviewer">
+                                    <h3 class="text-xl font-semibold text-slate-900">Review Queue</h3>
+                                    <p class="mt-2 text-sm text-slate-600">Open assigned drafts, inspect highlighted changes, and capture
+                                        approval or rejection notes.</p>
+                                        <div class="mt-4 flex flex-wrap gap-2">
+                                            <a class="app-btn-accent rounded-lg px-4 py-2 text-sm font-semibold text-white"
+                                               href="@Url.Action("PendingReviews", "Review")">Open Pending Reviews</a>
+                                            <a class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                                               href="@Url.Action("ReviewHistory", "Review")">Review History</a>
+                                        </div>
+                                    </div>
+                                    <div class="app-card p-6" data-role-hidden="reviewer">
+                                        <h3 class="text-xl font-semibold text-slate-900">Review Queue</h3>
+                                        <p class="mt-2 text-sm text-slate-500">Reviewer access is required to view assigned review tasks.</p>
+                                    </div>
+                                </div>
 
-    @if (isAdmin)
-    {
-        <div class="app-card p-6">
-            <div class="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                    <h3 class="text-xl font-semibold text-slate-900">Administration Center</h3>
-                    <p class="mt-2 text-sm text-slate-600">Manage roles, track workflow health, and maintain publishing operations.</p>
-                </div>
-                <span class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">Admin</span>
-            </div>
+                                <div class="hidden app-card p-6" data-role-visible="admin">
+                                    <div class="flex flex-wrap items-start justify-between gap-3">
+                                        <div>
+                                            <h3 class="text-xl font-semibold text-slate-900">Administration Center</h3>
+                                            <p class="mt-2 text-sm text-slate-600">Manage roles, track workflow health, and maintain publishing
+                                                operations.</p>
+                                            </div>
+                                            <span class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">Admin</span>
+                                        </div>
 
-            <div class="mt-4 grid gap-3 md:grid-cols-3">
-                <a class="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm hover:bg-slate-100" href="@Url.Action("Users", "Admin")">
-                    <p class="font-semibold text-slate-800">User Management</p>
-                    <p class="mt-1 text-slate-600">Assign and update Author, Reviewer, and Admin roles.</p>
-                </a>
-                <a class="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm hover:bg-slate-100" href="@Url.Action("Dashboard", "Admin")">
-                    <p class="font-semibold text-slate-800">Admin Dashboard</p>
-                    <p class="mt-1 text-slate-600">Monitor status counts and key workflow metrics.</p>
-                </a>
-                <a class="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm hover:bg-slate-100" href="@Url.Action("ContentManagement", "Admin")">
-                    <p class="font-semibold text-slate-800">Content Management</p>
-                    <p class="mt-1 text-slate-600">Publish and schedule approved content.</p>
-                </a>
-            </div>
-        </div>
-    }
-</section>
+                                        <div class="mt-4 grid gap-3 md:grid-cols-3">
+                                            <a class="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm hover:bg-slate-100"
+                                               href="@Url.Action("Users", "Admin")">
+                                                <p class="font-semibold text-slate-800">User Management</p>
+                                                <p class="mt-1 text-slate-600">Assign and update Author, Reviewer, and Admin roles.</p>
+                                            </a>
+                                            <a class="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm hover:bg-slate-100"
+                                               href="@Url.Action("Dashboard", "Admin")">
+                                                <p class="font-semibold text-slate-800">Admin Dashboard</p>
+                                                <p class="mt-1 text-slate-600">Monitor status counts and key workflow metrics.</p>
+                                            </a>
+                                            <a class="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm hover:bg-slate-100"
+                                               href="@Url.Action("ContentManagement", "Admin")">
+                                                <p class="font-semibold text-slate-800">Content Management</p>
+                                                <p class="mt-1 text-slate-600">Publish and schedule approved content.</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                @section scripts {
+                                    <script src="@Url.Content("~/Scripts/home-index.js")"></script>
+                                }

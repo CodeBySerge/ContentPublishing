@@ -37,8 +37,7 @@ namespace ContentPublishing.Web.Controllers
         {
             var reviewerId = User.Identity.GetUserId();
 
-            var pendingItems = await _db.Reviews
-                .Where(r => r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending && r.Content.Status == ContentStatuses.UnderReview)
+            var pendingItems = await BuildPendingReviewQuery(reviewerId)
                 .OrderBy(r => r.SubmittedDate)
                 .Select(r => new PendingReviewListItemViewModel
                 {
@@ -55,7 +54,7 @@ namespace ContentPublishing.Web.Controllers
                 .CountAsync(r => r.ReviewerId == reviewerId && (r.Status == ReviewStatuses.Approved || r.Status == ReviewStatuses.Rejected));
 
             var clarificationCount = await _db.Reviews
-                .CountAsync(r => r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending && r.Content.Status == ContentStatuses.UnderReview && !string.IsNullOrEmpty(r.AuthorChangeNotes));
+                .CountAsync(r => r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending && !string.IsNullOrEmpty(r.AuthorChangeNotes));
 
             var model = new ReviewDashboardViewModel
             {
@@ -73,8 +72,7 @@ namespace ContentPublishing.Web.Controllers
         {
             var reviewerId = User.Identity.GetUserId();
 
-            var assignments = await _db.Reviews
-                .Where(r => r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending && r.Content.Status == ContentStatuses.UnderReview)
+            var assignments = await BuildPendingReviewQuery(reviewerId)
                 .Select(r => new ReviewNotificationListItemViewModel
                 {
                     ContentId = r.ContentId,
@@ -87,7 +85,7 @@ namespace ContentPublishing.Web.Controllers
                 .ToListAsync();
 
             var clarifications = await _db.Reviews
-                .Where(r => r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending && r.Content.Status == ContentStatuses.UnderReview && !string.IsNullOrEmpty(r.AuthorChangeNotes))
+                .Where(r => r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending && !string.IsNullOrEmpty(r.AuthorChangeNotes))
                 .Select(r => new ReviewNotificationListItemViewModel
                 {
                     ContentId = r.ContentId,
@@ -118,8 +116,7 @@ namespace ContentPublishing.Web.Controllers
         {
             var reviewerId = User.Identity.GetUserId();
 
-            var pendingItems = await _db.Reviews
-                .Where(r => r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending && r.Content.Status == ContentStatuses.UnderReview)
+            var pendingItems = await BuildPendingReviewQuery(reviewerId)
                 .OrderBy(r => r.SubmittedDate)
                 .Select(r => new PendingReviewListItemViewModel
                 {
@@ -142,11 +139,14 @@ namespace ContentPublishing.Web.Controllers
             var review = await _db.Reviews
                 .Include(r => r.Content)
                 .Include(r => r.Content.Chapters)
-                .SingleOrDefaultAsync(r => r.ContentId == contentId && r.ReviewerId == reviewerId);
+                .Where(r => r.ContentId == contentId && r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending)
+                .OrderByDescending(r => r.SubmittedDate)
+                .FirstOrDefaultAsync();
 
             if (review == null)
             {
-                return HttpNotFound();
+                TempData["ErrorMessage"] = "No active pending review was found for this content.";
+                return RedirectToAction("PendingReviews");
             }
 
             var model = new ReviewContentViewModel
@@ -211,6 +211,11 @@ namespace ContentPublishing.Web.Controllers
                 .ToListAsync();
 
             return View(history);
+        }
+
+        private IQueryable<ReviewEntity> BuildPendingReviewQuery(string reviewerId)
+        {
+            return _db.Reviews.Where(r => r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending);
         }
 
         [HttpPost]
