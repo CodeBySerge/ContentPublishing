@@ -13,6 +13,7 @@ public sealed class ContentReadDbContext : DbContext
     public DbSet<ContentItem> Contents => Set<ContentItem>();
     public DbSet<Chapter> Chapters => Set<Chapter>();
 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
