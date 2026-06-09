@@ -1,0 +1,98 @@
+@model ContentPublishing.Web.Net8.Models.AdminContentManagementViewModel
+@{
+    ViewData["Title"] = "Admin Content Management";
+}
+
+<section class="space-y-6">
+    <div class="app-card section-card">
+        <h2>Content Management</h2>
+        <p class="text-muted mb-0">Publish approved content and manage published items.</p>
+    </div>
+
+    @if (TempData["ErrorMessage"] is string error && !string.IsNullOrWhiteSpace(error))
+    {
+        <div class="alert alert-warning" role="alert">@error</div>
+    }
+    @if (TempData["SuccessMessage"] is string success && !string.IsNullOrWhiteSpace(success))
+    {
+        <div class="alert alert-success" role="status">@success</div>
+    }
+
+    <div class="app-card section-card">
+        <h3>Ready To Publish</h3>
+        @if (!Model.ReadyToPublish.Any())
+        {
+            <p class="text-muted mb-0">No approved content awaiting publication.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Updated</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ReadyToPublish)
+                        {
+                            <tr>
+                                <td>@item.Title</td>
+                                <td>@item.Status</td>
+                                <td>@item.LastModifiedDate.ToString("u")</td>
+                                <td>
+                                    <form asp-controller="Admin" asp-action="Publish" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="contentId" value="@item.ContentId" />
+                                        <button type="submit" class="btn btn-sm btn-primary">Publish</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+    <div class="app-card section-card">
+        <h3>Recent Published</h3>
+        @if (!Model.RecentPublished.Any())
+        {
+            <p class="text-muted mb-0">No published content yet.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Published</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.RecentPublished)
+                        {
+                            <tr>
+                                <td>@item.Title</td>
+                                <td>@(item.PublishedDate?.ToString("u") ?? "-")</td>
+                                <td>
+                                    <form asp-controller="Admin" asp-action="MoveToDraft" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="contentId" value="@item.ContentId" />
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary">Move To Draft</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

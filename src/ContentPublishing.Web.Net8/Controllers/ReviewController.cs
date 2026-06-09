@@ -120,4 +120,66 @@ public class ReviewController : Controller
 
         return View(model);
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Approve(ReviewDecisionViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = "Invalid review request.";
+            return RedirectToAction(nameof(PendingReviews));
+        }
+
+        var content = await _db.Contents.SingleOrDefaultAsync(c => c.ContentId == model.ContentId);
+        if (content == null)
+        {
+            TempData["ErrorMessage"] = "Content not found.";
+            return RedirectToAction(nameof(PendingReviews));
+        }
+
+        if (!string.Equals(content.Status, "UnderReview", StringComparison.OrdinalIgnoreCase))
+        {
+            TempData["ErrorMessage"] = "Only UnderReview content can be approved.";
+            return RedirectToAction(nameof(ReviewContent), new { contentId = model.ContentId });
+        }
+
+        content.Status = "Approved";
+        content.LastModifiedDate = DateTime.UtcNow;
+        await _db.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = "Content approved and moved to Admin publishing queue.";
+        return RedirectToAction(nameof(PendingReviews));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Reject(ReviewDecisionViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = "Invalid review request.";
+            return RedirectToAction(nameof(PendingReviews));
+        }
+
+        var content = await _db.Contents.SingleOrDefaultAsync(c => c.ContentId == model.ContentId);
+        if (content == null)
+        {
+            TempData["ErrorMessage"] = "Content not found.";
+            return RedirectToAction(nameof(PendingReviews));
+        }
+
+        if (!string.Equals(content.Status, "UnderReview", StringComparison.OrdinalIgnoreCase))
+        {
+            TempData["ErrorMessage"] = "Only UnderReview content can be rejected.";
+            return RedirectToAction(nameof(ReviewContent), new { contentId = model.ContentId });
+        }
+
+        content.Status = "Draft";
+        content.LastModifiedDate = DateTime.UtcNow;
+        await _db.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = "Content rejected and returned to Draft.";
+        return RedirectToAction(nameof(PendingReviews));
+    }
 }
