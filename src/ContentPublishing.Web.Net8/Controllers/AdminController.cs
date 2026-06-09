@@ -3,6 +3,7 @@ using ContentPublishing.Web.Net8.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ContentPublishing.Web.Net8.Controllers;
 
@@ -87,9 +88,26 @@ public class AdminController : Controller
             return RedirectToAction(nameof(ContentManagement));
         }
 
+        var previousStatus = content.Status;
         content.Status = "Published";
         content.PublishedDate = DateTime.UtcNow;
         content.LastModifiedDate = DateTime.UtcNow;
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+        _db.AuditLogs.Add(new AuditLogRecord
+        {
+            LogId = Guid.NewGuid(),
+            UserId = userId,
+            Action = AuditActions.Publish,
+            EntityType = "Content",
+            EntityId = contentId,
+            OldValue = previousStatus,
+            NewValue = "Published",
+            IpAddress = ip,
+            ChangeDetails = "Admin published approved content."
+        });
+
         await _db.SaveChangesAsync();
 
         TempData["SuccessMessage"] = "Content published successfully.";
@@ -107,9 +125,24 @@ public class AdminController : Controller
             return RedirectToAction(nameof(ContentManagement));
         }
 
+        var previousStatus = content.Status;
         content.Status = "Draft";
         content.PublishedDate = null;
         content.LastModifiedDate = DateTime.UtcNow;
+
+        _db.AuditLogs.Add(new AuditLogRecord
+        {
+            LogId = Guid.NewGuid(),
+            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+            Action = AuditActions.StatusChange,
+            EntityType = "Content",
+            EntityId = contentId,
+            OldValue = previousStatus,
+            NewValue = "Draft",
+            IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString(),
+            ChangeDetails = "Admin moved content back to draft."
+        });
+
         await _db.SaveChangesAsync();
 
         TempData["SuccessMessage"] = "Content moved back to Draft.";

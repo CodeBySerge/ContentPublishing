@@ -5,6 +5,7 @@ using ContentPublishing.Web.Net8.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ContentPublishing.Web.Net8.Controllers;
 
@@ -174,6 +175,7 @@ public class ChapterController : Controller
             return RedirectToAction("Details", "Content", new { id = contentId });
         }
 
+        var previousStatus = content.Status;
         content.Status = "UnderReview";
         content.LastModifiedDate = DateTime.UtcNow;
 
@@ -223,6 +225,39 @@ public class ChapterController : Controller
                     ReviewDate = null
                 });
             }
+        }
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+        _db.AuditLogs.Add(new AuditLogRecord
+        {
+            LogId = Guid.NewGuid(),
+            UserId = userId,
+            Action = AuditActions.Submit,
+            EntityType = "Content",
+            EntityId = contentId,
+            OldValue = previousStatus,
+            NewValue = "UnderReview",
+            IpAddress = ip,
+            ChangeDetails = string.IsNullOrWhiteSpace(changeNotes)
+                ? "Draft submitted for review."
+                : "Draft submitted for review with change notes."
+        });
+
+        if (!string.Equals(previousStatus, "UnderReview", StringComparison.OrdinalIgnoreCase))
+        {
+            _db.AuditLogs.Add(new AuditLogRecord
+            {
+                LogId = Guid.NewGuid(),
+                UserId = userId,
+                Action = AuditActions.StatusChange,
+                EntityType = "Content",
+                EntityId = contentId,
+                OldValue = previousStatus,
+                NewValue = "UnderReview",
+                IpAddress = ip,
+                ChangeDetails = "Content moved to UnderReview."
+            });
         }
 
         await _db.SaveChangesAsync();

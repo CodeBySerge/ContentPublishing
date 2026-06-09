@@ -225,11 +225,43 @@ public class ReviewController : Controller
         review.ReviewDate = DateTime.UtcNow;
 
         var hasOtherPending = await _db.Reviews.AnyAsync(r => r.ContentId == model.ContentId && r.Status == "Pending" && r.ReviewId != review.ReviewId);
+        var previousStatus = content.Status;
         if (!hasOtherPending)
         {
             content.Status = "Approved";
         }
         content.LastModifiedDate = DateTime.UtcNow;
+
+        var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+        _db.AuditLogs.Add(new AuditLogRecord
+        {
+            LogId = Guid.NewGuid(),
+            UserId = reviewerId,
+            Action = AuditActions.Approve,
+            EntityType = "Review",
+            EntityId = review.ReviewId,
+            OldValue = "Pending",
+            NewValue = "Approved",
+            IpAddress = ip,
+            ChangeDetails = "Reviewer approved content."
+        });
+
+        if (!hasOtherPending && !string.Equals(previousStatus, "Approved", StringComparison.OrdinalIgnoreCase))
+        {
+            _db.AuditLogs.Add(new AuditLogRecord
+            {
+                LogId = Guid.NewGuid(),
+                UserId = reviewerId,
+                Action = AuditActions.StatusChange,
+                EntityType = "Content",
+                EntityId = model.ContentId,
+                OldValue = previousStatus,
+                NewValue = "Approved",
+                IpAddress = ip,
+                ChangeDetails = "All assigned reviewers approved content."
+            });
+        }
+
         await _db.SaveChangesAsync();
 
         TempData["SuccessMessage"] = hasOtherPending
@@ -283,8 +315,36 @@ public class ReviewController : Controller
         review.Comments = string.IsNullOrWhiteSpace(model.Comments) ? "Rejected" : model.Comments.Trim();
         review.ReviewDate = DateTime.UtcNow;
 
+        var previousStatus = content.Status;
         content.Status = "Draft";
         content.LastModifiedDate = DateTime.UtcNow;
+
+        var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+        _db.AuditLogs.Add(new AuditLogRecord
+        {
+            LogId = Guid.NewGuid(),
+            UserId = reviewerId,
+            Action = AuditActions.Reject,
+            EntityType = "Review",
+            EntityId = review.ReviewId,
+            OldValue = "Pending",
+            NewValue = "Rejected",
+            IpAddress = ip,
+            ChangeDetails = "Reviewer rejected content."
+        });
+        _db.AuditLogs.Add(new AuditLogRecord
+        {
+            LogId = Guid.NewGuid(),
+            UserId = reviewerId,
+            Action = AuditActions.StatusChange,
+            EntityType = "Content",
+            EntityId = model.ContentId,
+            OldValue = previousStatus,
+            NewValue = "Draft",
+            IpAddress = ip,
+            ChangeDetails = "Rejected content returned to Draft."
+        });
+
         await _db.SaveChangesAsync();
 
         TempData["SuccessMessage"] = "Content rejected and returned to Draft.";
@@ -420,6 +480,20 @@ public class ReviewController : Controller
         }
 
         review.Comments = ClarificationPrefix + message;
+
+        _db.AuditLogs.Add(new AuditLogRecord
+        {
+            LogId = Guid.NewGuid(),
+            UserId = reviewerId,
+            Action = AuditActions.Update,
+            EntityType = "Review",
+            EntityId = review.ReviewId,
+            OldValue = null,
+            NewValue = "CLARIFICATION_REQUESTED",
+            IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString(),
+            ChangeDetails = "Reviewer requested clarification from author."
+        });
+
         await _db.SaveChangesAsync();
 
         TempData["SuccessMessage"] = "Clarification requested from author.";

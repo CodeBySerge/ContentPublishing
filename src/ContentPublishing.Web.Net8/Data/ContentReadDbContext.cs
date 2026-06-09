@@ -14,6 +14,7 @@ public sealed class ContentReadDbContext : DbContext
     public DbSet<ContentItem> Contents => Set<ContentItem>();
     public DbSet<Chapter> Chapters => Set<Chapter>();
     public DbSet<ReviewRecord> Reviews => Set<ReviewRecord>();
+    public DbSet<AuditLogRecord> AuditLogs => Set<AuditLogRecord>();
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,5 +24,6 @@ public sealed class ContentReadDbContext : DbContext
         modelBuilder.Entity<ContentItem>().ToTable("Content");
         modelBuilder.Entity<Chapter>().ToTable("Chapter");
         modelBuilder.Entity<ReviewRecord>().ToTable("Review");
+        modelBuilder.Entity<AuditLogRecord>().ToTable("AuditLog");
     }
 }
