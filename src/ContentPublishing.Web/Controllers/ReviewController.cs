@@ -215,7 +215,13 @@ namespace ContentPublishing.Web.Controllers
 
         private IQueryable<ReviewEntity> BuildPendingReviewQuery(string reviewerId)
         {
-            return _db.Reviews.Where(r => r.ReviewerId == reviewerId && r.Status == ReviewStatuses.Pending);
+            return _db.Reviews.Where(r =>
+                r.ReviewerId == reviewerId &&
+                r.Status == ReviewStatuses.Pending &&
+                (
+                    _db.ContentReviewerAssignments.Any(a => a.ContentId == r.ContentId && a.ReviewerId == r.ReviewerId && a.IsActive) ||
+                    !_db.ContentReviewerAssignments.Any(a => a.ContentId == r.ContentId && a.ReviewerId == r.ReviewerId)
+                ));
         }
 
         [HttpPost]
@@ -242,32 +248,27 @@ namespace ContentPublishing.Web.Controllers
             review.Comments = model.Comments;
             review.ReviewDate = DateTime.UtcNow;
 
-            var pendingCount = await _db.Reviews.CountAsync(r =>
-                r.ContentId == model.ContentId &&
-                r.Status == ReviewStatuses.Pending &&
-                r.ReviewId != model.ReviewId);
-            if (pendingCount == 0)
+            var previousStatus = review.Content.Status;
+            review.Content.Status = ContentStatuses.Approved;
+            review.Content.LastModifiedDate = DateTime.UtcNow;
+
+            var otherAssignments = await _db.ContentReviewerAssignments
+                .Where(a => a.ContentId == model.ContentId && a.ReviewerId != reviewerId && a.IsActive)
+                .ToListAsync();
+            foreach (var assignment in otherAssignments)
             {
-                var previousStatus = review.Content.Status;
-                review.Content.Status = ContentWorkflowRules.ResolveStatusAfterApproval(review.Content.Status, pendingCount);
-                review.Content.LastModifiedDate = DateTime.UtcNow;
-
-                await _db.SaveChangesAsync();
-
-                await _audit.LogAsync(reviewerId, AuditActions.Approve, "Review", review.ReviewId, ReviewStatuses.Pending, ReviewStatuses.Approved, Request.UserHostAddress, "Reviewer approved content.");
-                await _audit.LogAsync(reviewerId, AuditActions.StatusChange, "Content", model.ContentId, previousStatus, ContentStatuses.Approved, Request.UserHostAddress, "All assigned reviewers approved content.");
-                await _notifications.NotifyContentApprovedAsync(review.Content);
-                await _versions.SaveSnapshotAsync(model.ContentId, "APPROVE_CONTENT", reviewerId, "All reviewers approved content.");
-                await _versions.SaveSnapshotAsync(model.ContentId, QueueApproveAction, reviewerId, "Automatically moved to Admin queue as Awaiting Preview.");
-
-                TempData["SuccessMessage"] = "Review approved. Content moved to Awaiting Preview in the Admin queue.";
-                return RedirectToAction("PendingReviews");
+                assignment.IsActive = false;
             }
 
             await _db.SaveChangesAsync();
-            await _audit.LogAsync(reviewerId, AuditActions.Approve, "Review", review.ReviewId, ReviewStatuses.Pending, ReviewStatuses.Approved, Request.UserHostAddress, "Reviewer approved content.");
 
-            TempData["SuccessMessage"] = "Your review approval has been recorded.";
+            await _audit.LogAsync(reviewerId, AuditActions.Approve, "Review", review.ReviewId, ReviewStatuses.Pending, ReviewStatuses.Approved, Request.UserHostAddress, "Reviewer approved content.");
+            await _audit.LogAsync(reviewerId, AuditActions.StatusChange, "Content", model.ContentId, previousStatus, ContentStatuses.Approved, Request.UserHostAddress, "At least one reviewer approved content; moved to admin queue.");
+            await _notifications.NotifyContentApprovedAsync(review.Content);
+            await _versions.SaveSnapshotAsync(model.ContentId, "APPROVE_CONTENT", reviewerId, "First reviewer approved content.");
+            await _versions.SaveSnapshotAsync(model.ContentId, QueueApproveAction, reviewerId, "Automatically moved to Admin queue as Awaiting Preview.");
+
+            TempData["SuccessMessage"] = "Review approved. Content moved to Awaiting Preview in the Admin queue.";
             return RedirectToAction("PendingReviews");
         }
 

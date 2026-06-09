@@ -1,0 +1,66 @@
+@model ContentPublishing.Web.ViewModels.AdminHandbookPreviewViewModel
+@using System.Linq
+@{
+    ViewBag.Title = "Full Handbook Preview";
+}
+
+<section class="space-y-4">
+    <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <h2 class="text-2xl font-bold text-slate-900">Full Handbook Preview</h2>
+            <div class="flex flex-wrap gap-2">
+                <a class="rounded border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50"
+                   href="@Url.Action("Preview", "Admin", new { id = Model.FocusContentId })">Back to Item Preview</a>
+                <a class="rounded bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+                   href="@Url.Action("DownloadHandbookPreview", "Admin", new { id = Model.FocusContentId })">Download
+                    Handbook</a>
+                </div>
+            </div>
+
+            <p class="mt-2 text-sm text-slate-600">Compiled preview of all approved handbook sections before publish.</p>
+            <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Generated: @Model.GeneratedAtUtc.ToString("u")
+            </p>
+            <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Sections: @Model.TotalSectionCount | Chapters: @Model.TotalChapterCount
+            </p>
+        </div>
+
+        @if (Model.Sections == null || !Model.Sections.Any())
+        {
+            <div class="rounded border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">No approved sections available
+                for handbook preview.</div>
+            }
+    else
+            {
+                foreach (var section in Model.Sections)
+                {
+                    <article class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+                        <header class="border-b border-slate-100 pb-4">
+                            <h3 class="text-2xl font-bold text-slate-900">@Html.Raw(section.Title)</h3>
+                            <p class="mt-1 text-xs uppercase tracking-wide text-slate-500">Chapters: @section.ChapterCount</p>
+                        </header>
+
+                        @if (!string.IsNullOrWhiteSpace(section.Description))
+                        {
+                            <section class="prose mt-6 max-w-none text-slate-700">
+                                @Html.Raw(section.Description)
+                            </section>
+                        }
+
+                        @if (section.Chapters != null && section.Chapters.Any())
+                        {
+                            foreach (var chapter in section.Chapters.OrderBy(c => c.ChapterOrder))
+                            {
+                                <section class="mt-8 border-t border-slate-100 pt-6">
+                                    <h4 class="text-xl font-semibold text-slate-900">@chapter.ChapterTitle</h4>
+                                    <div class="prose mt-3 max-w-none text-slate-700">
+                                        @Html.Raw(chapter.ChapterBody)
+                                    </div>
+                                </section>
+                            }
+                        }
+                    </article>
+                }
+            }
+        </section>

@@ -51,6 +51,7 @@ namespace ContentPublishing.Web.ViewModels
         public string QueueStatusLabel { get; set; }
         public bool CanApproveForQueue { get; set; }
         public bool CanMarkAsReady { get; set; }
+        public bool CanPublish { get; set; }
         public IList<AdminPreviewChapterItemViewModel> Chapters { get; set; }
     }
 
@@ -59,6 +60,25 @@ namespace ContentPublishing.Web.ViewModels
         public string ChapterTitle { get; set; }
         public string ChapterBody { get; set; }
         public int ChapterOrder { get; set; }
+    }
+
+    public class AdminHandbookPreviewViewModel
+    {
+        public Guid FocusContentId { get; set; }
+        public string FocusTitle { get; set; }
+        public DateTime GeneratedAtUtc { get; set; }
+        public int TotalSectionCount { get; set; }
+        public int TotalChapterCount { get; set; }
+        public IList<AdminHandbookSectionViewModel> Sections { get; set; }
+    }
+
+    public class AdminHandbookSectionViewModel
+    {
+        public Guid ContentId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int ChapterCount { get; set; }
+        public IList<AdminPreviewChapterItemViewModel> Chapters { get; set; }
     }
 
     public class AssignReviewerViewModel

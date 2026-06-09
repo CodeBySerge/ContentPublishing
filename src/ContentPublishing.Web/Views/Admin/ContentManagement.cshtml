@@ -2,12 +2,13 @@
 @using System.Linq
 @{
     ViewBag.Title = "Admin Content Queue";
+    var publishedContentTitle = TempData["PublishedContentTitle"] as string;
 }
 
 <section class="space-y-4">
     <h2 class="text-2xl font-bold">Admin Content Queue</h2>
-    <p class="text-sm text-slate-600">Admin queue for approved article and handbook items. Publishing is intentionally
-        not part of this stage.</p>
+    <p class="text-sm text-slate-600">Admin queue for approved article and handbook items. Workflow: Approve for Queue,
+        Mark as Ready, then Publish from Completed.</p>
 
         @if (TempData["ErrorMessage"] != null)
         {
@@ -17,6 +18,16 @@
         {
             <div class="rounded border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
                 @TempData["SuccessMessage"]</div>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(publishedContentTitle))
+            {
+                <div id="publishToast"
+                     class="fixed right-4 top-4 z-50 hidden rounded-lg border border-blue-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-lg"
+                     role="status" aria-live="polite" data-title="@publishedContentTitle">
+                    <strong class="font-semibold text-slate-900">Publish update:</strong>
+                    <span id="publishToastMessage"></span>
+                </div>
             }
 
             <div class="rounded-lg border border-slate-200 bg-white p-4">
@@ -64,6 +75,10 @@
                                                     <div class="flex flex-wrap gap-2">
                                                         <a class="rounded border border-slate-300 px-3 py-1 hover:bg-slate-50"
                                                            href="@Url.Action("Preview", "Admin", new { id = item.ContentId })">Preview</a>
+                                                                          <a class="rounded border border-blue-300 px-3 py-1 text-blue-700 hover:bg-blue-50"
+                                                                              href="@Url.Action("HandbookPreview", "Admin", new { id = item.ContentId })"
+                                                                              target="_blank"
+                                                                              rel="noopener noreferrer">Full Handbook</a>
                                                         @using (Html.BeginForm("ApproveForQueue", "Admin", FormMethod.Post))
                                                         {
                                                             @Html.AntiForgeryToken()
@@ -116,6 +131,10 @@
                                                         <div class="flex flex-wrap gap-2">
                                                             <a class="rounded border border-slate-300 px-3 py-1 hover:bg-slate-50"
                                                                href="@Url.Action("Preview", "Admin", new { id = item.ContentId })">Preview</a>
+                                                                                <a class="rounded border border-blue-300 px-3 py-1 text-blue-700 hover:bg-blue-50"
+                                                                                    href="@Url.Action("HandbookPreview", "Admin", new { id = item.ContentId })"
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer">Full Handbook</a>
                                                             @using (Html.BeginForm("MarkAsReady", "Admin", FormMethod.Post))
                                                             {
                                                                 @Html.AntiForgeryToken()
@@ -165,8 +184,27 @@
                                                         <td class="px-4 py-3">@item.ChapterCount</td>
                                                         <td class="px-4 py-3">@item.LastModifiedDate.ToString("u")</td>
                                                         <td class="px-4 py-3">
-                                                            <a class="rounded border border-slate-300 px-3 py-1 hover:bg-slate-50"
-                                                               href="@Url.Action("Preview", "Admin", new { id = item.ContentId })">Preview</a>
+                                                            <div class="flex flex-wrap gap-2">
+                                                                <a class="rounded border border-slate-300 px-3 py-1 hover:bg-slate-50"
+                                                                   href="@Url.Action("Preview", "Admin", new { id = item.ContentId })">Preview</a>
+                                                                                     <a class="rounded border border-blue-300 px-3 py-1 text-blue-700 hover:bg-blue-50"
+                                                                                         href="@Url.Action("HandbookPreview", "Admin", new { id = item.ContentId })"
+                                                                                         target="_blank"
+                                                                                         rel="noopener noreferrer">Full Handbook</a>
+                                                                @using (Html.BeginForm("Publish", "Admin", FormMethod.Post))
+                                                                {
+                                                                    @Html.AntiForgeryToken()
+                                                                    <input type="hidden" name="id" value="@item.ContentId" />
+                                                                    <input type="datetime-local" name="scheduledPublishDateUtc"
+                                                                           class="rounded border border-slate-300 px-2 py-1 text-xs text-slate-700"
+                                                                           title="Optional schedule date/time" />
+                                                                    <button type="submit"
+                                                                            class="js-publish-submit rounded bg-blue-700 px-3 py-1 text-white"
+                                                                            data-title="@item.Title">
+                                                                        Publish
+                                                                    </button>
+                                                                }
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 }
@@ -193,6 +231,66 @@
                                     $panels.addClass("hidden");
                                     $("#" + target).removeClass("hidden");
                                 });
+
+                                var $publishForms = $("form[action$='/Admin/Publish']");
+                                var $modal = $("#publishConfirmModal");
+                                var $confirmButton = $("#confirmPublishButton");
+                                var $cancelButton = $("#cancelPublishButton");
+                                var pendingForm = null;
+
+                                $publishForms.on("submit", function (event) {
+                                    event.preventDefault();
+                                    pendingForm = this;
+
+                                    var title = $(this).find(".js-publish-submit").data("title") || "this item";
+                                    $("#publishConfirmTitle").text(title);
+                                    $modal.removeClass("hidden");
+                                });
+
+                                $confirmButton.on("click", function () {
+                                    if (pendingForm) {
+                                        pendingForm.submit();
+                                    }
+                                });
+
+                                $cancelButton.on("click", function () {
+                                    pendingForm = null;
+                                    $modal.addClass("hidden");
+                                });
+
+                                $modal.on("click", function (event) {
+                                    if (event.target === this) {
+                                        pendingForm = null;
+                                        $modal.addClass("hidden");
+                                    }
+                                });
+
+                                var $toast = $("#publishToast");
+                                if ($toast.length) {
+                                    var title = $toast.data("title");
+                                    $("#publishToastMessage").text(" " + title);
+                                    $toast.removeClass("hidden").addClass("opacity-100");
+
+                                    setTimeout(function () {
+                                        $toast.fadeOut(400);
+                                    }, 3500);
+                                }
                             });
                         </script>
-                    }
+
+                        <div id="publishConfirmModal" class="fixed inset-0 z-40 hidden bg-slate-900/40 p-4">
+                            <div class="mx-auto mt-24 w-full max-w-md rounded-lg bg-white p-5 shadow-xl">
+                                <h4 class="text-lg font-semibold text-slate-900">Confirm publish</h4>
+                                <p class="mt-2 text-sm text-slate-600">Are you sure you want to publish <span id="publishConfirmTitle"
+                                                                                                                  class="font-semibold text-slate-900"></span>?</p>
+                                    <p class="mt-1 text-xs text-slate-500">If a schedule date/time is entered, the item will be scheduled instead of
+                                        immediate publish.</p>
+                                        <div class="mt-4 flex justify-end gap-2">
+                                            <button id="cancelPublishButton" type="button"
+                                                    class="rounded border border-slate-300 px-3 py-2 text-sm text-slate-700">Cancel</button>
+                                            <button id="confirmPublishButton" type="button"
+                                                    class="rounded bg-blue-700 px-3 py-2 text-sm font-semibold text-white">Confirm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }

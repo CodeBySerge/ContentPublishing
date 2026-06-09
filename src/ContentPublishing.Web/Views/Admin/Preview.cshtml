@@ -14,8 +14,13 @@
     <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-2xl font-bold text-slate-900">Queue Preview</h2>
-            <a class="rounded border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50"
-               href="@Url.Action("ContentManagement", "Admin")">Back to Queue</a>
+            <div class="flex flex-wrap gap-2">
+                <a class="rounded border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50"
+                   href="@Url.Action("ContentManagement", "Admin")">Back to Queue</a>
+                <a class="rounded border border-blue-300 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50"
+                   href="@Url.Action("HandbookPreview", "Admin", new { id = Model.ContentId })" target="_blank"
+                   rel="noopener noreferrer">Open Full Handbook Preview</a>
+            </div>
         </div>
         <p class="mt-2 text-sm text-slate-500">Full preview before queue readiness confirmation.</p>
         <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Queue Status:
@@ -76,6 +81,22 @@
                         }
                     }
 
+                    @if (Model.CanPublish)
+                    {
+                        using (Html.BeginForm("Publish", "Admin", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.ContentId" />
+                            <input type="datetime-local" name="scheduledPublishDateUtc"
+                                   class="rounded border border-slate-300 px-2 py-2 text-xs text-slate-700"
+                                   title="Optional schedule date/time" />
+                            <button type="submit" class="js-publish-submit rounded bg-blue-700 px-4 py-2 text-sm font-semibold text-white"
+                                    data-title="@Model.Title">
+                                Publish
+                            </button>
+                        }
+                    }
+
                     @if (!Model.CanApproveForQueue && !Model.CanMarkAsReady)
                     {
                         <p class="rounded border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-600">This item has already
@@ -83,3 +104,57 @@
                         }
                     </div>
                 </section>
+
+                @section scripts {
+                    <script>
+                        $(function () {
+                            var $publishForm = $("form[action$='/Admin/Publish']");
+                            var $modal = $("#publishConfirmModal");
+                            var $confirmButton = $("#confirmPublishButton");
+                            var $cancelButton = $("#cancelPublishButton");
+                            var pendingForm = null;
+
+                            $publishForm.on("submit", function (event) {
+                                event.preventDefault();
+                                pendingForm = this;
+                                var title = $(this).find(".js-publish-submit").data("title") || "this item";
+                                $("#publishConfirmTitle").text(title);
+                                $modal.removeClass("hidden");
+                            });
+
+                            $confirmButton.on("click", function () {
+                                if (pendingForm) {
+                                    pendingForm.submit();
+                                }
+                            });
+
+                            $cancelButton.on("click", function () {
+                                pendingForm = null;
+                                $modal.addClass("hidden");
+                            });
+
+                            $modal.on("click", function (event) {
+                                if (event.target === this) {
+                                    pendingForm = null;
+                                    $modal.addClass("hidden");
+                                }
+                            });
+                        });
+                    </script>
+
+                    <div id="publishConfirmModal" class="fixed inset-0 z-40 hidden bg-slate-900/40 p-4">
+                        <div class="mx-auto mt-24 w-full max-w-md rounded-lg bg-white p-5 shadow-xl">
+                            <h4 class="text-lg font-semibold text-slate-900">Confirm publish</h4>
+                            <p class="mt-2 text-sm text-slate-600">Are you sure you want to publish <span id="publishConfirmTitle"
+                                                                                                              class="font-semibold text-slate-900"></span>?</p>
+                                <p class="mt-1 text-xs text-slate-500">If a schedule date/time is entered, the item will be scheduled instead of
+                                    immediate publish.</p>
+                                    <div class="mt-4 flex justify-end gap-2">
+                                        <button id="cancelPublishButton" type="button"
+                                                class="rounded border border-slate-300 px-3 py-2 text-sm text-slate-700">Cancel</button>
+                                        <button id="confirmPublishButton" type="button"
+                                                class="rounded bg-blue-700 px-3 py-2 text-sm font-semibold text-white">Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using ContentPublishing.Web.Models;
@@ -318,6 +320,7 @@ WHERE ur.[UserId] = @p0 AND ur.[RoleId] = @p1;",
                 QueueStatusLabel = ResolveQueueLabel(latestQueueAction),
                 CanApproveForQueue = string.IsNullOrWhiteSpace(latestQueueAction),
                 CanMarkAsReady = latestQueueAction == QueueApproveAction,
+                CanPublish = latestQueueAction == QueueReadyAction,
                 Chapters = content.Chapters
                     .Where(ch => !ch.IsDeleted)
                     .OrderBy(ch => ch.ChapterOrder)
@@ -333,6 +336,58 @@ WHERE ur.[UserId] = @p0 AND ur.[RoleId] = @p1;",
             ViewBag.SuccessMessage = "Preview opened. Review the full article/handbook before marking it ready.";
 
             return View(model);
+        }
+
+        public async Task<ActionResult> HandbookPreview(Guid id)
+        {
+            var focus = await _db.Contents
+                .AsNoTracking()
+                .SingleOrDefaultAsync(c => c.ContentId == id);
+
+            if (focus == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (focus.Status != ContentStatuses.Approved)
+            {
+                TempData["ErrorMessage"] = "Only approved content can be included in pre-publish handbook preview.";
+                return RedirectToAction("ContentManagement");
+            }
+
+            var model = await BuildHandbookPreviewModelAsync(id, focus.Title);
+            return View(model);
+        }
+
+        public async Task<ActionResult> DownloadHandbookPreview(Guid id)
+        {
+            var focus = await _db.Contents
+                .AsNoTracking()
+                .SingleOrDefaultAsync(c => c.ContentId == id);
+
+            if (focus == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (focus.Status != ContentStatuses.Approved)
+            {
+                TempData["ErrorMessage"] = "Only approved content can be downloaded in pre-publish handbook preview.";
+                return RedirectToAction("ContentManagement");
+            }
+
+            var model = await BuildHandbookPreviewModelAsync(id, focus.Title);
+            var html = BuildHandbookPreviewHtml(model);
+            var fileName = "handbook-preview-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss") + ".html";
+
+            return File(Encoding.UTF8.GetBytes(html), "text/html", fileName);
+        }
+
+        [HttpGet]
+        public ActionResult Publish(Guid id)
+        {
+            TempData["ErrorMessage"] = "Use the Publish button to submit publishing.";
+            return RedirectToAction("Preview", new { id });
         }
 
         [HttpPost]
@@ -509,6 +564,7 @@ WHERE ur.[UserId] = @p0 AND ur.[RoleId] = @p1;",
                 await _versions.SaveSnapshotAsync(content.ContentId, "SCHEDULE_PUBLISH_CONTENT", User.Identity.GetUserId(), "Content scheduled for future publishing.");
 
                 TempData["SuccessMessage"] = "Content scheduled for publishing.";
+                TempData["PublishedContentTitle"] = content.Title;
                 return RedirectToAction("ContentManagement");
             }
 
@@ -523,6 +579,7 @@ WHERE ur.[UserId] = @p0 AND ur.[RoleId] = @p1;",
             await _versions.SaveSnapshotAsync(content.ContentId, "PUBLISH_CONTENT", User.Identity.GetUserId(), "Content published by administrator.");
 
             TempData["SuccessMessage"] = "Content published successfully.";
+            TempData["PublishedContentTitle"] = content.Title;
             return RedirectToAction("ContentManagement");
         }
 
@@ -610,6 +667,115 @@ WHERE ur.[UserId] = @p0 AND ur.[RoleId] = @p1;",
                 .ThenByDescending(v => v.CreatedDate)
                 .Select(v => v.Action)
                 .FirstOrDefaultAsync();
+        }
+
+        private async Task<AdminHandbookPreviewViewModel> BuildHandbookPreviewModelAsync(Guid focusContentId, string focusTitle)
+        {
+            var approvedContents = await _db.Contents
+                .AsNoTracking()
+                .Include(c => c.Chapters)
+                .Where(c => c.Status == ContentStatuses.Approved)
+                .ToListAsync();
+
+            var orderedSections = approvedContents
+                .OrderBy(c => ExtractChapterNumber(c.Title))
+                .ThenBy(c => c.Title)
+                .Select(c => new AdminHandbookSectionViewModel
+                {
+                    ContentId = c.ContentId,
+                    Title = c.Title,
+                    Description = c.Description,
+                    ChapterCount = c.Chapters.Count(ch => !ch.IsDeleted),
+                    Chapters = c.Chapters
+                        .Where(ch => !ch.IsDeleted)
+                        .OrderBy(ch => ch.ChapterOrder)
+                        .Select(ch => new AdminPreviewChapterItemViewModel
+                        {
+                            ChapterTitle = ch.ChapterTitle,
+                            ChapterBody = ch.ChapterBody,
+                            ChapterOrder = ch.ChapterOrder
+                        })
+                        .ToList()
+                })
+                .ToList();
+
+            return new AdminHandbookPreviewViewModel
+            {
+                FocusContentId = focusContentId,
+                FocusTitle = focusTitle,
+                GeneratedAtUtc = DateTime.UtcNow,
+                TotalSectionCount = orderedSections.Count,
+                TotalChapterCount = orderedSections.Sum(s => s.ChapterCount),
+                Sections = orderedSections
+            };
+        }
+
+        private static int ExtractChapterNumber(string title)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                return int.MaxValue;
+            }
+
+            var match = Regex.Match(title, "\\d+");
+            if (!match.Success)
+            {
+                return int.MaxValue;
+            }
+
+            int parsed;
+            return int.TryParse(match.Value, out parsed) ? parsed : int.MaxValue;
+        }
+
+        private static string BuildHandbookPreviewHtml(AdminHandbookPreviewViewModel model)
+        {
+            var sb = new StringBuilder();
+
+            sb.Append("<!doctype html><html><head><meta charset='utf-8' />");
+            sb.Append("<title>Handbook Preview</title>");
+            sb.Append("<style>body{font-family:Segoe UI,Arial,sans-serif;line-height:1.5;margin:32px;color:#0f172a}h1,h2,h3{color:#0f172a}section{margin-top:28px;border-top:1px solid #e2e8f0;padding-top:20px}.meta{color:#475569;font-size:12px;text-transform:uppercase;letter-spacing:.04em}</style>");
+            sb.Append("</head><body>");
+            sb.Append("<h1>Full Handbook Preview</h1>");
+            sb.Append("<p class='meta'>Generated UTC: ");
+            sb.Append(model.GeneratedAtUtc.ToString("u"));
+            sb.Append("</p>");
+            sb.Append("<p class='meta'>Sections: ");
+            sb.Append(model.TotalSectionCount);
+            sb.Append(" | Chapters: ");
+            sb.Append(model.TotalChapterCount);
+            sb.Append("</p>");
+
+            foreach (var section in model.Sections)
+            {
+                sb.Append("<section>");
+                sb.Append("<h2>");
+                sb.Append(HttpUtility.HtmlEncode(section.Title));
+                sb.Append("</h2>");
+
+                if (!string.IsNullOrWhiteSpace(section.Description))
+                {
+                    sb.Append("<div>");
+                    sb.Append(section.Description);
+                    sb.Append("</div>");
+                }
+
+                foreach (var chapter in section.Chapters)
+                {
+                    sb.Append("<article style='margin-top:16px'>");
+                    sb.Append("<h3>");
+                    sb.Append(HttpUtility.HtmlEncode(chapter.ChapterTitle));
+                    sb.Append("</h3>");
+                    sb.Append("<div>");
+                    sb.Append(chapter.ChapterBody ?? string.Empty);
+                    sb.Append("</div>");
+                    sb.Append("</article>");
+                }
+
+                sb.Append("</section>");
+            }
+
+            sb.Append("</body></html>");
+            return sb.ToString();
         }
 
         private static string ResolveQueueLabel(string queueAction)
