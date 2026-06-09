@@ -1,5 +1,6 @@
 using ContentPublishing.Web.Net8.Data;
 using ContentPublishing.Web.Net8.Models;
+using ContentPublishing.Web.Net8.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,11 +10,14 @@ namespace ContentPublishing.Web.Net8.Controllers;
 [Authorize(Roles = "Author,Reviewer,Admin")]
 public class ContentController : Controller
 {
+    private const string ClarificationPrefix = "CLARIFICATION_REQUEST::";
     private readonly ContentReadDbContext _db;
+    private readonly AppIdentityDbContext _identityDb;
 
-    public ContentController(ContentReadDbContext db)
+    public ContentController(ContentReadDbContext db, AppIdentityDbContext identityDb)
     {
         _db = db;
+        _identityDb = identityDb;
     }
 
     [HttpGet]
@@ -92,6 +96,28 @@ public class ContentController : Controller
                 })
                 .ToListAsync();
 
+            var clarificationReviews = await _db.Reviews
+                .AsNoTracking()
+                .Where(r => r.ContentId == id && r.Status == "Pending" && r.Comments != null && r.Comments.StartsWith(ClarificationPrefix))
+                .OrderByDescending(r => r.SubmittedDate)
+                .ToListAsync();
+
+            var reviewerIds = clarificationReviews
+                .Select(r => r.ReviewerId)
+                .Distinct()
+                .ToList();
+
+            var reviewerLookup = reviewerIds.Count == 0
+                ? new Dictionary<string, string>()
+                : await _identityDb.Users
+                    .AsNoTracking()
+                    .Where(u => reviewerIds.Contains(u.Id))
+                    .ToDictionaryAsync(
+                        u => u.Id,
+                        u => !string.IsNullOrWhiteSpace(u.Email)
+                            ? u.Email
+                            : (u.UserName ?? "Reviewer"));
+
             var model = new ContentDetailsViewModel
             {
                 ContentId = content.ContentId,
@@ -100,6 +126,14 @@ public class ContentController : Controller
                 Status = content.Status,
                 CreatedDate = content.CreatedDate,
                 LastModifiedDate = content.LastModifiedDate,
+                ClarificationRequests = clarificationReviews
+                    .Select(r => new ContentClarificationRequestItemViewModel
+                    {
+                        ReviewerName = reviewerLookup.TryGetValue(r.ReviewerId, out var name) ? name : "Reviewer",
+                        Message = (r.Comments ?? string.Empty).Substring(ClarificationPrefix.Length),
+                        RequestedDate = r.SubmittedDate
+                    })
+                    .ToList(),
                 Chapters = chapters
             };
 
