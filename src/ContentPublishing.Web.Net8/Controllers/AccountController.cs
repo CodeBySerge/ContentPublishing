@@ -42,7 +42,30 @@ public class AccountController : Controller
             return View(model);
         }
 
-        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+        var loginInput = model.Email.Trim();
+        var user = await _userManager.FindByEmailAsync(loginInput);
+        user ??= await _userManager.FindByNameAsync(loginInput);
+
+        if (user == null)
+        {
+            ModelState.AddModelError(string.Empty, "No account found for that email or username.");
+            return View(model);
+        }
+
+        var result = await _signInManager.PasswordSignInAsync(user.UserName!, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+        if (result.IsLockedOut)
+        {
+            ModelState.AddModelError(string.Empty, "This account is locked. Please try again later.");
+            return View(model);
+        }
+
+        if (result.IsNotAllowed)
+        {
+            ModelState.AddModelError(string.Empty, "This account is not allowed to sign in.");
+            return View(model);
+        }
+
         if (result.Succeeded)
         {
             if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
@@ -53,7 +76,7 @@ public class AccountController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        ModelState.AddModelError(string.Empty, "Invalid password.");
         return View(model);
     }
 

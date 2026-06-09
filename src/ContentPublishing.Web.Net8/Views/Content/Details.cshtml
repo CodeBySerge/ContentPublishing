@@ -12,77 +12,81 @@
         <p class="mt-3 mb-2">@Model.Description</p>
         <p class="text-muted small mb-0">Created: @Model.CreatedDate.ToString("u") | Updated:
             @Model.LastModifiedDate.ToString("u")</p>
-        <div class="mt-3 d-flex gap-2 flex-wrap">
-            <a class="quick-link" asp-controller="Chapter" asp-action="Create" asp-route-contentId="@Model.ContentId">Add Chapter</a>
-            <a class="quick-link" asp-controller="Review" asp-action="PendingReviews">Reviewer Queue</a>
-        </div>
-
-        @if (TempData["SuccessMessage"] is string successMessage && !string.IsNullOrWhiteSpace(successMessage))
-        {
-            <div class="alert alert-success mt-3 mb-0" role="status">@successMessage</div>
-        }
-        @if (TempData["ErrorMessage"] is string errorMessage && !string.IsNullOrWhiteSpace(errorMessage))
-        {
-            <div class="alert alert-warning mt-3 mb-0" role="alert">@errorMessage</div>
-        }
-
-        @if (User.IsInRole("Author") || User.IsInRole("Admin"))
-        {
-            <div class="mt-3">
-                <form asp-controller="Chapter" asp-action="SubmitForReview" method="post" class="space-y-2">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="contentId" value="@Model.ContentId" />
-                    <label class="form-label" for="change-notes">Change Notes For Reviewers (optional)</label>
-                    <textarea id="change-notes" name="changeNotes" class="form-control" rows="3" maxlength="2000" placeholder="Describe what changed since the last review..."></textarea>
-                    <button type="submit" class="btn btn-sm btn-success">Submit For Review</button>
-                </form>
+            <div class="mt-3 d-flex gap-2 flex-wrap">
+                <a class="quick-link" asp-controller="Chapter" asp-action="Create"
+                   asp-route-contentId="@Model.ContentId">Add Chapter</a>
+                <a class="quick-link" asp-controller="Review" asp-action="PendingReviews">Reviewer Queue</a>
             </div>
-        }
-    </div>
 
-    @if (Model.ClarificationRequests.Any())
-    {
-        <div class="app-card section-card">
-            <h3>Clarification Requests</h3>
-            <p class="text-muted mb-3">Reviewers requested additional detail. Include responses in change notes when submitting again.</p>
-            <div class="space-y-2">
-                @foreach (var clarification in Model.ClarificationRequests)
-                {
-                    <article class="rounded border border-slate-200 p-3">
-                        <p class="mb-1"><strong>@clarification.ReviewerName</strong> <span class="text-muted">(@clarification.RequestedDate.ToString("u"))</span></p>
-                        <p class="mb-0">@clarification.Message</p>
-                    </article>
-                }
-            </div>
+            @if (TempData["SuccessMessage"] is string successMessage && !string.IsNullOrWhiteSpace(successMessage))
+            {
+                <div class="alert alert-success mt-3 mb-0" role="status">@successMessage</div>
+            }
+            @if (TempData["ErrorMessage"] is string errorMessage && !string.IsNullOrWhiteSpace(errorMessage))
+            {
+                <div class="alert alert-warning mt-3 mb-0" role="alert">@errorMessage</div>
+            }
+
+            @if (User.IsInRole("Author") || User.IsInRole("Admin"))
+            {
+                <div class="mt-3">
+                    <form asp-controller="Chapter" asp-action="SubmitForReview" method="post" class="space-y-2">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="contentId" value="@Model.ContentId" />
+                        <label class="form-label" for="change-notes">Change Notes For Reviewers (optional)</label>
+                        <textarea id="change-notes" name="changeNotes" class="form-control" rows="3" maxlength="2000"
+                                  placeholder="Describe what changed since the last review..."></textarea>
+                        <button type="submit" class="btn btn-sm btn-success">Submit For Review</button>
+                    </form>
+                </div>
+            }
         </div>
-    }
 
-    <div class="app-card section-card">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <h3 class="m-0">Chapters</h3>
-            <a class="quick-link" asp-controller="Content" asp-action="Index">Back to Content</a>
-        </div>
-
-        @if (!Model.Chapters.Any())
+        @if (Model.ClarificationRequests.Any())
         {
-            <p class="mt-3 mb-0 text-muted">No chapters added yet.</p>
-        }
-        else
-        {
-            <ul class="mt-3 mb-0">
-                @foreach (var chapter in Model.Chapters)
-                {
-                    <li class="mb-2">
-                        <strong>@chapter.ChapterOrder.</strong> @chapter.ChapterTitle
-                        <a class="ms-2" asp-controller="Chapter" asp-action="Edit" asp-route-id="@chapter.ChapterId">Edit</a>
-                        <form asp-controller="Chapter" asp-action="Delete" method="post" class="d-inline ms-2">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@chapter.ChapterId" />
-                            <button type="submit" class="btn btn-link btn-sm text-danger p-0">Delete</button>
-                        </form>
-                    </li>
+            <div class="app-card section-card">
+                <h3>Clarification Requests</h3>
+                <p class="text-muted mb-3">Reviewers requested additional detail. Include responses in change notes when
+                    submitting again.</p>
+                    <div class="space-y-2">
+                        @foreach (var clarification in Model.ClarificationRequests)
+                        {
+                            <article class="rounded border border-slate-200 p-3">
+                                <p class="mb-1"><strong>@clarification.ReviewerName</strong> <span
+                                    class="text-muted">(@clarification.RequestedDate.ToString("u"))</span></p>
+                                    <p class="mb-0">@clarification.Message</p>
+                                </article>
+                            }
+                        </div>
+                    </div>
                 }
-            </ul>
-        }
-    </div>
-</section>
+
+                <div class="app-card section-card">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <h3 class="m-0">Chapters</h3>
+                        <a class="quick-link" asp-controller="Content" asp-action="Index">Back to Content</a>
+                    </div>
+
+                    @if (!Model.Chapters.Any())
+                    {
+                        <p class="mt-3 mb-0 text-muted">No chapters added yet.</p>
+                    }
+                    else
+                    {
+                        <ul class="mt-3 mb-0">
+                            @foreach (var chapter in Model.Chapters)
+                            {
+                                <li class="mb-2">
+                                    <strong>@chapter.ChapterOrder.</strong> @chapter.ChapterTitle
+                                    <a class="ms-2" asp-controller="Chapter" asp-action="Edit" asp-route-id="@chapter.ChapterId">Edit</a>
+                                    <form asp-controller="Chapter" asp-action="Delete" method="post" class="d-inline ms-2">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@chapter.ChapterId" />
+                                        <button type="submit" class="btn btn-link btn-sm text-danger p-0">Delete</button>
+                                    </form>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </section>

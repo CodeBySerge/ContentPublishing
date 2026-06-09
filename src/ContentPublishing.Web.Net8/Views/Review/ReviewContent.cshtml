@@ -80,7 +80,8 @@
             @Html.AntiForgeryToken()
             <input type="hidden" name="ContentId" value="@Model.ContentId" />
             <div class="mb-2">
-                <textarea name="Message" class="form-control" rows="3" maxlength="2000" placeholder="Ask the author for specific clarification..."></textarea>
+                <textarea name="Message" class="form-control" rows="3" maxlength="2000"
+                          placeholder="Ask the author for specific clarification..."></textarea>
             </div>
             <button type="submit" class="btn btn-outline-primary">Request Clarification</button>
         </form>

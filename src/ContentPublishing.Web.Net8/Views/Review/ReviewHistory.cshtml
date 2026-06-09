@@ -32,7 +32,8 @@
                         {
                             <tr>
                                 <td>
-                                    <a asp-controller="Review" asp-action="ReviewContent" asp-route-contentId="@item.ContentId">@item.Title</a>
+                                    <a asp-controller="Review" asp-action="ReviewContent"
+                                       asp-route-contentId="@item.ContentId">@item.Title</a>
                                 </td>
                                 <td>@item.Status</td>
                                 <td>@item.SubmittedDate.ToString("u")</td>
