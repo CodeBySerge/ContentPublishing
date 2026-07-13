@@ -12,6 +12,9 @@
     <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>false</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>true</IISExpressWindowsAuthentication>
+
+    <!-- Fallback for Visual Studio run/debug when SDK targets didn't define RunCommand -->
+    <RunCommand Condition="'$(RunCommand)' == ''">IISExpress</RunCommand>
   </PropertyGroup>
 
   <ItemGroup>
