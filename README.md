@@ -62,3 +62,6 @@ Password: WorkflowReviewer1
 Admin
 Username: admin.workflow@OneHealthHandbook.local
 Password: WorkflowAdmin1
+
+## cmd to run the app
+& "C:\Program Files\IIS Express\iisexpress.exe" /path:"C:\Users\SergeN\ContentPublishing\src\OneHealthHandbook.Web" /port:53954

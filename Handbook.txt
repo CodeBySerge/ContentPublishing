@@ -142,7 +142,7 @@ const TABLE_OF_CONTENTS: TableOfContent[] = [
     title: "Public Health",
     content: [
       "General guidelines for sample collection and transport",
-      "Samples (milk, food, and water)",
+      "Samples (milk, food, and water)",Handbook.txt
       "Environmental swabs",
       "Collection of milk samples",
       "Collection of domestic potable water samples",

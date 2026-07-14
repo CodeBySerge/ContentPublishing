@@ -31,10 +31,31 @@
                 {
                     foreach (var item in Model)
                     {
+                        var statusText = string.IsNullOrWhiteSpace(item.Status) ? "Unassigned" : item.Status;
+                        var statusKey = statusText.Trim().ToLowerInvariant();
+                        var statusClass = "app-status-unassigned";
+
+                        if (statusKey.Contains("pending"))
+                        {
+                            statusClass = "app-status-pending";
+                        }
+                        else if (statusKey.Contains("approved") || statusKey.Contains("ready"))
+                        {
+                            statusClass = "app-status-approved";
+                        }
+                        else if (statusKey.Contains("reject") || statusKey.Contains("error"))
+                        {
+                            statusClass = "app-status-rejected";
+                        }
+                        else if (statusKey.Contains("publish"))
+                        {
+                            statusClass = "app-status-published";
+                        }
+
                         <tr class="border-t border-slate-100">
                             <td class="px-4 py-3">@item.ContentNumber</td>
                             <td class="px-4 py-3 font-medium">@Html.Raw(item.Title)</td>
-                            <td class="px-4 py-3">@item.Status</td>
+                            <td class="px-4 py-3"><span class="app-status-badge @statusClass">@statusText</span></td>
                             <td class="px-4 py-3">@item.LastModifiedDate.ToString("u")</td>
                             <td class="px-4 py-3">
                                 @if (item.PrimaryChapterId.HasValue)
