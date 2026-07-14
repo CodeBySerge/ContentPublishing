@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
@@ -9,6 +9,7 @@
     <PackageReference Include="FluentValidation" Version="10.4.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContentPublishing.Domain\ContentPublishing.Domain.csproj" />
+    <ProjectReference Include="..\OneHealthHandbook.Domain\OneHealthHandbook.Domain.csproj" />
   </ItemGroup>
 </Project>
+

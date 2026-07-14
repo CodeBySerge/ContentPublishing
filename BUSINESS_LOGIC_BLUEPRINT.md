@@ -1,17 +1,17 @@
-# Business Logic Blueprint — One Health Handbook
+﻿# Business Logic Blueprint â€” One Health Handbook
 
 This document describes the implementation blueprint for the complete application business logic in the .NET 8 migration. It focuses on how the login, registration, user roles, content publication workflow, and security/identity flows should be structured. It is a detailed implementation spec, not full source code.
 
 ## 1. Architecture Overview
 
 ### 1.1 Layered design
-- `ContentPublishing.Domain`
+- `OneHealthHandbook.Domain`
   - Domain entities, enums, value objects, and repository interfaces.
-- `ContentPublishing.Application`
+- `OneHealthHandbook.Application`
   - Application services, commands/queries, DTOs/view models, business rules, validation.
-- `ContentPublishing.Infrastructure`
+- `OneHealthHandbook.Infrastructure`
   - EF Core implementation, data repositories, email and storage adapters, `SuperClass` bridge.
-- `ContentPublishing.Web.Net8`
+- `OneHealthHandbook.Web.Net8`
   - MVC controllers, Razor pages/views, UI models, authentication wiring, routing, request validation.
 
 ### 1.2 Primary service categories
@@ -251,7 +251,7 @@ This document describes the implementation blueprint for the complete applicatio
 - Decide which features are reused directly and which require a compatibility adapter.
 
 ### 8.2 Adapter pattern
-- Create adapter services in `ContentPublishing.Infrastructure` to wrap `SuperClass` functionality.
+- Create adapter services in `OneHealthHandbook.Infrastructure` to wrap `SuperClass` functionality.
 - Example services:
   - `IEmailSender` -> `SuperClassEmailSender`
   - `ICryptoProvider` -> `SuperClassCryptoAdapter`
@@ -259,7 +259,7 @@ This document describes the implementation blueprint for the complete applicatio
 - Keep the application and web layers dependent on abstractions, not concrete SuperClass classes.
 
 ### 8.3 Compatibility considerations
-- If `SuperClass` is net48-only, do not reference it directly from `ContentPublishing.Web.Net8`.
+- If `SuperClass` is net48-only, do not reference it directly from `OneHealthHandbook.Web.Net8`.
 - Preferred path:
   - Retarget/port `SuperClass` to `netstandard2.0` or `net8.0`.
   - If not possible, isolate Windows-only features behind a service boundary.
@@ -267,7 +267,7 @@ This document describes the implementation blueprint for the complete applicatio
 
 ## 9. Implementation Breakdown by Module
 
-### 9.1 `ContentPublishing.Domain`
+### 9.1 `OneHealthHandbook.Domain`
 - Entities:
   - `UserProfile`, `HandbookDocument`, `ReviewRequest`, `RoleAssignment`, `ChangeHistory`, `RoleRequest`.
 - Interfaces:
@@ -275,7 +275,7 @@ This document describes the implementation blueprint for the complete applicatio
 - Domain services:
   - `IDocumentApprovalRules`, `IUserAuthorizationRules`.
 
-### 9.2 `ContentPublishing.Application`
+### 9.2 `OneHealthHandbook.Application`
 - Services:
   - `IAuthenticationService`
   - `IRegistrationService`
@@ -294,7 +294,7 @@ This document describes the implementation blueprint for the complete applicatio
   - `ValidateRoleAssignment`
   - `ValidateContentPublish`
 
-### 9.3 `ContentPublishing.Infrastructure`
+### 9.3 `OneHealthHandbook.Infrastructure`
 - EF Core DbContext and repository implementations:
   - `ApplicationDbContext`
   - `UserRepository`, `DocumentRepository`, `ReviewRepository`, `AuditRepository`
@@ -302,7 +302,7 @@ This document describes the implementation blueprint for the complete applicatio
   - `EmailSenderAdapter`, `LoggerAdapter`, `CryptoAdapter`.
 - Identity and persistence configuration.
 
-### 9.4 `ContentPublishing.Web.Net8`
+### 9.4 `OneHealthHandbook.Web.Net8`
 - Controllers:
   - `AccountController`, `HomeController`, `DashboardController`, `ContentController`, `ReviewController`, `AdminController`.
 - Models/ViewModels:
@@ -392,19 +392,19 @@ This document describes the implementation blueprint for the complete applicatio
 
 ## 14. Recommended File Structure for Implementation
 
-- `src/ContentPublishing.Domain/Entities`
-- `src/ContentPublishing.Domain/Enums`
-- `src/ContentPublishing.Domain/Interfaces`
-- `src/ContentPublishing.Application/Services`
-- `src/ContentPublishing.Application/Commands`
-- `src/ContentPublishing.Application/Queries`
-- `src/ContentPublishing.Application/Models`
-- `src/ContentPublishing.Infrastructure/Data`
-- `src/ContentPublishing.Infrastructure/Services`
-- `src/ContentPublishing.Web.Net8/Controllers`
-- `src/ContentPublishing.Web.Net8/Models`
-- `src/ContentPublishing.Web.Net8/Views`
-- `src/ContentPublishing.Web.Net8/Services` (if specific web-layer helpers are needed)
+- `src/OneHealthHandbook.Domain/Entities`
+- `src/OneHealthHandbook.Domain/Enums`
+- `src/OneHealthHandbook.Domain/Interfaces`
+- `src/OneHealthHandbook.Application/Services`
+- `src/OneHealthHandbook.Application/Commands`
+- `src/OneHealthHandbook.Application/Queries`
+- `src/OneHealthHandbook.Application/Models`
+- `src/OneHealthHandbook.Infrastructure/Data`
+- `src/OneHealthHandbook.Infrastructure/Services`
+- `src/OneHealthHandbook.Web.Net8/Controllers`
+- `src/OneHealthHandbook.Web.Net8/Models`
+- `src/OneHealthHandbook.Web.Net8/Views`
+- `src/OneHealthHandbook.Web.Net8/Services` (if specific web-layer helpers are needed)
 
 ## 15. Summary
 
@@ -416,3 +416,4 @@ This blueprint provides the complete implementation logic for the One Health Han
 - data persistence, audit, and notification patterns.
 
 Use this document as a step-by-step guide when writing the actual code. The focus is on proper separation of concerns, reliable authorization, and a predictable content lifecycle.
+

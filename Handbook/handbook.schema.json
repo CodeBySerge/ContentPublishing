@@ -1,6 +1,6 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://contentpublishing.local/schemas/handbook.schema.json",
+  "$id": "https://OneHealthHandbook.local/schemas/handbook.schema.json",
   "title": "Handbook Import Schema",
   "type": "object",
   "required": ["tableOfContents", "contents", "priceList"],
@@ -168,3 +168,4 @@
     }
   }
 }
+

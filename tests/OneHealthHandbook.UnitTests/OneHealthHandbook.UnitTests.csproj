@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <IsPackable>false</IsPackable>
@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ContentPublishing.Application\ContentPublishing.Application.csproj" />
-    <ProjectReference Include="..\..\src\ContentPublishing.Web\ContentPublishing.Web.csproj" />
+    <ProjectReference Include="..\..\src\OneHealthHandbook.Application\OneHealthHandbook.Application.csproj" />
   </ItemGroup>
 </Project>
+

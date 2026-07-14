@@ -1,9 +1,9 @@
-using System.Data.Entity;
-using ContentPublishing.Web.Migrations;
-using ContentPublishing.Web.Models;
-using ContentPublishing.Web.Services;
+﻿using System.Data.Entity;
+using OneHealthHandbook.Web.Migrations;
+using OneHealthHandbook.Web.Models;
+using OneHealthHandbook.Web.Services;
 
-namespace ContentPublishing.Web
+namespace OneHealthHandbook.Web
 {
     public static class DatabaseBootstrapper
     {
@@ -21,3 +21,4 @@ namespace ContentPublishing.Web
         }
     }
 }
+

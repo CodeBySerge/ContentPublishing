@@ -1,13 +1,13 @@
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using ContentPublishing.Web.Models;
+using OneHealthHandbook.Web.Models;
 
-[assembly: OwinStartup(typeof(ContentPublishing.Web.Startup))]
+[assembly: OwinStartup(typeof(OneHealthHandbook.Web.Startup))]
 
-namespace ContentPublishing.Web
+namespace OneHealthHandbook.Web
 {
     public class Startup
     {
@@ -39,3 +39,4 @@ namespace ContentPublishing.Web
         }
     }
 }
+

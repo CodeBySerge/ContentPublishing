@@ -1,4 +1,4 @@
-# Content Publishing & Review Management System
+﻿# Content Publishing & Review Management System
 
 ## Stack (Current Scaffold)
 
@@ -9,37 +9,37 @@
 
 ## Solution Layout
 
-- src/ContentPublishing.Web
-- src/ContentPublishing.Application
-- src/ContentPublishing.Domain
-- src/ContentPublishing.Infrastructure
-- tests/ContentPublishing.UnitTests
-- tests/ContentPublishing.IntegrationTests
+- src/OneHealthHandbook.Web
+- src/OneHealthHandbook.Application
+- src/OneHealthHandbook.Domain
+- src/OneHealthHandbook.Infrastructure
+- tests/OneHealthHandbook.UnitTests
+- tests/OneHealthHandbook.IntegrationTests
 
 ## Build and Run
 
-1. Open `ContentPublishingSystem.sln` in Visual Studio 2022.
+1. Open `OneHealthHandbookSystem.sln` in Visual Studio 2022.
 2. Restore NuGet packages.
-3. Set `ContentPublishing.Web` as startup project.
+3. Set `OneHealthHandbook.Web` as startup project.
 4. Run with IIS Express.
 
 ## Database Initialization
 
 - The application uses EF6 automatic migrations at startup via `MigrateDatabaseToLatestVersion`.
-- First launch will create or migrate the SQL Server schema using the `ContentPublishingDb` connection string in `src/ContentPublishing.Web/Web.config`.
+- First launch will create or migrate the SQL Server schema using the `OneHealthHandbookDb` connection string in `src/OneHealthHandbook.Web/Web.config`.
 
 ### Migration Troubleshooting (EF6)
 
-- If you see login/domain authentication errors, switch `ContentPublishingDb` to a local instance such as `(LocalDB)\\MSSQLLocalDB` in `src/ContentPublishing.Web/Web.config`.
-- Build first: dotnet build ContentPublishingSystem.sln -v minimal
+- If you see login/domain authentication errors, switch `OneHealthHandbookDb` to a local instance such as `(LocalDB)\\MSSQLLocalDB` in `src/OneHealthHandbook.Web/Web.config`.
+- Build first: dotnet build OneHealthHandbookSystem.sln -v minimal
 - Run EF6 update from terminal:
-  - %USERPROFILE%\\.nuget\\packages\\entityframework\\6.5.1\\tools\\net45\\any\\ef6.exe database update --assembly "c:\\Users\\<your-user>\\ContentPublishing\\src\\ContentPublishing.Web\\bin\\ContentPublishing.Web.dll" --project-dir "c:\\Users\\<your-user>\\ContentPublishing\\src\\ContentPublishing.Web" --migrations-config "ContentPublishing.Web.Migrations.Configuration" --config "c:\\Users\\<your-user>\\ContentPublishing\\src\\ContentPublishing.Web\\Web.config" --connection-string-name "ContentPublishingDb" --verbose
+  - %USERPROFILE%\\.nuget\\packages\\entityframework\\6.5.1\\tools\\net45\\any\\ef6.exe database update --assembly "c:\\Users\\<your-user>\\OneHealthHandbook\\src\\OneHealthHandbook.Web\\bin\\OneHealthHandbook.Web.dll" --project-dir "c:\\Users\\<your-user>\\OneHealthHandbook\\src\\OneHealthHandbook.Web" --migrations-config "OneHealthHandbook.Web.Migrations.Configuration" --config "c:\\Users\\<your-user>\\OneHealthHandbook\\src\\OneHealthHandbook.Web\\Web.config" --connection-string-name "OneHealthHandbookDb" --verbose
 - Verify applied migrations:
-  - %USERPROFILE%\\.nuget\\packages\\entityframework\\6.5.1\\tools\\net45\\any\\ef6.exe migrations list --assembly "c:\\Users\\<your-user>\\ContentPublishing\\src\\ContentPublishing.Web\\bin\\ContentPublishing.Web.dll" --project-dir "c:\\Users\\<your-user>\\ContentPublishing\\src\\ContentPublishing.Web" --migrations-config "ContentPublishing.Web.Migrations.Configuration" --config "c:\\Users\\<your-user>\\ContentPublishing\\src\\ContentPublishing.Web\\Web.config" --connection-string-name "ContentPublishingDb"
+  - %USERPROFILE%\\.nuget\\packages\\entityframework\\6.5.1\\tools\\net45\\any\\ef6.exe migrations list --assembly "c:\\Users\\<your-user>\\OneHealthHandbook\\src\\OneHealthHandbook.Web\\bin\\OneHealthHandbook.Web.dll" --project-dir "c:\\Users\\<your-user>\\OneHealthHandbook\\src\\OneHealthHandbook.Web" --migrations-config "OneHealthHandbook.Web.Migrations.Configuration" --config "c:\\Users\\<your-user>\\OneHealthHandbook\\src\\OneHealthHandbook.Web\\Web.config" --connection-string-name "OneHealthHandbookDb"
 
 ## Workflow Email Notifications
 
-- Registration email confirmation uses the configured SMTP settings in `src/ContentPublishing.Web/Web.config`.
+- Registration email confirmation uses the configured SMTP settings in `src/OneHealthHandbook.Web/Web.config`.
 - Workflow notifications are sent for submission, reviewer assignment, approval, rejection, and publish events.
 - Update `smtpFromAddress`, SMTP host settings, and `appBaseUrl` before production use.
 
@@ -52,13 +52,13 @@
 ## User test
 
 Author
-Username: author.workflow@contentpublishing.local
+Username: author.workflow@OneHealthHandbook.local
 Password: WorkflowAuthor1
 
 Reviewer
-Username: reviewer.workflow@contentpublishing.local
+Username: reviewer.workflow@OneHealthHandbook.local
 Password: WorkflowReviewer1
 
 Admin
-Username: admin.workflow@contentpublishing.local
+Username: admin.workflow@OneHealthHandbook.local
 Password: WorkflowAdmin1

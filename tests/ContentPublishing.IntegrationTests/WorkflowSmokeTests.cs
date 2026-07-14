@@ -1,8 +1,8 @@
-using ContentPublishing.Application.Rules;
-using ContentPublishing.Web.Models;
+﻿using OneHealthHandbook.Application.Rules;
+using OneHealthHandbook.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ContentPublishing.IntegrationTests
+namespace OneHealthHandbook.IntegrationTests
 {
     [TestClass]
     public class WorkflowSmokeTests
@@ -34,3 +34,4 @@ namespace ContentPublishing.IntegrationTests
         }
     }
 }
+

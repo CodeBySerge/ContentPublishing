@@ -1,8 +1,8 @@
-using System;
-using ContentPublishing.Application.Rules;
+﻿using System;
+using OneHealthHandbook.Application.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ContentPublishing.UnitTests
+namespace OneHealthHandbook.UnitTests
 {
     [TestClass]
     public class ContentWorkflowRulesTests
@@ -51,3 +51,4 @@ namespace ContentPublishing.UnitTests
         }
     }
 }
+

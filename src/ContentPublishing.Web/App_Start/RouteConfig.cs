@@ -1,7 +1,7 @@
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace ContentPublishing.Web
+namespace OneHealthHandbook.Web
 {
     public class RouteConfig
     {
@@ -17,3 +17,4 @@ namespace ContentPublishing.Web
         }
     }
 }
+

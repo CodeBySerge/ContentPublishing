@@ -7,17 +7,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentPublishing.Domain", "src\ContentPublishing.Domain\ContentPublishing.Domain.csproj", "{0B0F7E37-2901-4B31-9012-A971A7446A12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneHealthHandbook.Domain", "src\OneHealthHandbook.Domain\OneHealthHandbook.Domain.csproj", "{0B0F7E37-2901-4B31-9012-A971A7446A12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentPublishing.Application", "src\ContentPublishing.Application\ContentPublishing.Application.csproj", "{84BCF0CD-59A1-49AD-89AE-E7CED49900D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneHealthHandbook.Application", "src\OneHealthHandbook.Application\OneHealthHandbook.Application.csproj", "{84BCF0CD-59A1-49AD-89AE-E7CED49900D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentPublishing.Infrastructure", "src\ContentPublishing.Infrastructure\ContentPublishing.Infrastructure.csproj", "{14033599-FE5C-46BC-9989-DBF2FAB1B80B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneHealthHandbook.Infrastructure", "src\OneHealthHandbook.Infrastructure\OneHealthHandbook.Infrastructure.csproj", "{14033599-FE5C-46BC-9989-DBF2FAB1B80B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentPublishing.Web", "src\ContentPublishing.Web\ContentPublishing.Web.csproj", "{AD6431F0-F58A-44AD-BF9C-E594FB0D29DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneHealthHandbook.Web", "src\OneHealthHandbook.Web\OneHealthHandbook.Web.csproj", "{AD6431F0-F58A-44AD-BF9C-E594FB0D29DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentPublishing.IntegrationTests", "tests\ContentPublishing.IntegrationTests\ContentPublishing.IntegrationTests.csproj", "{663D9449-03FA-4CCE-B1E4-B8FAF760C779}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneHealthHandbook.IntegrationTests", "tests\OneHealthHandbook.IntegrationTests\OneHealthHandbook.IntegrationTests.csproj", "{663D9449-03FA-4CCE-B1E4-B8FAF760C779}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentPublishing.UnitTests", "tests\ContentPublishing.UnitTests\ContentPublishing.UnitTests.csproj", "{5AA15D85-4D51-45CD-8494-7EBBCCB968E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneHealthHandbook.UnitTests", "tests\OneHealthHandbook.UnitTests\OneHealthHandbook.UnitTests.csproj", "{5AA15D85-4D51-45CD-8494-7EBBCCB968E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,3 +114,4 @@ Global
 		{5AA15D85-4D51-45CD-8494-7EBBCCB968E3} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 EndGlobal
+

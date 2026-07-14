@@ -1,14 +1,14 @@
-{
+﻿{
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "IIS Express: ContentPublishing.Web (x86)",
+      "name": "IIS Express: OneHealthHandbook.Web (x86)",
       "type": "clr",
       "request": "launch",
       "preLaunchTask": "build-content-publishing-solution",
       "program": "${env:ProgramFiles(x86)}\\IIS Express\\iisexpress.exe",
       "args": [
-        "/path:${workspaceFolder}\\src\\ContentPublishing.Web",
+        "/path:${workspaceFolder}\\src\\OneHealthHandbook.Web",
         "/port:8080"
       ],
       "cwd": "${workspaceFolder}",
@@ -16,13 +16,13 @@
       "console": "internalConsole"
     },
     {
-      "name": "IIS Express: ContentPublishing.Web (x64)",
+      "name": "IIS Express: OneHealthHandbook.Web (x64)",
       "type": "clr",
       "request": "launch",
       "preLaunchTask": "build-content-publishing-solution",
       "program": "${env:ProgramFiles}\\IIS Express\\iisexpress.exe",
       "args": [
-        "/path:${workspaceFolder}\\src\\ContentPublishing.Web",
+        "/path:${workspaceFolder}\\src\\OneHealthHandbook.Web",
         "/port:8080"
       ],
       "cwd": "${workspaceFolder}",
@@ -31,3 +31,4 @@
     }
   ]
 }
+

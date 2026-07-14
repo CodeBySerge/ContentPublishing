@@ -1,9 +1,9 @@
-# Content Publishing Handoff
+﻿# Content Publishing Handoff
 
 Use this repo on another PC by cloning the GitHub repository and opening the solution in Visual Studio 2022.
 
 ## Repository
-- Remote: https://github.com/CodeBySerge/ContentPublishing.git
+- Remote: https://github.com/CodeBySerge/OneHealthHandbook.git
 - Branch: main
 
 ## How to Continue on Another PC
@@ -11,12 +11,12 @@ Use this repo on another PC by cloning the GitHub repository and opening the sol
 2. Install the .NET Framework 4.8 targeting pack if it is not already available.
 3. Clone the repository:
    ```powershell
-   git clone https://github.com/CodeBySerge/ContentPublishing.git
+   git clone https://github.com/CodeBySerge/OneHealthHandbook.git
    ```
-4. Open `ContentPublishingSystem.sln` in Visual Studio.
+4. Open `OneHealthHandbookSystem.sln` in Visual Studio.
 5. Restore NuGet packages.
-6. Set `ContentPublishing.Web` as the startup project.
-7. Update `src/ContentPublishing.Web/Web.config` with your local SQL Server connection string.
+6. Set `OneHealthHandbook.Web` as the startup project.
+7. Update `src/OneHealthHandbook.Web/Web.config` with your local SQL Server connection string.
 8. Run the app with IIS Express.
 
 ## Local Database
@@ -26,7 +26,7 @@ Use this repo on another PC by cloning the GitHub repository and opening the sol
 ## Tests
 - Run unit tests with:
   ```powershell
-  dotnet test tests/ContentPublishing.UnitTests/ContentPublishing.UnitTests.csproj -v minimal
+  dotnet test tests/OneHealthHandbook.UnitTests/OneHealthHandbook.UnitTests.csproj -v minimal
   ```
 
 ## Current Status

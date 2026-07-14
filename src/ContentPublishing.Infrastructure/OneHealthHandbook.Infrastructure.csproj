@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
@@ -13,7 +13,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContentPublishing.Domain\ContentPublishing.Domain.csproj" />
-    <ProjectReference Include="..\ContentPublishing.Application\ContentPublishing.Application.csproj" />
+    <ProjectReference Include="..\OneHealthHandbook.Domain\OneHealthHandbook.Domain.csproj" />
+    <ProjectReference Include="..\OneHealthHandbook.Application\OneHealthHandbook.Application.csproj" />
   </ItemGroup>
 </Project>
+
