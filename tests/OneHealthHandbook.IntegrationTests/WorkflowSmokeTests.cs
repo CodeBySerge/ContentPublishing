@@ -1,4 +1,4 @@
-﻿using OneHealthHandbook.Application.Rules;
+using OneHealthHandbook.Application.Rules;
 using OneHealthHandbook.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -34,4 +34,3 @@ namespace OneHealthHandbook.IntegrationTests
         }
     }
 }
-

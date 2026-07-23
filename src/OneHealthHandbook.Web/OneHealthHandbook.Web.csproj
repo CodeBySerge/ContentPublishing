@@ -10,8 +10,8 @@
     <GeneratedBindingRedirectsAction>Overwrite</GeneratedBindingRedirectsAction>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44300</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>false</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>true</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>true</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>false</IISExpressWindowsAuthentication>
 
     <!-- Fallback for Visual Studio run/debug when SDK targets didn't define RunCommand -->
     <RunCommand Condition="'$(RunCommand)' == ''">IISExpress</RunCommand>

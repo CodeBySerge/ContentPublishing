@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using OneHealthHandbook.Application.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -51,4 +51,3 @@ namespace OneHealthHandbook.UnitTests
         }
     }
 }
-
