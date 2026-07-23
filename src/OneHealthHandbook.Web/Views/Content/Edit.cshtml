@@ -18,13 +18,15 @@
 
         <div>
             @Html.LabelFor(m => m.Title, new { @class = "mb-1 block text-sm font-medium" })
-            @Html.TextAreaFor(m => m.Title, 2, 40, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", id = "titleEditor" })
+            @Html.TextAreaFor(m => m.Title, 2, 40, new { @class = "hidden", id = "titleEditor" })
+            <div id="titleEditorContainer" class="rounded-md border border-slate-300 bg-white"></div>
             @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-xs text-red-600" })
         </div>
 
         <div>
             @Html.LabelFor(m => m.Description, new { @class = "mb-1 block text-sm font-medium" })
-            @Html.TextAreaFor(m => m.Description, 10, 40, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", id = "descriptionEditor" })
+            @Html.TextAreaFor(m => m.Description, 10, 40, new { @class = "hidden", id = "descriptionEditor" })
+            <div id="descriptionEditorContainer" class="rounded-md border border-slate-300 bg-white"></div>
             @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-xs text-red-600" })
         </div>
 
@@ -33,37 +35,69 @@
 </section>
 
 @section scripts {
-    <script src="https://cdn.tiny.cloud/1/zr0s1ze2y3f4ufpcb1gn892mftbi3j04oxcc3ii21s0pgaoe/tinymce/6/tinymce.min.js"
-            referrerpolicy="origin"></script>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.min.js"></script>
+    <style>
+        #titleEditorContainer .ql-editor { min-height: 90px; }
+        #descriptionEditorContainer .ql-editor { min-height: 380px; }
+    </style>
     <script>
-        $(function () {
-            tinymce.init({
-                selector: "#titleEditor",
-                menubar: false,
-                plugins: "link code visualblocks",
-                toolbar: "undo redo | bold italic underline | forecolor backcolor | alignleft aligncenter alignright | link removeformat code",
-                height: 120,
-                branding: false,
-                promotion: false,
-                browser_spellcheck: true,
-                convert_urls: false
-            });
+        function makeImageHandler(quillRef) {
+            return function () {
+                var url = window.prompt("Enter image URL");
+                if (url) {
+                    var range = quillRef.getSelection(true);
+                    quillRef.insertEmbed(range.index, "image", url, "user");
+                    quillRef.setSelection(range.index + 1);
+                }
+            };
+        }
 
-            tinymce.init({
-                selector: "#descriptionEditor",
-                menubar: "file edit view insert format tools table help",
-                plugins: "lists link image table code fullscreen wordcount preview searchreplace visualblocks",
-                toolbar: "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | removeformat code fullscreen preview",
-                table_toolbar: "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
-                height: 380,
-                branding: false,
-                promotion: false,
-                browser_spellcheck: true,
-                convert_urls: false
+        function getQuillHtml(quillInstance) {
+            var html = quillInstance.root.innerHTML;
+            return html === "<p><br></p>" ? "" : html;
+        }
+
+        $(function () {
+            var titleQuill = new Quill("#titleEditorContainer", {
+                theme: "snow",
+                modules: {
+                    toolbar: [
+                        ["bold", "italic", "underline"],
+                        [{ color: [] }, { background: [] }],
+                        [{ align: [] }],
+                        ["link"],
+                        ["clean"]
+                    ]
+                }
             });
+            titleQuill.clipboard.dangerouslyPasteHTML($("#titleEditor").val());
+
+            var descriptionQuill = new Quill("#descriptionEditorContainer", {
+                theme: "snow",
+                modules: {
+                    toolbar: {
+                        container: [
+                            [{ header: [1, 2, 3, false] }],
+                            ["bold", "italic", "underline", "strike"],
+                            [{ color: [] }, { background: [] }],
+                            [{ align: [] }],
+                            [{ list: "ordered" }, { list: "bullet" }],
+                            [{ indent: "-1" }, { indent: "+1" }],
+                            ["blockquote", "code-block"],
+                            ["link", "image"],
+                            ["clean"]
+                        ],
+                        handlers: {}
+                    }
+                }
+            });
+            descriptionQuill.getModule("toolbar").addHandler("image", makeImageHandler(descriptionQuill));
+            descriptionQuill.clipboard.dangerouslyPasteHTML($("#descriptionEditor").val());
 
             $("#contentForm").on("submit", function () {
-                tinymce.triggerSave();
+                $("#titleEditor").val(getQuillHtml(titleQuill));
+                $("#descriptionEditor").val(getQuillHtml(descriptionQuill));
             });
 
             $("#contentForm").validate({

@@ -25,10 +25,11 @@
 
         <div>
             @Html.LabelFor(m => m.ChapterBody, new { @class = "mb-1 block text-sm font-medium" })
-            @Html.TextAreaFor(m => m.ChapterBody, 14, 60, new { @class = "w-full rounded-md border border-slate-300 px-3 py-2", id = "chapterBodyEditor" })
+            @Html.TextAreaFor(m => m.ChapterBody, 14, 60, new { @class = "hidden", id = "chapterBodyEditor" })
+            <div id="chapterBodyEditorContainer" class="rounded-md border border-slate-300 bg-white"></div>
             @Html.ValidationMessageFor(m => m.ChapterBody, "", new { @class = "text-xs text-red-600" })
-            <p class="mt-1 text-xs text-slate-500">Use rich formatting tools for headings, alignment, lists, links, and
-                tables.</p>
+            <p class="mt-1 text-xs text-slate-500">Use rich formatting tools for headings, alignment, lists, and
+                links.</p>
             </div>
 
             <button type="submit" class="rounded bg-slate-900 px-4 py-2 text-white">Save Chapter</button>
@@ -37,29 +38,57 @@
 </section>
 
     @section scripts {
-        <script src="https://cdn.tiny.cloud/1/zr0s1ze2y3f4ufpcb1gn892mftbi3j04oxcc3ii21s0pgaoe/tinymce/6/tinymce.min.js"
-                referrerpolicy="origin"></script>
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.min.js"></script>
+        <style>
+            #chapterBodyEditorContainer .ql-editor { min-height: 420px; font-family: Georgia, 'Times New Roman', serif; font-size: 16px; line-height: 1.6; }
+            #chapterBodyEditorContainer .ql-editor h1 { font-size: 2rem; }
+            #chapterBodyEditorContainer .ql-editor h2 { font-size: 1.6rem; }
+            #chapterBodyEditorContainer .ql-editor h3 { font-size: 1.3rem; }
+        </style>
         <script>
             $(function () {
-                tinymce.init({
-                    selector: "#chapterBodyEditor",
-                    menubar: "file edit view insert format tools table help",
-                    plugins: "lists link image table code fullscreen wordcount preview searchreplace visualblocks",
-                    toolbar: "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | removeformat code fullscreen preview",
-                    table_toolbar: "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
-                    height: 420,
-                    content_style: "body { max-width: 760px; margin: 24px auto; font-family: Georgia, 'Times New Roman', serif; font-size: 16px; line-height: 1.6; } h1 { font-size: 2rem; } h2 { font-size: 1.6rem; } h3 { font-size: 1.3rem; }",
-                    branding: false,
-                    promotion: false,
-                    browser_spellcheck: true,
-                    convert_urls: false
+                var chapterBodyQuill = new Quill("#chapterBodyEditorContainer", {
+                    theme: "snow",
+                    modules: {
+                        toolbar: {
+                            container: [
+                                [{ header: [1, 2, 3, false] }],
+                                ["bold", "italic", "underline", "strike"],
+                                [{ color: [] }, { background: [] }],
+                                [{ align: [] }],
+                                [{ list: "ordered" }, { list: "bullet" }],
+                                [{ indent: "-1" }, { indent: "+1" }],
+                                ["blockquote", "code-block"],
+                                ["link", "image"],
+                                ["clean"]
+                            ],
+                            handlers: {
+                                image: function () {
+                                    var url = window.prompt("Enter image URL");
+                                    if (url) {
+                                        var range = this.quill.getSelection(true);
+                                        this.quill.insertEmbed(range.index, "image", url, "user");
+                                        this.quill.setSelection(range.index + 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 });
+                chapterBodyQuill.clipboard.dangerouslyPasteHTML($("#chapterBodyEditor").val());
+
+                function getChapterBodyHtml() {
+                    var html = chapterBodyQuill.root.innerHTML;
+                    return html === "<p><br></p>" ? "" : html;
+                }
 
                 $("#chapterForm").on("submit", function () {
-                    tinymce.triggerSave();
+                    $("#chapterBodyEditor").val(getChapterBodyHtml());
                 });
 
                 $("#chapterForm").validate({
+                    ignore: [],
                     rules: {
                         ChapterTitle: { required: true, maxlength: 250 },
                         ChapterBody: { required: true }
