@@ -16,7 +16,6 @@
   "regions": [
     {
       "province": "EASTERN CAPE PROVINCE",
-      "table_id": "Table 7-1.1",
       "table_title": "Laboratory contact numbers and hours of operation per province and institution",
       "manager_headers": [
         "AREA Mngr.",
@@ -770,11 +769,12 @@
           "callOut": "ON CALL"
         }
       ],
-      "table_key": "section7-table-01"
+      "table_key": "section7-table-01",
+      "source_table_id_raw": "Table 7-1.1",
+      "source_table_id_normalized": "Table 7-1.1"
     },
     {
       "province": "FREE STATE PROVINCE",
-      "table_id": "Table 7-1.2",
       "table_title": "Laboratory contact numbers and hours of operation per province and institution",
       "manager_headers": [],
       "manager_contacts": [
@@ -980,11 +980,12 @@
           "callOut": ""
         }
       ],
-      "table_key": "section7-table-02"
+      "table_key": "section7-table-02",
+      "source_table_id_raw": "Table 7-1.2",
+      "source_table_id_normalized": "Table 7-1.2"
     },
     {
       "province": "GAUTENG PROVINCE",
-      "table_id": "Table 7-1.3",
       "table_title": "Laboratory contact numbers and hours of operation per province and institution",
       "manager_headers": [],
       "manager_contacts": [
@@ -1731,11 +1732,12 @@
           "callOut": "ON CALL"
         }
       ],
-      "table_key": "section7-table-03"
+      "table_key": "section7-table-03",
+      "source_table_id_raw": "Table 7-1.3",
+      "source_table_id_normalized": "Table 7-1.3"
     },
     {
       "province": "KZN PROVINCE",
-      "table_id": "Table 7-1.4",
       "table_title": "Laboratory contact numbers and hours of operation per province and institution",
       "manager_headers": [],
       "manager_contacts": [
@@ -2471,11 +2473,12 @@
           "callOut": ""
         }
       ],
-      "table_key": "section7-table-04"
+      "table_key": "section7-table-04",
+      "source_table_id_raw": "Table 7-1.4",
+      "source_table_id_normalized": "Table 7-1.4"
     },
     {
       "province": "LIMPOPO PROVINCE",
-      "table_id": "Table 7-1.5",
       "table_title": "Laboratory contact numbers and hours of operation per province and institution",
       "manager_headers": [],
       "manager_contacts": [
@@ -2850,11 +2853,12 @@
           "callOut": "ON CALL"
         }
       ],
-      "table_key": "section7-table-05"
+      "table_key": "section7-table-05",
+      "source_table_id_raw": "Table 7-1.5",
+      "source_table_id_normalized": "Table 7-1.5"
     },
     {
       "province": "MPUMALANGA PROVINCE",
-      "table_id": "Table 7-1.6",
       "table_title": "Laboratory contact numbers and hours of operation per province and institution",
       "manager_headers": [],
       "manager_contacts": [
@@ -3087,11 +3091,12 @@
           "callOut": ""
         }
       ],
-      "table_key": "section7-table-06"
+      "table_key": "section7-table-06",
+      "source_table_id_raw": "Table 7-1.6",
+      "source_table_id_normalized": "Table 7-1.6"
     },
     {
       "province": "NORTH WEST PROVINCE",
-      "table_id": "Table 7-1.7",
       "table_title": "Laboratory contact numbers and hours of operation per province and institution",
       "manager_headers": [],
       "manager_contacts": [
@@ -3247,11 +3252,12 @@
           "callOut": ""
         }
       ],
-      "table_key": "section7-table-07"
+      "table_key": "section7-table-07",
+      "source_table_id_raw": "Table 7-1.7",
+      "source_table_id_normalized": "Table 7-1.7"
     },
     {
       "province": "NORTHERN CAPE PROVINCE",
-      "table_id": "Table 7-1.8",
       "table_title": "Laboratory contact numbers and hours of operation per province and institution",
       "manager_headers": [],
       "manager_contacts": [
@@ -3434,11 +3440,12 @@
           "callOut": "ON CALL"
         }
       ],
-      "table_key": "section7-table-08"
+      "table_key": "section7-table-08",
+      "source_table_id_raw": "Table 7-1.8",
+      "source_table_id_normalized": "Table 7-1.8"
     },
     {
       "province": "WESTERN CAPE PROVINCE",
-      "table_id": "Table 7-1.9",
       "table_title": "Laboratory contact numbers and hours of operation per province and institution",
       "manager_headers": [],
       "manager_contacts": [
@@ -4020,11 +4027,12 @@
           "callOut": ""
         }
       ],
-      "table_key": "section7-table-09"
+      "table_key": "section7-table-09",
+      "source_table_id_raw": "Table 7-1.9",
+      "source_table_id_normalized": "Table 7-1.9"
     },
     {
       "province": "NATIONAL INSTITUTE FOR COMMUNICABLE DISEASES (NICD)",
-      "table_id": "Table 7-1",
       "table_title": "Laboratory contact numbers and hours of operation per province and institution",
       "manager_headers": [],
       "manager_contacts": [
@@ -4227,11 +4235,12 @@
           "callOut": ""
         }
       ],
-      "table_key": "section7-table-10"
+      "table_key": "section7-table-10",
+      "source_table_id_raw": "Table 7-1",
+      "source_table_id_normalized": "Table 7-1.10"
     },
     {
       "province": "NATIONAL INSTITUTE FOR OCCUPATIONAL HEALTH (NIOH)",
-      "table_id": "Table 7-1",
       "table_title": "Laboratory contact numbers and hours of operation per province and institution",
       "manager_headers": [],
       "manager_contacts": [
@@ -4362,7 +4371,9 @@
           "callOut": ""
         }
       ],
-      "table_key": "section7-table-11"
+      "table_key": "section7-table-11",
+      "source_table_id_raw": "Table 7-1",
+      "source_table_id_normalized": "Table 7-1.11"
     }
   ]
 }

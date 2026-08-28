@@ -8,15 +8,22 @@ CREATE TABLE source_extract_audit (
 );
 
 CREATE TABLE contact_region (
-    region_id            INT IDENTITY PRIMARY KEY,
-    extract_audit_id     INT NULL FOREIGN KEY REFERENCES source_extract_audit(audit_id),
-    region_name          NVARCHAR(200) NOT NULL UNIQUE,
-    region_type          VARCHAR(30) NOT NULL,
-    source_table_id      VARCHAR(20) NULL,
-    source_table_key     VARCHAR(40) NOT NULL UNIQUE,
-    display_order        INT NOT NULL,
-    is_active            BIT NOT NULL DEFAULT 1
+    region_id                 INT IDENTITY PRIMARY KEY,
+    extract_audit_id          INT NOT NULL FOREIGN KEY REFERENCES source_extract_audit(audit_id),
+    region_name               NVARCHAR(200) NOT NULL,
+    region_type               VARCHAR(30) NOT NULL,
+    source_table_id_raw       VARCHAR(20) NULL,
+    source_table_id_normalized VARCHAR(20) NULL,
+    source_table_key          VARCHAR(40) NOT NULL,
+    display_order             INT NOT NULL,
+    is_active                 BIT NOT NULL DEFAULT 1
 );
+
+CREATE UNIQUE INDEX UX_contact_region_extract_region_name
+    ON contact_region(extract_audit_id, region_name);
+
+CREATE UNIQUE INDEX UX_contact_region_extract_table_key
+    ON contact_region(extract_audit_id, source_table_key);
 
 CREATE TABLE contact_unit (
     unit_id              INT IDENTITY PRIMARY KEY,
