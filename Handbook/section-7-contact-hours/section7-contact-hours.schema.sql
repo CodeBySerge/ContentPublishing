@@ -15,6 +15,7 @@ CREATE TABLE contact_region (
     source_table_id_raw       VARCHAR(20) NULL,
     source_table_id_normalized VARCHAR(20) NULL,
     source_table_key          VARCHAR(40) NOT NULL,
+    source_notes              NVARCHAR(300) NULL,
     display_order             INT NOT NULL,
     is_active                 BIT NOT NULL DEFAULT 1
 );
@@ -50,11 +51,12 @@ CREATE TABLE contact_method (
 CREATE TABLE operating_hours (
     operating_hours_id   INT IDENTITY PRIMARY KEY,
     unit_id              INT NOT NULL FOREIGN KEY REFERENCES contact_unit(unit_id),
-    hours_type           VARCHAR(30) NOT NULL,
+    schedule_type        VARCHAR(30) NOT NULL,
     raw_text             NVARCHAR(200) NULL,
     days_label           NVARCHAR(100) NULL,
     start_time           TIME NULL,
     end_time             TIME NULL,
+    display_order        INT NOT NULL,
     is_24_hours          BIT NOT NULL DEFAULT 0,
     is_on_call           BIT NOT NULL DEFAULT 0,
     is_active            BIT NOT NULL DEFAULT 1
