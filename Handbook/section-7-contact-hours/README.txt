@@ -28,3 +28,4 @@ Notes for the next agent
 - contact_region.source_notes can store source-side ambiguity notes such as the reused Table 7-1 label for NICD and NIOH.
 - Example source_notes value for NICD/NIOH: Source document reuses Table 7-1 for this national institute; use source_table_id_normalized or table_key for unique import mapping.
 - operating_hours.schedule_type should distinguish weekday, weekend_public_holiday, and call_out rows during normalization.
+- Set operating_hours.spans_midnight for schedules whose end time rolls past midnight.

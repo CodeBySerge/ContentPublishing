@@ -41,7 +41,7 @@ CREATE TABLE contact_method (
     contact_method_id    INT IDENTITY PRIMARY KEY,
     unit_id              INT NOT NULL FOREIGN KEY REFERENCES contact_unit(unit_id),
     method_type          VARCHAR(30) NOT NULL,
-    contact_value        NVARCHAR(100) NOT NULL,
+    contact_value        NVARCHAR(250) NOT NULL,
     raw_value            NVARCHAR(250) NULL,
     is_primary           BIT NOT NULL DEFAULT 0,
     display_order        INT NOT NULL,
@@ -57,6 +57,7 @@ CREATE TABLE operating_hours (
     start_time           TIME NULL,
     end_time             TIME NULL,
     display_order        INT NOT NULL,
+    spans_midnight       BIT NOT NULL DEFAULT 0,
     is_24_hours          BIT NOT NULL DEFAULT 0,
     is_on_call           BIT NOT NULL DEFAULT 0,
     is_active            BIT NOT NULL DEFAULT 1
