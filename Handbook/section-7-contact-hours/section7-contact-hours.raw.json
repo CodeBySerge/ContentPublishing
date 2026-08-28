@@ -769,7 +769,8 @@
           "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
           "callOut": "ON CALL"
         }
-      ]
+      ],
+      "table_key": "section7-table-01"
     },
     {
       "province": "FREE STATE PROVINCE",
@@ -978,7 +979,8 @@
           "weekendPublicHolidayHours": "24 hours",
           "callOut": ""
         }
-      ]
+      ],
+      "table_key": "section7-table-02"
     },
     {
       "province": "GAUTENG PROVINCE",
@@ -1728,7 +1730,8 @@
           "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
           "callOut": "ON CALL"
         }
-      ]
+      ],
+      "table_key": "section7-table-03"
     },
     {
       "province": "KZN PROVINCE",
@@ -2467,7 +2470,8 @@
           "weekendPublicHolidayHours": "24 hours",
           "callOut": ""
         }
-      ]
+      ],
+      "table_key": "section7-table-04"
     },
     {
       "province": "LIMPOPO PROVINCE",
@@ -2845,7 +2849,8 @@
           "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
           "callOut": "ON CALL"
         }
-      ]
+      ],
+      "table_key": "section7-table-05"
     },
     {
       "province": "MPUMALANGA PROVINCE",
@@ -3081,7 +3086,8 @@
           "weekendPublicHolidayHours": "24 hours",
           "callOut": ""
         }
-      ]
+      ],
+      "table_key": "section7-table-06"
     },
     {
       "province": "NORTH WEST PROVINCE",
@@ -3240,7 +3246,8 @@
           "weekendPublicHolidayHours": "",
           "callOut": ""
         }
-      ]
+      ],
+      "table_key": "section7-table-07"
     },
     {
       "province": "NORTHERN CAPE PROVINCE",
@@ -3426,7 +3433,8 @@
           "weekendPublicHolidayHours": "",
           "callOut": "ON CALL"
         }
-      ]
+      ],
+      "table_key": "section7-table-08"
     },
     {
       "province": "WESTERN CAPE PROVINCE",
@@ -4011,7 +4019,8 @@
           "weekendPublicHolidayHours": "24 hours",
           "callOut": ""
         }
-      ]
+      ],
+      "table_key": "section7-table-09"
     },
     {
       "province": "NATIONAL INSTITUTE FOR COMMUNICABLE DISEASES (NICD)",
@@ -4217,7 +4226,8 @@
           "weekendPublicHolidayHours": "",
           "callOut": ""
         }
-      ]
+      ],
+      "table_key": "section7-table-10"
     },
     {
       "province": "NATIONAL INSTITUTE FOR OCCUPATIONAL HEALTH (NIOH)",
@@ -4351,7 +4361,8 @@
           "weekendPublicHolidayHours": "",
           "callOut": ""
         }
-      ]
+      ],
+      "table_key": "section7-table-11"
     }
   ]
 }
