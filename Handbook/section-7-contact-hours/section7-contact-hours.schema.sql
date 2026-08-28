@@ -61,3 +61,6 @@ CREATE TABLE operating_hours (
     is_on_call           BIT NOT NULL DEFAULT 0,
     is_active            BIT NOT NULL DEFAULT 1
 );
+
+CREATE UNIQUE INDEX UX_operating_hours_unit_schedule_order
+    ON operating_hours(unit_id, schedule_type, display_order);
