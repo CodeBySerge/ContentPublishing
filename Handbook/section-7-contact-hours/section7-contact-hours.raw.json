@@ -1,0 +1,4357 @@
+{
+  "source": {
+    "file": "/home/runner/work/ContentPublishing/ContentPublishing/Handbook.txt",
+    "section_id": "SECTION 7.0",
+    "section_heading": "CONTACT & HOURS of OPERATION",
+    "source_line_start": 445,
+    "source_line_end": 4439
+  },
+  "stats": {
+    "region_count": 11,
+    "manager_contact_count": 48,
+    "lab_contact_count": 432,
+    "blank_lab_name_rows": 9,
+    "blank_lab_telephone_rows": 53
+  },
+  "regions": [
+    {
+      "province": "EASTERN CAPE PROVINCE",
+      "table_id": "Table 7-1.1",
+      "table_title": "Laboratory contact numbers and hours of operation per province and institution",
+      "manager_headers": [
+        "AREA Mngr.",
+        "TELEPHONE",
+        "MOBILE",
+        "FAX"
+      ],
+      "manager_contacts": [
+        {
+          "source_line": 465,
+          "area": "AREA MANAGER",
+          "telephone": "(043) 700 8702",
+          "mobile": "(082) 893 6875",
+          "fax": "(086) 535 6519"
+        },
+        {
+          "source_line": 471,
+          "area": "BUSINESS MANAGERS",
+          "telephone": "",
+          "mobile": "",
+          "fax": ""
+        },
+        {
+          "source_line": 477,
+          "area": "Alfred Nzo & Joe Gqabi",
+          "telephone": "(039) 727 4007",
+          "mobile": "(082) 899 2351",
+          "fax": "(039) 727 4218"
+        },
+        {
+          "source_line": 483,
+          "area": "Buffalo City & Amathole",
+          "telephone": "(043) 701 6004",
+          "mobile": "(082) 737 7290",
+          "fax": "(086) 555 1186"
+        },
+        {
+          "source_line": 489,
+          "area": "Nelson Mandela Academic",
+          "telephone": "(047) 502 4922/4189",
+          "mobile": "(082) 872 3996",
+          "fax": "(047) 502 4016"
+        },
+        {
+          "source_line": 495,
+          "area": "Nelson Mandela Bay & Sarah Baartman",
+          "telephone": "(041) 395 6158",
+          "mobile": "(082) 888 9998",
+          "fax": "(041) 395 6147"
+        },
+        {
+          "source_line": 501,
+          "area": "OR Tambo & Chris Hani",
+          "telephone": "(043) 709 6019",
+          "mobile": "(082) 807 6635",
+          "fax": "(047) 531 1407"
+        }
+      ],
+      "lab_contacts": [
+        {
+          "source_line": 509,
+          "labName": "Andries Vosloo (Somerset East)",
+          "telephone": "(042) 243 1465",
+          "afterHoursMobile": "(076) 793 9745",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 517,
+          "labName": "Aliwal-North",
+          "telephone": "(051) 634 2398",
+          "afterHoursMobile": "(079) 893 0966",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 525,
+          "labName": "All Saints",
+          "telephone": "(047) 548 1025",
+          "afterHoursMobile": "(082) 803 8808",
+          "weekdayHours": "08h00\\n-\\n20h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 533,
+          "labName": "Bambisana",
+          "telephone": "(039) 253 7524",
+          "afterHoursMobile": "(082) 899 2399",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 541,
+          "labName": "Bisho",
+          "telephone": "(040) 635 0579/0582",
+          "afterHoursMobile": "(082) 899 2403",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 549,
+          "labName": "Butterworth",
+          "telephone": "(047) 491 8690",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "08h00\\n-\\n17h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 557,
+          "labName": "Cala",
+          "telephone": "(047) 877 0357/0037",
+          "afterHoursMobile": "(082) 882 9963",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 565,
+          "labName": "Canzibe",
+          "telephone": "(047) 568 8756",
+          "afterHoursMobile": "(084) 200 4904",
+          "weekdayHours": "08h00\\n-\\n20h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 573,
+          "labName": "Cecilia Makiwane",
+          "telephone": "(043) 708 2218/\\n2477",
+          "afterHoursMobile": "(082) 906 0081",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 581,
+          "labName": "Cofimvaba",
+          "telephone": "(047) 874 8020/0095",
+          "afterHoursMobile": "(072) 628 9818",
+          "weekdayHours": "08h00\\n-\\n20h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 589,
+          "labName": "Cradock",
+          "telephone": "(048) 881 4343",
+          "afterHoursMobile": "(082) 329 6448",
+          "weekdayHours": "08h00\\n-\\n18h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 597,
+          "labName": "Dora Nginza",
+          "telephone": "(041) 464 4655/1065/ (072) 252 3107",
+          "afterHoursMobile": "(041) 464 4655/1065",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 605,
+          "labName": "Dr Malizo Mpehle",
+          "telephone": "(047) 542 8881/90",
+          "afterHoursMobile": "(082) 802 0236",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 613,
+          "labName": "Empilisweni",
+          "telephone": "(051) 611 0061",
+          "afterHoursMobile": "(082) 899 2361",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 621,
+          "labName": "Frere (East London)",
+          "telephone": "(043) 701 6021/743 3000",
+          "afterHoursMobile": "(082) 737 7290",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 629,
+          "labName": "Frontier (Queenstown)",
+          "telephone": "(045) 839 4483/838 1916",
+          "afterHoursMobile": "(082) 807 2639",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 637,
+          "labName": "Glen Grey",
+          "telephone": "(047) 878 0121",
+          "afterHoursMobile": "(082) 897 1607",
+          "weekdayHours": "08h00\\n-\\n18h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 645,
+          "labName": "Greenville",
+          "telephone": "(039) 251 3267/(064) 870 2743",
+          "afterHoursMobile": "(064) 870 2743",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 653,
+          "labName": "Hewu",
+          "telephone": "(040) 841 0036",
+          "afterHoursMobile": "(082) 590 5482",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 661,
+          "labName": "Holy Cross",
+          "telephone": "(039) 253 7542/7082",
+          "afterHoursMobile": "(082) 870 3506",
+          "weekdayHours": "08h00\\n-\\n18h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 669,
+          "labName": "Humansdorp",
+          "telephone": "(042) 200 4255",
+          "afterHoursMobile": "(082) 803 1626",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 677,
+          "labName": "Isilimela",
+          "telephone": "(047) 564 0009",
+          "afterHoursMobile": "(084) 255 4365",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 685,
+          "labName": "Livingstone - Lab Support Services",
+          "telephone": "(041) 453 3816/ (072) 252 0875",
+          "afterHoursMobile": "(041) 453 3816",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 693,
+          "labName": "Livingstone - Chemical Pathology",
+          "telephone": "(041) 405 2226/ (072) 252 0453",
+          "afterHoursMobile": "(041) 405 2226",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 701,
+          "labName": "Livingstone - Haematology",
+          "telephone": "(041) 405 2229/(072) 252 0453",
+          "afterHoursMobile": "(041) 405 2229",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 709,
+          "labName": "Madwaleni",
+          "telephone": "(047) 577 8812/8801",
+          "afterHoursMobile": "(079) 510 5618",
+          "weekdayHours": "08h00\\n-\\n18h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 717,
+          "labName": "Madzikane KaZulu Memorial",
+          "telephone": "(039) 255 1653/0628",
+          "afterHoursMobile": "(082) 899 2297",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 725,
+          "labName": "Maluti",
+          "telephone": "(039) 256 0547",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 733,
+          "labName": "Midlands (Graaff-Reinet)",
+          "telephone": "(049) 892 5195",
+          "afterHoursMobile": "(082) 807 0485",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 741,
+          "labName": "Mount Ayliff",
+          "telephone": "(039) 254 0951",
+          "afterHoursMobile": "(082) 872 5834",
+          "weekdayHours": "08h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 749,
+          "labName": "Nelson Mandela",
+          "telephone": "(047) 502 4895/4951",
+          "afterHoursMobile": "(082) 616 0380",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 757,
+          "labName": "Academic - Lab  ",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 765,
+          "labName": "Support Services",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 773,
+          "labName": "Nelson Mandela",
+          "telephone": "(047) 502 4894",
+          "afterHoursMobile": "(082) 321 1588",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 781,
+          "labName": "Academic - Chemical Pathology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 789,
+          "labName": "Nelson Mandela",
+          "telephone": "(047) 502 4889/4887",
+          "afterHoursMobile": "(072) 150 9991",
+          "weekdayHours": "07h30\\n-\\n16h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 797,
+          "labName": "Academic - Cytology ",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 805,
+          "labName": "Nelson Mandela",
+          "telephone": "(047) 502 4890/4891",
+          "afterHoursMobile": "(082) 324 7127",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 813,
+          "labName": "Academic - Haematology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 821,
+          "labName": "Nelson Mandela",
+          "telephone": "(047) 502 4877/4879",
+          "afterHoursMobile": "(082) 871 9164",
+          "weekdayHours": "07h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 829,
+          "labName": "Academic - Histology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 837,
+          "labName": "Nelson Mandela",
+          "telephone": "(047) 502 4919",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 845,
+          "labName": "Academic - Microbiology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 853,
+          "labName": "Nelson Mandela Academic -",
+          "telephone": "(047) 502 4954/4957",
+          "afterHoursMobile": "(082) 619 6606",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 861,
+          "labName": "Tuberculosis (TB)",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 869,
+          "labName": "Nelson Mandela Academic - Virology and Serology",
+          "telephone": "(047) 502 4953/4893",
+          "afterHoursMobile": "(082) 601 8616",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 877,
+          "labName": "Nessie Knight",
+          "telephone": "(047) 553 6104",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 885,
+          "labName": "Port Elizabeth Provincial (M2)",
+          "telephone": "(041) 392 3348 ",
+          "afterHoursMobile": "(041) 395 6111",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 893,
+          "labName": "Port Elizabeth Main",
+          "telephone": "(041) 395 6111/6145 /",
+          "afterHoursMobile": "(082) 805 7375",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "07h00\\n-\\n12h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 901,
+          "labName": "Branch - Lab Support Services",
+          "telephone": "6175",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "Saturday & Sunday",
+          "callOut": ""
+        },
+        {
+          "source_line": 909,
+          "labName": "Port Elizabeth Main",
+          "telephone": "(041) 395 6111/6125 /",
+          "afterHoursMobile": "",
+          "weekdayHours": "07h00\\n-\\n17h30",
+          "weekendPublicHolidayHours": "07h00\\n-\\n13h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 917,
+          "labName": "Branch - Microbiology (Bacteriology)",
+          "telephone": "6131/6197",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "Saturday & Sunday",
+          "callOut": ""
+        },
+        {
+          "source_line": 925,
+          "labName": "Port Elizabeth Main",
+          "telephone": "(041) 395 6111/6109 /",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 933,
+          "labName": "Branch - Microbiology (TB)",
+          "telephone": "6171/6172/6132",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "Saturday & Sunday",
+          "callOut": ""
+        },
+        {
+          "source_line": 941,
+          "labName": "Port Elizabeth Main Branch - Serology",
+          "telephone": "(041) 395 6111/6169/6167",
+          "afterHoursMobile": "",
+          "weekdayHours": "07h30\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00  Saturday",
+          "callOut": ""
+        },
+        {
+          "source_line": 949,
+          "labName": "Port Elizabeth Main Branch - Virology",
+          "telephone": "(041) 395 6111/6126/6123/6114",
+          "afterHoursMobile": "",
+          "weekdayHours": "07h30\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday & Sunday",
+          "callOut": ""
+        },
+        {
+          "source_line": 957,
+          "labName": "Port Elizabeth Main",
+          "telephone": "(041) 395 6111/6140 /",
+          "afterHoursMobile": "",
+          "weekdayHours": "07h45 - 16h30",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 965,
+          "labName": "Branch - Anatomical",
+          "telephone": "6166",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "Saturday",
+          "callOut": ""
+        },
+        {
+          "source_line": 973,
+          "labName": "Pathology (Cytology)",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 981,
+          "labName": "Port Elizabeth Main",
+          "telephone": "(041) 395 6111/6156 /",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 989,
+          "labName": "Branch - Anatomical",
+          "telephone": "6157",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 997,
+          "labName": "Pathology (Histology)",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1005,
+          "labName": "Port Alfred",
+          "telephone": "(046) 624 1047",
+          "afterHoursMobile": "(082) 902 6435",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1013,
+          "labName": "Qumbu",
+          "telephone": "(047) 553 8013",
+          "afterHoursMobile": "(082) 872 9242",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1021,
+          "labName": "Settler's (Grahamstown)",
+          "telephone": "(046) 622 5066",
+          "afterHoursMobile": "(082) 807 0481",
+          "weekdayHours": "08h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1029,
+          "labName": "SS Gida",
+          "telephone": "(040) 658 0083/0039",
+          "afterHoursMobile": "(072) 910 2324",
+          "weekdayHours": "08h00\\n-\\n18h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1037,
+          "labName": "St Barnabas",
+          "telephone": "(047) 568 7766/7769",
+          "afterHoursMobile": "(084) 255 4365",
+          "weekdayHours": "08h00\\n-\\n22h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1045,
+          "labName": "St Elizabeth",
+          "telephone": "(039) 253 1238",
+          "afterHoursMobile": "(082) 899 2399",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1053,
+          "labName": "Oliver and Adelaide",
+          "telephone": "(039) 251 0288",
+          "afterHoursMobile": "(082) 899 2264",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1061,
+          "labName": "Tambo (St Patrick's) Bizana",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1069,
+          "labName": "Tafalofefe",
+          "telephone": "(047) 498 6012",
+          "afterHoursMobile": "(082) 327 2270",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 1077,
+          "labName": "Taylor Bequest (Matatiele)",
+          "telephone": "(039) 737 4714",
+          "afterHoursMobile": "(082) 604 1324",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1085,
+          "labName": "Taylor Bequest/Mount Fletcher",
+          "telephone": "(039) 257 0528",
+          "afterHoursMobile": "(072) 910 0747",
+          "weekdayHours": "08h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1093,
+          "labName": "Uitenhage",
+          "telephone": "(041) 961 0682/966 2020",
+          "afterHoursMobile": "(082) 807 2640",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1101,
+          "labName": "Victoria",
+          "telephone": "(040) 653 2715",
+          "afterHoursMobile": "(082) 899 2241",
+          "weekdayHours": "08h00\\n-\\n18h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1109,
+          "labName": "Willowvale",
+          "telephone": "(047) 499 1204",
+          "afterHoursMobile": "(072) 629 5529",
+          "weekdayHours": "08h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1117,
+          "labName": "Zitulele",
+          "telephone": "(047) 575 9550/9551/0055",
+          "afterHoursMobile": "(072) 628 9820",
+          "weekdayHours": "08h00\\n-\\n20h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        }
+      ]
+    },
+    {
+      "province": "FREE STATE PROVINCE",
+      "table_id": "Table 7-1.2",
+      "table_title": "Laboratory contact numbers and hours of operation per province and institution",
+      "manager_headers": [],
+      "manager_contacts": [
+        {
+          "source_line": 1142,
+          "area": "AREA MANAGER",
+          "telephone": "(011) 489 9170",
+          "mobile": "(082) 603 2577",
+          "fax": ""
+        },
+        {
+          "source_line": 1148,
+          "area": "BUSINESS MANAGERS",
+          "telephone": "    ",
+          "mobile": "",
+          "fax": ""
+        },
+        {
+          "source_line": 1154,
+          "area": "Free State",
+          "telephone": "(051) 405 9348",
+          "mobile": "(082) 908 4449",
+          "fax": ""
+        },
+        {
+          "source_line": 1160,
+          "area": "Universitas",
+          "telephone": "(051) 411 9951",
+          "mobile": "(071) 670 3459",
+          "fax": ""
+        }
+      ],
+      "lab_contacts": [
+        {
+          "source_line": 1170,
+          "labName": "3 Military (Depot)",
+          "telephone": "(051) 402 1859",
+          "afterHoursMobile": "(051) 405 3025/3931 (Universitas)",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1178,
+          "labName": "Bethlehem",
+          "telephone": "(058) 303 5586",
+          "afterHoursMobile": "(082) 801 8279/    (083) 566 5469",
+          "weekdayHours": "08h00\\n-\\n21h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00  Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1186,
+          "labName": "Boitumelo (Kroonstad)",
+          "telephone": "(056) 212 2169",
+          "afterHoursMobile": "(082) 801 8279/(082) 806 7619",
+          "weekdayHours": "08h00\\n-\\n20h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1194,
+          "labName": "Bongani (Welkom)",
+          "telephone": "(057) 396 6200",
+          "afterHoursMobile": "(057) 396 6200/(082) 807 7843",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1202,
+          "labName": "Botshabelo",
+          "telephone": "(051) 534 1610",
+          "afterHoursMobile": "(082) 809 5520/(082) 802 1457",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1210,
+          "labName": "Fezi Ngubentombi (Sasolburg)",
+          "telephone": "(016) 973 3837",
+          "afterHoursMobile": "(082) 804 1776",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1218,
+          "labName": "Manapo",
+          "telephone": "(058) 713 1700",
+          "afterHoursMobile": "(082) 907 4181/(072) 136 0652",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1226,
+          "labName": "National District",
+          "telephone": "(051) 405 2552/2438",
+          "afterHoursMobile": "(051) 405 3025/3931    (Universitas)",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": ""
+        },
+        {
+          "source_line": 1234,
+          "labName": "Pelonomi",
+          "telephone": "(051) 405 9340",
+          "afterHoursMobile": "(051) 405 9343/(082) 807 6634",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1242,
+          "labName": "Universitas - Lab Support Services",
+          "telephone": "(051) 405 3035",
+          "afterHoursMobile": "(051) 405 3025",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1250,
+          "labName": "Universitas - Chemistry",
+          "telephone": "(051) 405 2931/3784",
+          "afterHoursMobile": "(051) 405 2931/3784",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1258,
+          "labName": "Universitas - Cytology ",
+          "telephone": "(051) 405 3044",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1266,
+          "labName": "Universitas -",
+          "telephone": "(051) 405 3887",
+          "afterHoursMobile": "(051) 405 3887",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1274,
+          "labName": "Haematology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1282,
+          "labName": "Universitas - Histology",
+          "telephone": "(051) 405 3051",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1290,
+          "labName": "Universitas - Human Genetics",
+          "telephone": "(051) 405 3047",
+          "afterHoursMobile": "(082) 879 6371/7674",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1298,
+          "labName": "Universitas - INR Clinic",
+          "telephone": "(051) 405 3072",
+          "afterHoursMobile": "",
+          "weekdayHours": "07h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1306,
+          "labName": "Universitas - Microbiology ",
+          "telephone": "(051) 405 3077/3078",
+          "afterHoursMobile": "(051) 405 3025/3931",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "07h30 - 12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1314,
+          "labName": "Universitas - Virology ",
+          "telephone": "(051) 405 3162/2969",
+          "afterHoursMobile": "(051) 405 2969/3175",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        }
+      ]
+    },
+    {
+      "province": "GAUTENG PROVINCE",
+      "table_id": "Table 7-1.3",
+      "table_title": "Laboratory contact numbers and hours of operation per province and institution",
+      "manager_headers": [],
+      "manager_contacts": [
+        {
+          "source_line": 1340,
+          "area": "AREA MANAGER",
+          "telephone": "(011) 489 9650",
+          "mobile": "(082) 807 2650",
+          "fax": ""
+        },
+        {
+          "source_line": 1346,
+          "area": "BUSINESS MANAGERS",
+          "telephone": "    ",
+          "mobile": "",
+          "fax": ""
+        },
+        {
+          "source_line": 1352,
+          "area": "Charlotte Maxeke Johannesburg (CMJ) (JHB)",
+          "telephone": "(011) 480 8418/(011) 489 8538",
+          "mobile": "(071) 670 3389",
+          "fax": ""
+        },
+        {
+          "source_line": 1358,
+          "area": "Chris Hani Baragwanath (CHB)",
+          "telephone": "(011) 489 8792",
+          "mobile": "(082) 872 9969",
+          "fax": ""
+        },
+        {
+          "source_line": 1364,
+          "area": "Dr George Mukhari (DGM)",
+          "telephone": "(012) 417 9358",
+          "mobile": "(067) 412 8808",
+          "fax": ""
+        },
+        {
+          "source_line": 1370,
+          "area": "Ekurhuleni and Tshwane",
+          "telephone": "(011) 489 9154/9284",
+          "mobile": "(082) 941 5672",
+          "fax": ""
+        },
+        {
+          "source_line": 1376,
+          "area": "Johannesburg, Sedibeng and West Rand",
+          "telephone": "(011) 489 9153",
+          "mobile": "(082) 905 7016",
+          "fax": ""
+        },
+        {
+          "source_line": 1382,
+          "area": "Tshwane Academic Division (TAD)",
+          "telephone": "(012) 319 2177",
+          "mobile": "(082) 884 5262",
+          "fax": ""
+        }
+      ],
+      "lab_contacts": [
+        {
+          "source_line": 1392,
+          "labName": "Bertha Gxowa",
+          "telephone": "(011) 873 0000 ",
+          "afterHoursMobile": "(083) 340 0300",
+          "weekdayHours": "07h00\\n-\\n22h00",
+          "weekendPublicHolidayHours": "07h00\\n-\\n14h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1400,
+          "labName": "Bheki Mlangeni",
+          "telephone": "(011) 933 5454/9736",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1408,
+          "labName": "Braamfontein - Lab Support Services",
+          "telephone": "(011) 489 9053/9182",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 1416,
+          "labName": "Braamfontein - TB",
+          "telephone": "(011) 489 9347/9264/9352",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1424,
+          "labName": "Braamfontein - Cytology",
+          "telephone": "(011) 489 9400/9407/9417/9418",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "08h00\\n-\\n16h30",
+          "callOut": ""
+        },
+        {
+          "source_line": 1432,
+          "labName": "Braamfontein - Immunology ",
+          "telephone": "(011) 489 9412/9199/9069",
+          "afterHoursMobile": "  ",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1440,
+          "labName": "Braamfontein -",
+          "telephone": "(011) 489 9223",
+          "afterHoursMobile": "Medical Geneticist:  (082) 659 7138  ",
+          "weekdayHours": "08h00\\n-\\n16h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1448,
+          "labName": "Genetics Clinical &",
+          "telephone": "",
+          "afterHoursMobile": "Genetic Counsellor:  (072) 432 3043",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1456,
+          "labName": "Counselling Section",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1464,
+          "labName": "Braamfontein -",
+          "telephone": "(011) 489 9286/9344",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n17h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1472,
+          "labName": "Genetics Lab Manager",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1480,
+          "labName": "Braamfontein - Genetics Aneuploidy Testing",
+          "telephone": "(011) 489 9229/9231/9232/9436",
+          "afterHoursMobile": "",
+          "weekdayHours": "07h00\\n-\\n16h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1488,
+          "labName": "Braamfontein -",
+          "telephone": "(011) 489 9220",
+          "afterHoursMobile": "",
+          "weekdayHours": "07h00\\n-\\n16h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1496,
+          "labName": "Genetics Biochemistry",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1504,
+          "labName": "Braamfontein -",
+          "telephone": "(011) 489 9471",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1512,
+          "labName": "Genetics DNA Profiling",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1520,
+          "labName": "Laboratory (DPL)",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1528,
+          "labName": "(paternity testing)",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1536,
+          "labName": "Braamfontein -",
+          "telephone": "(011) 489 9217",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1544,
+          "labName": "Molecular Genetics",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1552,
+          "labName": "Braamfontein - Cytogenetics",
+          "telephone": "(011) 489 9231/9232/9229",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1560,
+          "labName": "Carletonville",
+          "telephone": "(018) 788 6250/786 1902",
+          "afterHoursMobile": "(072) 616 8955",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1568,
+          "labName": "Chris Hani Baragwanath - Lab Support Services ",
+          "telephone": "(011) 489 8739/8777/8776/8787",
+          "afterHoursMobile": "(060) 998 7512",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1576,
+          "labName": "Chris Hani Baragwanath - Histology",
+          "telephone": "(011) 489 8711/8710/8702/8654",
+          "afterHoursMobile": "",
+          "weekdayHours": "06h30 - 16h30",
+          "weekendPublicHolidayHours": "06h30 - 10h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 1584,
+          "labName": "Chris Hani Baragwanath - Chemical Pathology",
+          "telephone": "(011) 489 8781/8770/8768",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1592,
+          "labName": "Chris Hani Baragwanath - Haematology ",
+          "telephone": "(011) 489 8748/8719/8747/8754 ",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1600,
+          "labName": "Chris Hani Baragwanath - Microbiology ",
+          "telephone": "(011) 489 8740/8735/8729/8730",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1608,
+          "labName": "Chris Hani Baragwanath - Satellite Lab ",
+          "telephone": "(066) 478 8453",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1616,
+          "labName": "Chris Hani Baragwanath - STAT Lab",
+          "telephone": "(011) 933 9736",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1624,
+          "labName": "Charlotte Maxeke JHB - Lab Support Services",
+          "telephone": "(011) 489 8484/8440",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1632,
+          "labName": "Charlotte Maxeke JHB - Anatomical Pathology",
+          "telephone": "(011) 489 8463",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours 08h00\\n-\\n17h00 Friday",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1640,
+          "labName": "Charlotte Maxeke JHB - Chemical Pathology ",
+          "telephone": "(011) 489 8453/8458/8433",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1648,
+          "labName": "Charlotte Maxeke JHB - Cytogenetics ",
+          "telephone": "(011) 489 8596",
+          "afterHoursMobile": "(071) 866 2852",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1656,
+          "labName": "Charlotte Maxeke JHB - Flow Cytometry",
+          "telephone": "(011) 489 8409",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "07h00\\n-\\n16h00 Saturday",
+          "callOut": ""
+        },
+        {
+          "source_line": 1664,
+          "labName": "Charlotte Maxeke JHB - Haematology ",
+          "telephone": "(011) 489 8547/8809/8804",
+          "afterHoursMobile": "(082) 801 2732",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1672,
+          "labName": "Charlotte Maxeke JHB - HIV Molecular",
+          "telephone": "(011) 489 8547/8420",
+          "afterHoursMobile": "(082) 326 7102",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1680,
+          "labName": "Charlotte Maxeke JHB -",
+          "telephone": "(011) 489 8578",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 1688,
+          "labName": "Infection Control/Public Health",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "Saturday",
+          "callOut": ""
+        },
+        {
+          "source_line": 1696,
+          "labName": "Charlotte Maxeke JHB - Microbiology ",
+          "telephone": "(011) 489 8425/8426",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1704,
+          "labName": "Charlotte Maxeke JHB -",
+          "telephone": "(011) 489 8517/8594",
+          "afterHoursMobile": "(082) 329 2914",
+          "weekdayHours": "07h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "07h00\\n-\\n16h00",
+          "callOut": "CALL OUT "
+        },
+        {
+          "source_line": 1712,
+          "labName": "Virology ",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "Saturday",
+          "callOut": ""
+        },
+        {
+          "source_line": 1720,
+          "labName": "Dr George Mukhari -",
+          "telephone": "(012) 521 3048 ",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1728,
+          "labName": "Lab Support Services",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1736,
+          "labName": "Dr George Mukhari -",
+          "telephone": "(012) 521 5850",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1744,
+          "labName": "Anatomical Pathology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1752,
+          "labName": "Dr George Mukhari - Chemical Pathology",
+          "telephone": "(012) 521 4062 ",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1760,
+          "labName": "Dr George Mukhari - Cytogenetics ",
+          "telephone": "(012) 521 4070",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1768,
+          "labName": "Dr George Mukhari - Haematology ",
+          "telephone": "(012) 521 5807",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1776,
+          "labName": "Dr George Mukhari - Microbiology ",
+          "telephone": "(012) 521 4790",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1784,
+          "labName": "Dr George Mukhari - Virology ",
+          "telephone": "(012) 521 5629",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1792,
+          "labName": "Edenvale",
+          "telephone": "(011) 882 4000/4001",
+          "afterHoursMobile": "(011) 489 0402 (Helen Joseph)",
+          "weekdayHours": "07h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n17h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 1800,
+          "labName": "Far East Rand",
+          "telephone": "(011) 813 2136",
+          "afterHoursMobile": "(083) 349 0300",
+          "weekdayHours": "07h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "07h00\\n-\\n14h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1808,
+          "labName": "Helen Joseph",
+          "telephone": "(011) 489 0402/0403/0405",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1816,
+          "labName": "Jubilee",
+          "telephone": "(012) 711 8901",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1824,
+          "labName": "Kalafong",
+          "telephone": "(012) 318 6838",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1832,
+          "labName": "Kopanong",
+          "telephone": "(016) 428 2601/7170/7106",
+          "afterHoursMobile": "(016) 988 1417 (Sebokeng)",
+          "weekdayHours": "07h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "07h00\\n-\\n19h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 1840,
+          "labName": "Leratong",
+          "telephone": "(011) 419 3032/3118",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1848,
+          "labName": "Mamelodi",
+          "telephone": "(012) 801 1405",
+          "afterHoursMobile": "(012) 354 3856 (TAD)",
+          "weekdayHours": "07h00\\n-\\n18h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 1856,
+          "labName": "Odi",
+          "telephone": "(012) 725 7800",
+          "afterHoursMobile": "(082) 901 5909",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "07h00\\n-\\n14h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 1864,
+          "labName": "Pholosong",
+          "telephone": "(011) 812 5080",
+          "afterHoursMobile": "(011) 920 1126 (Tambo Memorial)",
+          "weekdayHours": "07h00\\n-\\n18h00",
+          "weekendPublicHolidayHours": "07h00\\n-\\n14h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 1872,
+          "labName": "Rahima Moosa",
+          "telephone": "(011) 477 3038/4892/3859",
+          "afterHoursMobile": "(011) 489 0402 (Helen Joseph)",
+          "weekdayHours": "07h00\\n-\\n16h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1880,
+          "labName": "Sebokeng",
+          "telephone": "(016) 988 1438/1417",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1888,
+          "labName": "South Rand",
+          "telephone": "(011) 681 2068",
+          "afterHoursMobile": "(011) 489 0402 (Helen Joseph)",
+          "weekdayHours": "08h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 1896,
+          "labName": "Steve Biko (TAD) - Lab Support Services",
+          "telephone": "(012) 354 3856",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1904,
+          "labName": "Steve Biko (TAD) -",
+          "telephone": "(012) 319 2111",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1912,
+          "labName": "Anatomical Pathology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1920,
+          "labName": "Steve Biko (TAD) -",
+          "telephone": "(012) 354 3871",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1928,
+          "labName": "Chemical Pathology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 1936,
+          "labName": "Steve Biko (TAD) - Haematology ",
+          "telephone": "(012) 354 3873",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1944,
+          "labName": "Steve Biko (TAD) - Immunology ",
+          "telephone": "(012) 319 2938",
+          "afterHoursMobile": "(082) 906 7706/(076) 590 0890",
+          "weekdayHours": "08h00\\n-\\n17h00; Transplant Unit only - 24 hours",
+          "weekendPublicHolidayHours": "Transplant Unit only - 24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1952,
+          "labName": "Steve Biko (TAD) - Microbiology ",
+          "telephone": "(012) 319 2123",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1960,
+          "labName": "Steve Biko (TAD) - Virology ",
+          "telephone": "(012) 319 2350",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1968,
+          "labName": "Tambo Memorial",
+          "telephone": "(011) 917 9605 ",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1976,
+          "labName": "Tembisa",
+          "telephone": "(011) 920 1126",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1984,
+          "labName": "Thelle Mogoerane",
+          "telephone": "(011) 909 1241",
+          "afterHoursMobile": "(082) 808 5906",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 1992,
+          "labName": "Yusuf Dadoo",
+          "telephone": "(011) 660 7388/7389",
+          "afterHoursMobile": "(082) 886 5972",
+          "weekdayHours": "08h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        }
+      ]
+    },
+    {
+      "province": "KZN PROVINCE",
+      "table_id": "Table 7-1.4",
+      "table_title": "Laboratory contact numbers and hours of operation per province and institution",
+      "manager_headers": [],
+      "manager_contacts": [
+        {
+          "source_line": 2019,
+          "area": "AREA MANAGER",
+          "telephone": "(031) 327 6718/6736",
+          "mobile": "(083) 468 0552",
+          "fax": " "
+        },
+        {
+          "source_line": 2025,
+          "area": "BUSINESS MANAGERS",
+          "telephone": "",
+          "mobile": "",
+          "fax": " "
+        },
+        {
+          "source_line": 2031,
+          "area": "Academic Complex",
+          "telephone": "(031) 240 2809",
+          "mobile": "(082) 561 9993",
+          "fax": " "
+        },
+        {
+          "source_line": 2037,
+          "area": "Ethekwini",
+          "telephone": "(031) 327 6701",
+          "mobile": "(082) 324 4564",
+          "fax": " "
+        },
+        {
+          "source_line": 2043,
+          "area": "Harry Gwala - Ugu ",
+          "telephone": "(031) 327 6715",
+          "mobile": "(079) 519 1223",
+          "fax": " "
+        },
+        {
+          "source_line": 2049,
+          "area": "Lembe - Thungulu ",
+          "telephone": "(031) 327 6761",
+          "mobile": "(083) 557 9628",
+          "fax": " "
+        },
+        {
+          "source_line": 2055,
+          "area": "Maju - Mzinyathi ",
+          "telephone": "(034) 312 6338",
+          "mobile": "(082) 676 4808",
+          "fax": " "
+        },
+        {
+          "source_line": 2061,
+          "area": "Mkhanya - Zulu ",
+          "telephone": "(035) 838 1387",
+          "mobile": "(083) 375 3223",
+          "fax": " "
+        },
+        {
+          "source_line": 2067,
+          "area": "Mngungundlovu - Thukela ",
+          "telephone": "(033) 342 2876",
+          "mobile": "(082) 676 4808",
+          "fax": " "
+        }
+      ],
+      "lab_contacts": [
+        {
+          "source_line": 2078,
+          "labName": "Addington",
+          "telephone": "(031) 327 2471/2473 /",
+          "afterHoursMobile": "(079) 291 5332",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2086,
+          "labName": "",
+          "telephone": "2475/2476/2479",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2094,
+          "labName": "Appelsbosch",
+          "telephone": "(032) 294 8006",
+          "afterHoursMobile": "(032) 294 800",
+          "weekdayHours": "08h00\\n-\\n22h00 ",
+          "weekendPublicHolidayHours": "ON CALL",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2102,
+          "labName": "Benedictine",
+          "telephone": "(035) 831 7000",
+          "afterHoursMobile": "(079) 291 6587",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2110,
+          "labName": "Bethesda",
+          "telephone": "(035) 595 3255",
+          "afterHoursMobile": "(035) 595 3255",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2118,
+          "labName": "Catherine Booth",
+          "telephone": "(035) 331 9200",
+          "afterHoursMobile": "(071) 874 7701 ",
+          "weekdayHours": "08h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2126,
+          "labName": "Ceza",
+          "telephone": "(035) 832 5055",
+          "afterHoursMobile": "(079) 291 6693",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2134,
+          "labName": "Charles Johnson Memorial (CJM)",
+          "telephone": "(034) 271 0665 (034) 271 3434",
+          "afterHoursMobile": "(034) 271 6434",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2142,
+          "labName": "Christ The King ",
+          "telephone": "(039) 834 7522",
+          "afterHoursMobile": "(074) 819 8941/ (063) 647 3963",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2150,
+          "labName": "Church of Scotland (COSH)",
+          "telephone": "(033) 493 0968 ",
+          "afterHoursMobile": "(033) 493 0968",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL  "
+        },
+        {
+          "source_line": 2158,
+          "labName": "Clairwood (Depot)",
+          "telephone": "(031) 460 5055/5056 (Wentworth)",
+          "afterHoursMobile": "(072) 044 4272 (Wentworth)",
+          "weekdayHours": "07h30 - 16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2166,
+          "labName": "Dr. Pixley Ka Isaka",
+          "telephone": "(031) 530 1400",
+          "afterHoursMobile": "(031) 530 1400/",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2174,
+          "labName": "Seme Memorial",
+          "telephone": "",
+          "afterHoursMobile": "(072) 909 9410",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2182,
+          "labName": "Dundee",
+          "telephone": "(034) 212 1052",
+          "afterHoursMobile": "(034) 212 1052",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2190,
+          "labName": "eDumbe",
+          "telephone": "(034) 995 1441",
+          "afterHoursMobile": "(079) 291 6445",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2198,
+          "labName": "E.G. Usher Memorial (Kokstad)",
+          "telephone": "(039) 797 8147 ",
+          "afterHoursMobile": "(063) 709 6763 ",
+          "weekdayHours": "08h00\\n-\\n00h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2206,
+          "labName": "Ekhombe",
+          "telephone": "(035) 834 1000",
+          "afterHoursMobile": "(064)  751 1747",
+          "weekdayHours": "08h00\\n-\\n21h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2214,
+          "labName": "Emmaus",
+          "telephone": "(036) 488 1570",
+          "afterHoursMobile": "(036) 488 1570",
+          "weekdayHours": "07h00\\n-\\n00h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2222,
+          "labName": "Eshowe",
+          "telephone": "(035) 474 2052",
+          "afterHoursMobile": "(072) 379 1288",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2230,
+          "labName": "Estcourt",
+          "telephone": "(036) 342 7034 ",
+          "afterHoursMobile": "(036) 342 7000",
+          "weekdayHours": "24 hours Mon - Thursday",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL  "
+        },
+        {
+          "source_line": 2238,
+          "labName": "General Justice",
+          "telephone": "(032) 552 2553",
+          "afterHoursMobile": "(083) 230 6858",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2246,
+          "labName": "Cetshwayo Gizenga",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2254,
+          "labName": "Mpanza (Stanger)",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2262,
+          "labName": "GJ Crookes Hospital (Scottburgh)",
+          "telephone": "(039) 976 1180/ (039) 978 7040",
+          "afterHoursMobile": "(060) 870 0205",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "08h00\\n-\\n18h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2270,
+          "labName": "Greys",
+          "telephone": "(033) 345 2952/2953/2983",
+          "afterHoursMobile": "(033) 345 2952/2953/2983",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2278,
+          "labName": "Greytown",
+          "telephone": "(033) 413 2056/(033) 413 9411",
+          "afterHoursMobile": "(033) 413 9411",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "07h00\\n-\\n16h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2286,
+          "labName": "Harry Gwala Regional Hospital (Edendale)",
+          "telephone": "(033) 395 4220/4196/4308",
+          "afterHoursMobile": "(033) 395 4220/4196/4308",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2294,
+          "labName": "Hlabisa",
+          "telephone": "(035) 838 1386 ",
+          "afterHoursMobile": "(079) 291 6518",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2302,
+          "labName": "Inkosi Albert Luthuli -",
+          "telephone": "(031) 240 2693/2732 /",
+          "afterHoursMobile": "(083) 997 5464/",
+          "weekdayHours": "07h30 - 16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2310,
+          "labName": "Anatomical Pathology",
+          "telephone": "2733/2735/2740",
+          "afterHoursMobile": "(067) 841 5133",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2318,
+          "labName": "Inkosi Albert Luthuli - Chemical Pathology",
+          "telephone": "(031) 240 2574/2575",
+          "afterHoursMobile": "(066) 376 3484",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2326,
+          "labName": "Inkosi Albert Luthuli - Cytology ",
+          "telephone": "(031) 240 2629/2630",
+          "afterHoursMobile": "(071) 896 6010",
+          "weekdayHours": "07h30 - 16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2334,
+          "labName": "Inkosi Albert Luthuli -",
+          "telephone": "(031) 240 2689/2690",
+          "afterHoursMobile": "(031) 240 2689/2690",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "08h00\\n-\\n20h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 2342,
+          "labName": "Haematology ",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2350,
+          "labName": "Inkosi Albert Luthuli - Microbiology ",
+          "telephone": "(031) 240 2775",
+          "afterHoursMobile": "(031) 240 2775",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2358,
+          "labName": "Inkosi Albert Luthuli - Virology",
+          "telephone": "(031) 240 2599/2600",
+          "afterHoursMobile": "(031) 240 1000",
+          "weekdayHours": "07h30 - 16h30",
+          "weekendPublicHolidayHours": "07h30 - 15h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 2366,
+          "labName": "Itshelejuba",
+          "telephone": "(034) 413 2542",
+          "afterHoursMobile": "(079) 291 6329",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2374,
+          "labName": "King Edward VIII - Lab Support Services",
+          "telephone": "(031) 360 3079/3086",
+          "afterHoursMobile": "(031) 360 3079",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2382,
+          "labName": "King Edward VIII -",
+          "telephone": "(031) 360 3088",
+          "afterHoursMobile": "(066) 376 3484",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2390,
+          "labName": "Chemical Pathology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2398,
+          "labName": "King Edward VIII - Haematology ",
+          "telephone": "(031) 360 3098/3092",
+          "afterHoursMobile": "(031) 360 3092/3098",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2406,
+          "labName": "King Edward VIII - Microbiology ",
+          "telephone": "(031) 360 3188/3191",
+          "afterHoursMobile": "(031) 360 3188/3191",
+          "weekdayHours": "07h30 - 18h00 18h00\\n-\\n06h00",
+          "weekendPublicHolidayHours": "07h30 - 18h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 2414,
+          "labName": "King Dinizulu",
+          "telephone": "(031) 777 1105/1103",
+          "afterHoursMobile": "(031) 777 1105/ (060) 318 5374",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2422,
+          "labName": "KwaMashu Community Health Centre",
+          "telephone": "(031) 503 1400",
+          "afterHoursMobile": "(066) 329 9900 ",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2430,
+          "labName": "Kwa-Magwaza (St",
+          "telephone": "(035) 450 8231",
+          "afterHoursMobile": "(066) 359 1793",
+          "weekdayHours": "08h00\\n-\\n23h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2438,
+          "labName": "Mary’s)",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2446,
+          "labName": "Ladysmith",
+          "telephone": "(036) 638 0226/1157",
+          "afterHoursMobile": "(036) 638 0226/1157",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2454,
+          "labName": "Madadeni",
+          "telephone": "(034) 328 8124/8005",
+          "afterHoursMobile": "(034) 328 8005/8223/8224",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2462,
+          "labName": "Mahatma Gandhi Memorial",
+          "telephone": "(031) 539 6290/(031) 502 1019/3127",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2470,
+          "labName": "Manguzi",
+          "telephone": "(035) 592 0209",
+          "afterHoursMobile": "(079) 291 6800",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL  "
+        },
+        {
+          "source_line": 2478,
+          "labName": "Mbongolwane",
+          "telephone": "(035) 476 6242",
+          "afterHoursMobile": "(079) 971 6719",
+          "weekdayHours": "08h00\\n-\\n21h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2486,
+          "labName": "Montebello",
+          "telephone": "(033) 506 7131",
+          "afterHoursMobile": "(066) 347 9538",
+          "weekdayHours": "07h00\\n-\\n23h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2494,
+          "labName": "Mosvold ",
+          "telephone": "(035) 591 0502",
+          "afterHoursMobile": "(079) 291 6699",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL  "
+        },
+        {
+          "source_line": 2502,
+          "labName": "Mseleni",
+          "telephone": "(035) 574 1004",
+          "afterHoursMobile": "(079) 291 5894",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL  "
+        },
+        {
+          "source_line": 2510,
+          "labName": "Murchison",
+          "telephone": "(039) 687 6013",
+          "afterHoursMobile": "(060) 870 0090/ (063) 647 4153",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "08h00\\n-\\n17h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2518,
+          "labName": "Newcastle",
+          "telephone": "(034) 328 0054",
+          "afterHoursMobile": "(034) 382 0064",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2526,
+          "labName": "Ngwelezane",
+          "telephone": "(035) 794 2941 /",
+          "afterHoursMobile": "(035) 794 2941 /",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2534,
+          "labName": "",
+          "telephone": "(035) 901 7107",
+          "afterHoursMobile": "(035) 901 7107",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2542,
+          "labName": "Nkandla",
+          "telephone": "(035) 833 5042",
+          "afterHoursMobile": "(072) 804 9343",
+          "weekdayHours": "08h00\\n-\\n22h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2550,
+          "labName": "Nkonjeni",
+          "telephone": "(035) 873 0107",
+          "afterHoursMobile": "(079) 699 3952",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2558,
+          "labName": "Northdale",
+          "telephone": "(033) 387 2502",
+          "afterHoursMobile": "(033) 387 2502",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2566,
+          "labName": "Osindisweni ",
+          "telephone": "(032) 541 9200/36/37/38",
+          "afterHoursMobile": "(068) 387 4674/ (065) 293 5904",
+          "weekdayHours": "08h00\\n-\\n16h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2574,
+          "labName": "Port Shepstone",
+          "telephone": "(039) 688 6114/3",
+          "afterHoursMobile": "(060) 8700 709",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2582,
+          "labName": "Prince Mshiyeni Memorial",
+          "telephone": "(031) 907 8226",
+          "afterHoursMobile": "(031) 907 8226",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2590,
+          "labName": "Public Health",
+          "telephone": "(031) 327 6752/78",
+          "afterHoursMobile": "(072) 045 0507",
+          "weekdayHours": "07h30 - 16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 2598,
+          "labName": "Queen Nandi (Empangeni)",
+          "telephone": "(035) 907 7144/(035) 772 6097",
+          "afterHoursMobile": "(065) 164 1577/(081) 346 5718",
+          "weekdayHours": "06h00\\n-\\n22h30",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2606,
+          "labName": "RK Khan",
+          "telephone": "(031) 459 6290",
+          "afterHoursMobile": "(072) 414 4479",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2614,
+          "labName": "Rietvlei",
+          "telephone": "(039) 260 0017",
+          "afterHoursMobile": "(082) 560 6390",
+          "weekdayHours": "08h00\\n-\\n00h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2622,
+          "labName": "St Andrews",
+          "telephone": "(039) 433 1955",
+          "afterHoursMobile": "(060) 870 0295",
+          "weekdayHours": "08h00\\n-\\n00h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2630,
+          "labName": "St Apollinaris",
+          "telephone": "(039) 833 9001/9002/9003/9004/9005/9006",
+          "afterHoursMobile": "(063) 647 4259",
+          "weekdayHours": "08h00\\n-\\n00h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2638,
+          "labName": "Umphumulo",
+          "telephone": "(032) 481 4100",
+          "afterHoursMobile": "(072) 149 0323",
+          "weekdayHours": "07h30 - 22h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2646,
+          "labName": "Untunjambili",
+          "telephone": "(033) 444 0015",
+          "afterHoursMobile": "(071) 075 6169",
+          "weekdayHours": "08h00\\n-\\n18h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2654,
+          "labName": "Vryheid",
+          "telephone": "(034) 989 5946",
+          "afterHoursMobile": "(079) 291 5996",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2662,
+          "labName": "Wentworth",
+          "telephone": "(031) 460 5055/5056",
+          "afterHoursMobile": "(072) 044 4272",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        }
+      ]
+    },
+    {
+      "province": "LIMPOPO PROVINCE",
+      "table_id": "Table 7-1.5",
+      "table_title": "Laboratory contact numbers and hours of operation per province and institution",
+      "manager_headers": [],
+      "manager_contacts": [
+        {
+          "source_line": 2689,
+          "area": "AREA MANAGER",
+          "telephone": "(012) 842 7598",
+          "mobile": "(082) 904 4416",
+          "fax": "(086) 620 3431 "
+        },
+        {
+          "source_line": 2695,
+          "area": "BUSINESS MANAGERS",
+          "telephone": "    ",
+          "mobile": "",
+          "fax": ""
+        },
+        {
+          "source_line": 2701,
+          "area": "Capricorn",
+          "telephone": "(015) 296 3781/3839",
+          "mobile": "(083) 429 5504",
+          "fax": "(015) 296 4647/4557 "
+        },
+        {
+          "source_line": 2707,
+          "area": "Sekhukhune and Waterberg",
+          "telephone": "(015) 296 3781/3910",
+          "mobile": "(082) 616 1906",
+          "fax": "(015) 296 4647/4557 "
+        },
+        {
+          "source_line": 2713,
+          "area": "Vhembe Mopani",
+          "telephone": "(015) 296 0653/3780",
+          "mobile": "(082) 887 9039",
+          "fax": "(015) 296 4647/4557 "
+        }
+      ],
+      "lab_contacts": [
+        {
+          "source_line": 2723,
+          "labName": "Bela-Bela (Warmbaths)",
+          "telephone": "(014) 736 2374",
+          "afterHoursMobile": "(082) 801 8267",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2731,
+          "labName": "Botlokwa",
+          "telephone": "(015) 527 8030",
+          "afterHoursMobile": "(082) 908 4476",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2739,
+          "labName": "CN Phatudi",
+          "telephone": "(015) 355 4935",
+          "afterHoursMobile": "(082) 907 5191",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2747,
+          "labName": "Dilokong",
+          "telephone": "(013) 214 8310",
+          "afterHoursMobile": "(082) 809 1317",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2755,
+          "labName": "Donald Fraser",
+          "telephone": "(015) 963 6369/9217",
+          "afterHoursMobile": "(082) 906 8802",
+          "weekdayHours": "08h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2763,
+          "labName": "Elim",
+          "telephone": "(015) 556 3250",
+          "afterHoursMobile": "(082) 906 8774",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2771,
+          "labName": "Ellisras",
+          "telephone": "(014) 763 2254",
+          "afterHoursMobile": "(082) 801 8266",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "09h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2779,
+          "labName": "George Masebe",
+          "telephone": "(015) 425 0055",
+          "afterHoursMobile": "(082) 908 4439",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2787,
+          "labName": "Groblersdal",
+          "telephone": "(013) 262 5245",
+          "afterHoursMobile": "(082) 881 9670",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2795,
+          "labName": "Helene Franz",
+          "telephone": "(015) 505 0102",
+          "afterHoursMobile": "(082) 809 5971",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2803,
+          "labName": "Jane Furse",
+          "telephone": "(013) 265 9541/9542",
+          "afterHoursMobile": "(082) 880 0887",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2811,
+          "labName": "Kgapane",
+          "telephone": "(015) 328 3811/7868",
+          "afterHoursMobile": "(082) 909 3201",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2819,
+          "labName": "Knobel",
+          "telephone": "(015) 221 1634",
+          "afterHoursMobile": "(083) 630 5793",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2827,
+          "labName": "Lebowakgomo",
+          "telephone": "(015) 632 5347",
+          "afterHoursMobile": "(082) 802 4294",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2835,
+          "labName": "Letaba",
+          "telephone": "(015) 303 0132/0239",
+          "afterHoursMobile": "(082) 908 4463",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2843,
+          "labName": "Louis Trichardt",
+          "telephone": "(015) 516 6880",
+          "afterHoursMobile": "(082) 806 6927",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2851,
+          "labName": "Malamulele",
+          "telephone": "(015) 851 0068",
+          "afterHoursMobile": "(082) 907 5190",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2859,
+          "labName": "Mankweng",
+          "telephone": "(015) 267 6530",
+          "afterHoursMobile": "(082) 908 4472",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2867,
+          "labName": "Maphutha Malatjie (Namakgale)",
+          "telephone": "(015) 769 1379",
+          "afterHoursMobile": "(082) 809 5972",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2875,
+          "labName": "Matlala",
+          "telephone": "(013) 264 5109",
+          "afterHoursMobile": "(083) 633 6879",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2883,
+          "labName": "Mecklenburg",
+          "telephone": "(015) 619 0435",
+          "afterHoursMobile": "(082) 908 4778",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2891,
+          "labName": "Mokopane",
+          "telephone": "(015) 483 4077/4047",
+          "afterHoursMobile": "(082) 809 1316",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2899,
+          "labName": "Musina",
+          "telephone": "(015) 534 0151",
+          "afterHoursMobile": "(082) 201 2620",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2907,
+          "labName": "Nkhensani (Giyani)",
+          "telephone": "(015) 812 1360/3661",
+          "afterHoursMobile": "(082) 807 5677",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2915,
+          "labName": "Nylstroom",
+          "telephone": "(014) 717 4435",
+          "afterHoursMobile": "(082) 801 8265",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2923,
+          "labName": "Philadelphia",
+          "telephone": "(013) 983 0358/0142",
+          "afterHoursMobile": "(082) 880 9112",
+          "weekdayHours": "08h00\\n-\\n18h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2931,
+          "labName": "Pietersburg (Polokwane)",
+          "telephone": "(015) 297 1099/1100/1101",
+          "afterHoursMobile": "(082) 801 8262",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2939,
+          "labName": "Potgietersrus",
+          "telephone": "(015) 491 2370",
+          "afterHoursMobile": "(082) 803 2920",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2947,
+          "labName": "Sekororo",
+          "telephone": "(015) 383 0123/9426",
+          "afterHoursMobile": "(082) 909 3231",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2955,
+          "labName": "Seshego",
+          "telephone": "(015) 223 6519",
+          "afterHoursMobile": "(082) 801 9108",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2963,
+          "labName": "Siloam",
+          "telephone": "(015) 973 0453",
+          "afterHoursMobile": "(082) 806 6896",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2971,
+          "labName": "St Ritas",
+          "telephone": "(013) 298 1017 ",
+          "afterHoursMobile": "(082) 906 8745",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2979,
+          "labName": "Thabazimbi",
+          "telephone": "(014) 777 2174",
+          "afterHoursMobile": "(082) 907 6904",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 2987,
+          "labName": "Tshilidzini",
+          "telephone": "(015) 964 2238",
+          "afterHoursMobile": "(082) 908 7225",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 2995,
+          "labName": "Van Velden (Tzaneen)",
+          "telephone": "(015) 307 1596",
+          "afterHoursMobile": "(082) 801 1829",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3003,
+          "labName": "Witpoort",
+          "telephone": "(014) 769 0197",
+          "afterHoursMobile": "(083) 680 0141",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3011,
+          "labName": "Zebediela",
+          "telephone": "(015) 662 1198",
+          "afterHoursMobile": "(082) 802 0836",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        }
+      ]
+    },
+    {
+      "province": "MPUMALANGA PROVINCE",
+      "table_id": "Table 7-1.6",
+      "table_title": "Laboratory contact numbers and hours of operation per province and institution",
+      "manager_headers": [],
+      "manager_contacts": [
+        {
+          "source_line": 3038,
+          "area": "AREA MANAGER",
+          "telephone": "(012) 842 7598",
+          "mobile": "(082) 904 4416",
+          "fax": "(086) 620 3431 "
+        },
+        {
+          "source_line": 3044,
+          "area": "BUSINESS MANAGERS",
+          "telephone": "    ",
+          "mobile": "",
+          "fax": ""
+        },
+        {
+          "source_line": 3050,
+          "area": "Ehlanzeni",
+          "telephone": "(013) 752 2052/2053",
+          "mobile": "(082) 615 1548",
+          "fax": "(013) 752 2104 "
+        },
+        {
+          "source_line": 3056,
+          "area": "Gert Sibande and Nkangala",
+          "telephone": "(017) 811 3305",
+          "mobile": "(079) 519 1248",
+          "fax": "(013) 752 2104 "
+        }
+      ],
+      "lab_contacts": [
+        {
+          "source_line": 3064,
+          "labName": "Amajuba (Volksrust) (Depot)",
+          "telephone": "(017) 735 1994",
+          "afterHoursMobile": "Closed",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3072,
+          "labName": "Barberton",
+          "telephone": "(013) 712 2763",
+          "afterHoursMobile": "(082) 807 2629",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "10h00\\n-\\n14h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3080,
+          "labName": "Bethal (Depot)",
+          "telephone": "(017) 647 2533",
+          "afterHoursMobile": "Closed",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3088,
+          "labName": "Bernice Samuel (Delmas)",
+          "telephone": "(013) 665 1059",
+          "afterHoursMobile": "Speed dial 22259 (013) 665 8200 if phoning from outside hospital",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3096,
+          "labName": "",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3104,
+          "labName": "Embhuleni",
+          "telephone": "(017) 883 1504",
+          "afterHoursMobile": "(082) 882 4679",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3112,
+          "labName": "Ermelo",
+          "telephone": "(017) 811 3305/3402/2860",
+          "afterHoursMobile": "(082) 499 0912",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3120,
+          "labName": "Evander",
+          "telephone": "(017) 632 2075",
+          "afterHoursMobile": "(082) 807 7198",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3128,
+          "labName": "Kwa Mhlanga",
+          "telephone": "(013) 947 9169/2557",
+          "afterHoursMobile": "(072) 044 4354",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3136,
+          "labName": "Lydenburg",
+          "telephone": "(013) 235 4487/3609",
+          "afterHoursMobile": "(060) 987 0040",
+          "weekdayHours": "07h30 - 16h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00 Saturday",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3144,
+          "labName": "Mapulaneng",
+          "telephone": "(013) 799 0202",
+          "afterHoursMobile": "(082) 804 9956",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3152,
+          "labName": "Matikwana",
+          "telephone": "(013) 708 7010",
+          "afterHoursMobile": "(083) 629 8574",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3160,
+          "labName": "Middelburg",
+          "telephone": "(013) 282 5443",
+          "afterHoursMobile": "(060) 902 2747",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3168,
+          "labName": "Mmamethlake",
+          "telephone": "(012) 721 3867",
+          "afterHoursMobile": "(082) 900 2157",
+          "weekdayHours": "08h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "10h00\\n-\\n14h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3176,
+          "labName": "Piet Retief",
+          "telephone": "(017) 824 1314",
+          "afterHoursMobile": "(082) 809 2088",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3184,
+          "labName": "Rob Ferreira (Nelspruit)",
+          "telephone": "(013) 741 1014 ",
+          "afterHoursMobile": "(082) 808 2862",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3192,
+          "labName": "Shongwe",
+          "telephone": "(013) 781 0632/0670",
+          "afterHoursMobile": "(083) 645 9094",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3200,
+          "labName": "Standerton",
+          "telephone": "(017) 712 4011",
+          "afterHoursMobile": "(082) 807 8939",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3208,
+          "labName": "Themba",
+          "telephone": "(013) 796 0236",
+          "afterHoursMobile": "(082) 808 2842",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3216,
+          "labName": "Tintswalo ",
+          "telephone": "(013) 795 5151",
+          "afterHoursMobile": "(082) 881 1671",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3224,
+          "labName": "Tonga",
+          "telephone": "(013) 780 3621",
+          "afterHoursMobile": "(082) 908 5213",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3232,
+          "labName": "Witbank",
+          "telephone": "(013) 656 6646 ",
+          "afterHoursMobile": "(082) 807 6941",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        }
+      ]
+    },
+    {
+      "province": "NORTH WEST PROVINCE",
+      "table_id": "Table 7-1.7",
+      "table_title": "Laboratory contact numbers and hours of operation per province and institution",
+      "manager_headers": [],
+      "manager_contacts": [
+        {
+          "source_line": 3257,
+          "area": "AREA MANAGER",
+          "telephone": "(011) 489 9170",
+          "mobile": "(082) 603 2577",
+          "fax": " "
+        },
+        {
+          "source_line": 3263,
+          "area": "BUSINESS MANAGER",
+          "telephone": "(018) 293 3512/3517",
+          "mobile": "(082) 882 5284",
+          "fax": "(018) 381 0658/0157 "
+        }
+      ],
+      "lab_contacts": [
+        {
+          "source_line": 3271,
+          "labName": "Brits",
+          "telephone": "(012) 252 0483/2848",
+          "afterHoursMobile": "",
+          "weekdayHours": "07h30 - 20h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3279,
+          "labName": "Ganyesa ",
+          "telephone": "(053) 998 3666/1001",
+          "afterHoursMobile": "(060) 500 5914",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3287,
+          "labName": "Gelukspan",
+          "telephone": "(018) 336 1153/9200/9262",
+          "afterHoursMobile": "(060) 869 9721/(063) 048 6711",
+          "weekdayHours": "08h00\\n-\\n21h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3295,
+          "labName": "Job Shimankana",
+          "telephone": "(014) 592 2792/2791/",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3303,
+          "labName": "Tabane (Rustenburg)",
+          "telephone": "(014) 594 1803",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3311,
+          "labName": "Joe Morolong (Vryburg)",
+          "telephone": "(053) 927 2001",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3319,
+          "labName": "Klerksdorp (Depot)",
+          "telephone": "(018) 465 4772",
+          "afterHoursMobile": "(072) 460 8746",
+          "weekdayHours": "07h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3327,
+          "labName": "Lehurutshe",
+          "telephone": "(018) 363 4148/4207/4566",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n22h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3335,
+          "labName": "Mafikeng",
+          "telephone": "(018) 383 3936/3686",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3343,
+          "labName": "Moses Kotane",
+          "telephone": "(014) 556 3992",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "07h00\\n-\\n19h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3351,
+          "labName": "Potchefstroom",
+          "telephone": "(018) 297 5525/5526",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3359,
+          "labName": "Taung",
+          "telephone": "(053) 994 1030",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n22h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3367,
+          "labName": "Tshepong",
+          "telephone": "(018) 465 4088/7860",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3375,
+          "labName": "Tshepong TB Lab",
+          "telephone": "(018) 465 5478",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3383,
+          "labName": "Wolmeranstad ",
+          "telephone": "(018) 596 1708/7860",
+          "afterHoursMobile": "(082) 807 7843",
+          "weekdayHours": "07h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        }
+      ]
+    },
+    {
+      "province": "NORTHERN CAPE PROVINCE",
+      "table_id": "Table 7-1.8",
+      "table_title": "Laboratory contact numbers and hours of operation per province and institution",
+      "manager_headers": [],
+      "manager_contacts": [
+        {
+          "source_line": 3410,
+          "area": "AREA MANAGER",
+          "telephone": "(021) 417 9377",
+          "mobile": "(082) 322 0950",
+          "fax": ""
+        },
+        {
+          "source_line": 3416,
+          "area": "BUSINESS MANAGER",
+          "telephone": "(053) 831 3969",
+          "mobile": "(082) 889 8974",
+          "fax": ""
+        }
+      ],
+      "lab_contacts": [
+        {
+          "source_line": 3427,
+          "labName": "Central Karoo (De Aar)",
+          "telephone": "(053) 631 0669/0189/0190",
+          "afterHoursMobile": "(082) 809 5859",
+          "weekdayHours": "08h00\\n-\\n18h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3435,
+          "labName": "Dr Harry Surtie (Upington)",
+          "telephone": "(054) 339 0950/ (054) 332 9139/9140/9141",
+          "afterHoursMobile": "(082) 804 9887",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "08h00\\n-\\n13h00 23h00\\n-\\n08h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 3443,
+          "labName": "Dr Izak van Niekerk (Springbok)",
+          "telephone": "(027) 712 1169/1099",
+          "afterHoursMobile": "(082) 807 3566",
+          "weekdayHours": "08h00\\n-\\n19h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3451,
+          "labName": "Robert Mangaliso",
+          "telephone": "(053) 833 1641/831 2895",
+          "afterHoursMobile": "(053) 833 1641/831 2895",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3459,
+          "labName": "Sobukwe (Kimberley -",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3467,
+          "labName": "Lab Support Services)",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3475,
+          "labName": "Robert Mangaliso",
+          "telephone": "(053) 802 2172",
+          "afterHoursMobile": "(053) 802 2172",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3483,
+          "labName": "Sobukwe (Kimberley) -",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3491,
+          "labName": "Chemical Pathology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3499,
+          "labName": "Robert Mangaliso",
+          "telephone": "(053) 802 2167",
+          "afterHoursMobile": "(053) 802 2167",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3507,
+          "labName": "Sobukwe (Kimberley) - Haematology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3515,
+          "labName": "Robert Mangaliso",
+          "telephone": "(053) 802 2169",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3523,
+          "labName": "Sobukwe (Kimberley) - Histology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3531,
+          "labName": "Robert Mangaliso",
+          "telephone": "(053) 802 2166",
+          "afterHoursMobile": "(053) 802 2166",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "07h00\\n-\\n14h00         ",
+          "callOut": ""
+        },
+        {
+          "source_line": 3539,
+          "labName": "Sobukwe (Kimberley) - Microbiology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "19h00\\n-\\n07h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 3547,
+          "labName": "Robert Mangaliso",
+          "telephone": "(053) 802 2168",
+          "afterHoursMobile": "(053) 802 2168",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "10h30 - 16h30         ",
+          "callOut": ""
+        },
+        {
+          "source_line": 3555,
+          "labName": "Sobukwe (Kimberley) - TB",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "19h00\\n-\\n07h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 3563,
+          "labName": "Tshwaragano",
+          "telephone": "(053) 774 0647/0011",
+          "afterHoursMobile": "(082) 803 9149",
+          "weekdayHours": "08h00\\n-\\n23h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        }
+      ]
+    },
+    {
+      "province": "WESTERN CAPE PROVINCE",
+      "table_id": "Table 7-1.9",
+      "table_title": "Laboratory contact numbers and hours of operation per province and institution",
+      "manager_headers": [],
+      "manager_contacts": [
+        {
+          "source_line": 3588,
+          "area": "AREA MANAGER",
+          "telephone": "(021) 417 9377",
+          "mobile": "(082) 322 0950",
+          "fax": ""
+        },
+        {
+          "source_line": 3594,
+          "area": "BUSINESS MANAGERS",
+          "telephone": "    ",
+          "mobile": "",
+          "fax": ""
+        },
+        {
+          "source_line": 3600,
+          "area": "Groote Schuur & Red Cross Children’s Hospital",
+          "telephone": "(021) 404 5294",
+          "mobile": "(067) 097 2012",
+          "fax": ""
+        },
+        {
+          "source_line": 3606,
+          "area": "Tygerberg",
+          "telephone": "(021) 938 4259",
+          "mobile": "(082) 808 7554",
+          "fax": ""
+        },
+        {
+          "source_line": 3612,
+          "area": "Western Cape",
+          "telephone": "(021) 417 9374",
+          "mobile": "(082) 880 9878",
+          "fax": ""
+        }
+      ],
+      "lab_contacts": [
+        {
+          "source_line": 3620,
+          "labName": "Beaufort West",
+          "telephone": "(023) 415 1447",
+          "afterHoursMobile": "(082) 809 5322",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3628,
+          "labName": "George",
+          "telephone": "(044) 874 2022",
+          "afterHoursMobile": "(082) 809 5274",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3636,
+          "labName": "Greenpoint - Lab Support Services",
+          "telephone": "(021) 417 9300/9368",
+          "afterHoursMobile": "(021) 417 9300/9368",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3644,
+          "labName": "Greenpoint -",
+          "telephone": "(021) 417 9341/9342 ",
+          "afterHoursMobile": "(021) 417 9341/9342",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3652,
+          "labName": "Haematology ",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3660,
+          "labName": "Greenpoint - Chemical Pathology ",
+          "telephone": "(021) 417 9330/9331/9335",
+          "afterHoursMobile": "(021) 417 9335",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3668,
+          "labName": "Greenpoint - Virology",
+          "telephone": "(021) 417 9381/ (067) 429 3551",
+          "afterHoursMobile": "(067) 429 3551 ",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL  "
+        },
+        {
+          "source_line": 3676,
+          "labName": "Greenpoint - TB",
+          "telephone": "(021) 417 9360/9361",
+          "afterHoursMobile": "(021) 417 9360/9361",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3684,
+          "labName": "Greenpoint - STAT lab at New Somerset Hospital",
+          "telephone": "(021) 402 6375 ",
+          "afterHoursMobile": "(021) 402 6375 ",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3692,
+          "labName": "Greenpoint - Public Health",
+          "telephone": "(021) 417 9354/9355",
+          "afterHoursMobile": "(021) 417 9300/9368",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3700,
+          "labName": "Greenpoint - Histology",
+          "telephone": "(021) 417 9344",
+          "afterHoursMobile": "(072) 620 6537  (Registrar on call)",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3708,
+          "labName": "Groote Schuur - Lab Support Services",
+          "telephone": "(021) 404 4129/4166",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3716,
+          "labName": "Groote Schuur - Anatomical Pathology (Cytology)",
+          "telephone": "(021) 404 6252/3515",
+          "afterHoursMobile": "(072) 620 6537  (Registrar on call)",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3724,
+          "labName": "Groote Schuur - Anatomical Pathology (Histology)",
+          "telephone": "(021) 404 3000",
+          "afterHoursMobile": "(072) 620 6537  (Registrar on call)",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3732,
+          "labName": "Groote Schuur - ",
+          "telephone": "(021) 404 4129/4135",
+          "afterHoursMobile": "(072) 620 8419 (Registrar on call)",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3740,
+          "labName": "Chemical Pathology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3748,
+          "labName": "Groote Schuur - Inherited Metabolic Diseases ",
+          "telephone": "(021) 404 4449/(021) 650 1630",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3756,
+          "labName": "Groote Schuur - Haematology ",
+          "telephone": "(021) 404 4129",
+          "afterHoursMobile": "(082) 879 6378  (Registrar on call)",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3764,
+          "labName": "Groote Schuur - Haematology",
+          "telephone": "(021) 404 4129/4449",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3772,
+          "labName": "(Molecular)",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3780,
+          "labName": "Groote Schuur - Virology",
+          "telephone": "(021) 404 4129",
+          "afterHoursMobile": "(021) 404 4129 to obtain Registrar on call number",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3788,
+          "labName": "Groote Schuur - Microbiology ",
+          "telephone": "(021) 404 5298/5301",
+          "afterHoursMobile": "(082) 907 5282  (Registrar on call)",
+          "weekdayHours": "08h00\\n-\\n20h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3796,
+          "labName": "Groote Schuur - Tissue  Immunology ",
+          "telephone": "(021) 404 4502",
+          "afterHoursMobile": "(021) 404 4129 to obtain on-call number",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3804,
+          "labName": "Groote Schuur - Immunology ",
+          "telephone": "(021) 404 4129/4130",
+          "afterHoursMobile": "(021) 404 4129",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3812,
+          "labName": "Groote Schuur - Human  Genetics (Cytogenetics)",
+          "telephone": "(021) 404 4509",
+          "afterHoursMobile": "(021) 404 4129",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3820,
+          "labName": "Groote Schuur - Human  Genetics (Molecular)",
+          "telephone": "(021) 404 4550",
+          "afterHoursMobile": "(021) 404 4129",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3828,
+          "labName": "Helderberg (Somerset West)",
+          "telephone": "(021) 852 3623",
+          "afterHoursMobile": "(082) 809 5662",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3836,
+          "labName": "Hermanus",
+          "telephone": "(028) 312 5275",
+          "afterHoursMobile": "(082) 328 1592",
+          "weekdayHours": "07h30 - 17h30",
+          "weekendPublicHolidayHours": "10h00\\n-\\n14h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3844,
+          "labName": "Karl Bremer",
+          "telephone": "(021) 949 6141",
+          "afterHoursMobile": "(021) 949 6141/(021) 918 1471/1470/(079) 511 7076",
+          "weekdayHours": "08h00\\n-\\n00h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n14h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3852,
+          "labName": "Khayelitsha",
+          "telephone": "(021) 361 0038/0075",
+          "afterHoursMobile": "(021) 361 0038/0075",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3860,
+          "labName": "Knysna",
+          "telephone": "(044) 382 0991",
+          "afterHoursMobile": "(044) 874 2022",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3868,
+          "labName": "Mitchells Plain",
+          "telephone": "(021) 371 7921 ",
+          "afterHoursMobile": "(082) 605 9756",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3876,
+          "labName": "Mosselbay",
+          "telephone": "(044) 690 3745",
+          "afterHoursMobile": "(044) 874 2022",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "13h00\\n-\\n17h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3884,
+          "labName": "Oudtshoorn",
+          "telephone": "(044) 279 1104",
+          "afterHoursMobile": "(082) 809 5989",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "09h00\\n-\\n13h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3892,
+          "labName": "Paarl",
+          "telephone": "(021) 860 2719/2720/2721",
+          "afterHoursMobile": "(082) 807 5626 ",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3900,
+          "labName": "Red Cross - Anatomical  Pathology",
+          "telephone": "(021) 658 5209",
+          "afterHoursMobile": "(072) 622 6672 (Pathologist on call)",
+          "weekdayHours": "07h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3908,
+          "labName": "Red Cross - Chemical  Pathology",
+          "telephone": "(021) 658 5224/5226",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3916,
+          "labName": "Red Cross -",
+          "telephone": "(021) 658 5203/5204",
+          "afterHoursMobile": "",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3924,
+          "labName": "Haematology ",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3932,
+          "labName": "Tygerberg - Results",
+          "telephone": "(021) 938 4330/4904/4931",
+          "afterHoursMobile": "(021) 938 4934",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3940,
+          "labName": "Tygerberg - Histology Results",
+          "telephone": "(021) 938 5226/5350",
+          "afterHoursMobile": "",
+          "weekdayHours": "07h30 - 17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3948,
+          "labName": "Tygerberg - Lab Support Services",
+          "telephone": "(021) 938 4934",
+          "afterHoursMobile": "(021) 938 4934",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3956,
+          "labName": "Tygerberg - Anatomical Pathology (Histology)",
+          "telephone": "(021) 938 4036  (Routine)",
+          "afterHoursMobile": "Radio room: (021) 938 6666",
+          "weekdayHours": "07h30 - 17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3964,
+          "labName": "Tygerberg - Anatomical Pathology (Cytology)",
+          "telephone": "(021) 938 4040/4202",
+          "afterHoursMobile": "(021) 938 4911  Radio room: (021) 938 6666",
+          "weekdayHours": "07h30 - 16h00",
+          "weekendPublicHolidayHours": "Call hospital and ask for Cytopathologist on call",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 3972,
+          "labName": "Tygerberg - Chemical Pathology",
+          "telephone": "(021) 938 4936",
+          "afterHoursMobile": "(021) 938 4904/4931/4934",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3980,
+          "labName": "Tygerberg -",
+          "telephone": "(021) 938 5750",
+          "afterHoursMobile": "(021) 938 5750",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 3988,
+          "labName": "Haematology (Routine)",
+          "telephone": "",
+          "afterHoursMobile": "Radio room: (021) 938 6666",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 3996,
+          "labName": "Tygerberg -",
+          "telephone": "(021) 938 4122",
+          "afterHoursMobile": "(021) 938 5750",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 4004,
+          "labName": "Haematology (Blood grouping)",
+          "telephone": "",
+          "afterHoursMobile": "Radio room: (021) 938 6666",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4012,
+          "labName": "Tygerberg - Haematology (Bone marrow)",
+          "telephone": "(021) 938 4122",
+          "afterHoursMobile": "(021) 938 5750 Radio room: (021) 938 6666",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 4020,
+          "labName": "Tygerberg - Haematology",
+          "telephone": "(021) 938 4615",
+          "afterHoursMobile": "(021) 938 5750 ",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        },
+        {
+          "source_line": 4028,
+          "labName": "(Coagulation)",
+          "telephone": "",
+          "afterHoursMobile": "Radio room: (021) 938 6666",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4036,
+          "labName": "Tygerberg - Microbiology",
+          "telephone": "(021) 938 4006/4007/4012",
+          "afterHoursMobile": "(079) 872 9616  Radio room: (021) 938 6666",
+          "weekdayHours": "06h00\\n-\\n20h00",
+          "weekendPublicHolidayHours": "06h00\\n-\\n20h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 4044,
+          "labName": "Tygerberg - Immunology",
+          "telephone": "(021) 938 4001",
+          "afterHoursMobile": "(021) 938 4001/4018 ext. 5278 Radio room: (021) 938 6666",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "08h00\\n-\\n13h00",
+          "callOut": ""
+        },
+        {
+          "source_line": 4052,
+          "labName": "Tygerberg - Virology",
+          "telephone": "(021) 938 9557",
+          "afterHoursMobile": "Radio room: (021) 938 6666 (Request registrar/pathologist on call)",
+          "weekdayHours": "07h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "07h30 - 12h00",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 4060,
+          "labName": "Tygerberg - Genetics (Molecular)",
+          "telephone": "(021) 938 9557",
+          "afterHoursMobile": "",
+          "weekdayHours": "06h00\\n-\\n15h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4068,
+          "labName": "Vredendal",
+          "telephone": "(027) 213 3924",
+          "afterHoursMobile": "(083) 625 6310",
+          "weekdayHours": "08h00\\n-\\n17h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 4076,
+          "labName": "West Coast District (Vredenburg)",
+          "telephone": "(022) 713 4468/4467",
+          "afterHoursMobile": "(083) 631 5738",
+          "weekdayHours": "08h00\\n-\\n18h00 ON CALL:",
+          "weekendPublicHolidayHours": "",
+          "callOut": "ON CALL"
+        },
+        {
+          "source_line": 4084,
+          "labName": "",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "18h00\\n-\\n06h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4092,
+          "labName": "Worcester",
+          "telephone": "(023) 348 1401/1407",
+          "afterHoursMobile": "(083) 925 4350",
+          "weekdayHours": "24 hours",
+          "weekendPublicHolidayHours": "24 hours",
+          "callOut": ""
+        }
+      ]
+    },
+    {
+      "province": "NATIONAL INSTITUTE FOR COMMUNICABLE DISEASES (NICD)",
+      "table_id": "Table 7-1",
+      "table_title": "Laboratory contact numbers and hours of operation per province and institution",
+      "manager_headers": [],
+      "manager_contacts": [
+        {
+          "source_line": 4119,
+          "area": "DIRECTOR",
+          "telephone": "(011) 386 6137",
+          "mobile": "",
+          "fax": ""
+        }
+      ],
+      "lab_contacts": [
+        {
+          "source_line": 4129,
+          "labName": "Centre for Emerging and Zoonotic Diseases Clinical Advice Hotline",
+          "telephone": "(082) 883 9920",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4137,
+          "labName": "Centre for Enteric Diseases",
+          "telephone": "(011) 386 6235 /",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4145,
+          "labName": "",
+          "telephone": "(011) 555 0348",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4153,
+          "labName": "Centre for Enteric",
+          "telephone": "(011) 555 0334/0360",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4161,
+          "labName": "Diseases - Bacteriology",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4169,
+          "labName": "Centre for Enteric Diseases - Virology",
+          "telephone": "(011) 555 0370",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4177,
+          "labName": "Centre for Opportunistic,",
+          "telephone": "(011) 555 0304/",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4185,
+          "labName": "Tropical and Hospital Infections",
+          "telephone": "(011) 555 0311",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4193,
+          "labName": "Centre for Respiratory Diseases and Meningitis",
+          "telephone": "(011) 555 0488/",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4201,
+          "labName": "",
+          "telephone": "(011) 386 6373",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4209,
+          "labName": "Centre for Sexually",
+          "telephone": "(011) 555 0461",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4217,
+          "labName": "Transmitted Infections (STI)",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4225,
+          "labName": "Centre for Tuberculosis",
+          "telephone": "(011) 885 5321/",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4233,
+          "labName": "",
+          "telephone": "(011) 885 5315",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4241,
+          "labName": "Centre for Vaccines and Immunology",
+          "telephone": "(011) 386 6330",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4249,
+          "labName": "Electron Microscope Laboratory",
+          "telephone": "(011) 386 6424 /",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4257,
+          "labName": "",
+          "telephone": "(011) 386 6376",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4265,
+          "labName": "Public Health,",
+          "telephone": "(011) 386 6337 /",
+          "afterHoursMobile": "(082) 807 6770 /",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": "45497"
+        },
+        {
+          "source_line": 4273,
+          "labName": "Surveillance and",
+          "telephone": "(011) 555 0392 /",
+          "afterHoursMobile": "(082) 940 4780 /",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": "Clinician on call Outbreak Hotline "
+        },
+        {
+          "source_line": 4281,
+          "labName": "Response",
+          "telephone": "(011) 555 0542 /",
+          "afterHoursMobile": "(079) 871 7278 /",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4289,
+          "labName": "",
+          "telephone": "(011) 555 0541",
+          "afterHoursMobile": "(082) 607 4591",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        }
+      ]
+    },
+    {
+      "province": "NATIONAL INSTITUTE FOR OCCUPATIONAL HEALTH (NIOH)",
+      "table_id": "Table 7-1",
+      "table_title": "Laboratory contact numbers and hours of operation per province and institution",
+      "manager_headers": [],
+      "manager_contacts": [
+        {
+          "source_line": 4316,
+          "area": "DIRECTOR",
+          "telephone": "(011) 712 6413",
+          "mobile": "",
+          "fax": ""
+        }
+      ],
+      "lab_contacts": [
+        {
+          "source_line": 4326,
+          "labName": "Analytical Services Section",
+          "telephone": "(011) 712 6535/6440",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4334,
+          "labName": "Biobank",
+          "telephone": "(011) 712 6507",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4342,
+          "labName": "Epidemiology Section",
+          "telephone": "(011) 712 6436",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4350,
+          "labName": "Human",
+          "telephone": "(011) 712 6516",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4358,
+          "labName": "Immunodeficiency Virus",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4366,
+          "labName": "(HIV)/TB Department",
+          "telephone": "",
+          "afterHoursMobile": "",
+          "weekdayHours": "",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4374,
+          "labName": "Information Technology (IT) Department",
+          "telephone": "(011) 712 6512",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4382,
+          "labName": "Information Services (Library)",
+          "telephone": "(011) 712 6557",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4390,
+          "labName": "Occupational Hygiene",
+          "telephone": "(011) 712 6500",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4398,
+          "labName": "Immunology/Microbiology",
+          "telephone": "(011) 712 6475",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4406,
+          "labName": "Occupational Medicine",
+          "telephone": "(011) 712 6462",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4414,
+          "labName": "Toxicology",
+          "telephone": "(011) 712 6428",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        },
+        {
+          "source_line": 4422,
+          "labName": "Pathology",
+          "telephone": "(011) 712 6597",
+          "afterHoursMobile": "",
+          "weekdayHours": "08h00\\n-\\n16h00",
+          "weekendPublicHolidayHours": "",
+          "callOut": ""
+        }
+      ]
+    }
+  ]
+}
