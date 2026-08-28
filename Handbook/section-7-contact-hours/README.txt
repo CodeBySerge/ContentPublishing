@@ -1,7 +1,7 @@
 Section 7.0 Contact & Hours Handoff
 
 Source
-- File: /home/runner/work/ContentPublishing/ContentPublishing/Handbook.txt
+- File: Handbook.txt
 - Section: SECTION 7.0 - CONTACT & HOURS of OPERATION
 - Source lines: 445-4439
 
