@@ -25,3 +25,5 @@ Notes for the next agent
 - NICD and NIOH entries also include source_table_id_note because the source document reuses the same raw table label for both.
 - NICD and NIOH both use Table 7-1 in the source, so source_table_id_normalized assigns distinct values for import work while keeping the raw source value.
 - Load one source_extract_audit row first, then stamp contact_region.extract_audit_id on imported region rows for traceability.
+- contact_region.source_notes can store source-side ambiguity notes such as the reused Table 7-1 label for NICD and NIOH.
+- operating_hours.schedule_type should distinguish weekday, weekend_public_holiday, and call_out rows during normalization.
