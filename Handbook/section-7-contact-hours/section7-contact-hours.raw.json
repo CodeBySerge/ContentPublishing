@@ -4237,7 +4237,8 @@
       ],
       "table_key": "section7-table-10",
       "source_table_id_raw": "Table 7-1",
-      "source_table_id_normalized": "Table 7-1.10"
+      "source_table_id_normalized": "Table 7-1.10",
+      "source_table_id_note": "Source document reuses Table 7-1 for this national institute; use source_table_id_normalized or table_key for unique import mapping."
     },
     {
       "province": "NATIONAL INSTITUTE FOR OCCUPATIONAL HEALTH (NIOH)",
@@ -4373,7 +4374,8 @@
       ],
       "table_key": "section7-table-11",
       "source_table_id_raw": "Table 7-1",
-      "source_table_id_normalized": "Table 7-1.11"
+      "source_table_id_normalized": "Table 7-1.11",
+      "source_table_id_note": "Source document reuses Table 7-1 for this national institute; use source_table_id_normalized or table_key for unique import mapping."
     }
   ]
 }
